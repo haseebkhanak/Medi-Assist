@@ -17,7 +17,10 @@ app.use(cors({
 app.use(express.json())
 
 app.use(session({
-    secret: '03135211029'
+    secret: '03135211029',
+    // resave: false,
+    // saveUninitialized: true,
+    // cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
 app.post('/reg', upload.single('profile'), async(req, res) => {
@@ -64,7 +67,9 @@ app.post('/login', async(req,res)=>{
 
         const RegAccount=await DoctorReg.findOne({email:loginemail, password:loginpassword})
         if(RegAccount){
+            req.session.profileAccount=RegAccount
             req.session.Name=RegAccount.fullName
+            req.session.profile=RegAccount.profile.toString('base64')
 
             const LoginData={loginemail,loginpassword}
             const doctorlogin = DoctorLogin(LoginData)
@@ -83,24 +88,43 @@ app.post('/login', async(req,res)=>{
 
 })
 
+app.post('/viewprofile', async(req, res) => {
+    try {
+        if(req.session.Name)
+            {
+                const profileAccount = req.session.profileAccount;
+                const profilePicture = req.session.profile
+                res.status(200).json({ showProfile_message: profileAccount,showPicture_message: profilePicture});
+                // console.log(profileAccount)
 
+            }
+            else{
+                console.log("Profile not found")
+            }
+        }
+      catch (error) {
+        res.status(401).json({ message: "Profile not found" });
+        console.log(error)
+    }
+})
 
 app.post('/homepage', (req, res) => {
-    // console.log("Session ID on homepage:", req.sessionID);
-    // console.log("Session Name data:", req.session.Name);
     try {
         if (req.session.Name) {
-            res.status(200).json({ message: `${req.session.Name}` });
+        {
+            res.status(200).json({ message_name: req.session.Name, message_profile: req.session.profile })
+        }
+
         } else {
             res.status(401).json({ message: 'User not found' });
         }
     } catch (error) {
         res.status(500).json({ message: "Internal Server Error" });
     }
-});
+})
 
 app.post('/logedOut',(req,res)=>{
-    console.log(req.session.Name)
+    // console.log(req.session.Name)
     try {
         if(req.session.Name)
         {

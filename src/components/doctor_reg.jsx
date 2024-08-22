@@ -1,6 +1,5 @@
 import React from "react";
 import Logo from './images/logo.png';
-import Bg from './images/bg.jpg'
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -217,7 +216,7 @@ export default function Doctor_registration() {
                 method: 'POST',
                 body: (formData)
             })
-            
+        
             const result = await res.json();
             setMessage(result);
             document.querySelector('.alertReg').style.display="block"
@@ -273,7 +272,7 @@ export default function Doctor_registration() {
                     <p className={`${message.type==="success" ? 'text-2xl text-center text-green-800' : 'text-2xl text-center text-red-600'}`}>{message.message}</p>
                     <div className="flex justify-end">
 
-                        {message.type==="success" ? <button type="button" className="CancelBtn px-2 py-1 mr-5 mt-4 mb-2 bg-green-400 border border-green-600 text-white rounded-lg  hover:bg-transparent hover:text-black hover:border-red-green" onClick={btn}>Ok</button>
+                        {message.type==="success" ? <button type="button" className="CancelBtn px-2 py-1 mr-5 mt-4 mb-2 bg-green-400 border border-green-600 text-white rounded-lg  hover:bg-transparent hover:text-black hover:border-red-green" onClick={doc_login}>Ok</button>
                         :<button type="button" className="CancelBtn px-2 py-1 mr-5 mt-4 mb-2 text-white bg-red-400 border border-red-600 rounded-lg hover:bg-transparent hover:text-black hover:border-red-500" onClick={btn}>Cancel</button>}
                     </div>
                 </div>
