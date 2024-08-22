@@ -233,6 +233,44 @@ fieldset {
   margin-left: 215px;
 }
 
+.doctorOrpatient{
+  display: flex;
+  justify-content: center;
+}
+
+#doctorOrpatient{
+ width: 450px;
+ height: 250px;
+ background-color: aliceblue;
+ position: absolute;
+ margin-top: 200px;
+ z-index: 2;
+ display: none;
+}
+
+.blur{
+  width: 100%;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  background-color: rgba(230, 227, 227, 0.5);
+  backdrop-filter: blur();
+  z-index: 1;
+  display: none;
+}
+
+#doc-btn{
+  padding-right: 83px;
+  padding-left: 100px;
+  margin-left: 100px;
+}
+
+#pat-btn{
+  padding-right: 80px;
+  padding-left: 100px;
+  margin-left: 100px;
+}
+
 @keyframes mymove {
   from {left: 0px;}
   to {left: 420px;}

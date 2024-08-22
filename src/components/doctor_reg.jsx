@@ -279,7 +279,6 @@ export default function Doctor_registration() {
 
             )}
 
-
             <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-xl">
                 <img src={Logo} alt="Logo" className='logo' />
                 <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
