@@ -86,29 +86,6 @@ function Image_slider_login()
           count=0
         }
 
-        // const logOutMessage= async()=>{
-        //     try {
-        //         const res= await fetch('http://localhost:2000/logedOut',
-        //             {
-        //                 method:'POST',
-        //                 credentials: 'include',
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 }
-        //             }
-        //         )
-        //         const result= await res.json()
-        //         console.log(result.message)
-
-        //     } catch (error) {
-        //         console.log("Error ",error)
-        //     }
-        // }
-
-        // useEffect(()=>{
-        //     logOutMessage()
-        // },[])
-
         return(
           <>
                     
@@ -121,7 +98,7 @@ function Image_slider_login()
             )}
 
         <div className="slider_images_login flex">
-            <img src={images[count]} alt="" className='animate-pulse'/>
+            <img src={images[count]} alt=""/>
 
         <div>
             <h2 className='login_text text-pink-600'>Doctor's LogIn</h2>

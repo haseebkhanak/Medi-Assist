@@ -13,20 +13,34 @@ function Home() {
         navigate("/doctor-login")
     }
 
+    const navigatePatientLogin = useNavigate()
+    const patient_login = () => {
+        navigatePatientLogin("/patient-login")
+    }
+
     const loginOptions=()=>{
         document.querySelector(".blur").style.display = "block"
         document.querySelector("#doctorOrpatient").style.display= "block"
     }
 
+    const crossSvg=()=>{
+        document.querySelector(".blur").style.display = "none"
+        document.querySelector("#doctorOrpatient").style.display= "none"
+    }
+
     return (
         <>
             <div className="doctorOrpatient">
+
                 <div id='doctorOrpatient' className='relative rounded-lg'>
                     <BorderBeam size={250} duration={5} />
 
-                    <p className='text-center text-4xl font-semibold mt-8'>Sign In</p>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6" onClick={crossSvg} style={{ marginLeft: 420,marginTop:5,cursor:'pointer'}}>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+</svg>
+                    <p className='text-center text-4xl font-semibold mt-2'>Sign In</p>
                     <button type="button" id='doc-btn' className='text-white text-2xl bg-pink-600 py-3 mt-5' onClick={doc_login}>Doctor</button>
-                    <button type="button" id='pat-btn' className='text-pink-600 border border-pink-700 text-2xl bg-white py-3 mt-2'>Patient</button>
+                    <button type="button" id='pat-btn' className='text-pink-600 border border-pink-700 text-2xl bg-white py-3 mt-2' onClick={patient_login}>Patient</button>
                 </div>
             </div>
 

@@ -75,6 +75,7 @@ export default function LogoutHome(){
                 }
             )
             document.querySelector(".profile").style.display = "block"
+            document.querySelector(".blurTwo").style.display = "block"
             // document.querySelector(".body").style.opacity=0.5
             const result= await res.json()
             setMessageTwo(result)
@@ -87,11 +88,14 @@ export default function LogoutHome(){
 
     const closeBtn=()=>{
         document.querySelector(".profile").style.display = "none"
+        document.querySelector(".blurTwo").style.display = "none"
     }
 
     return(
         <>
+<div className="blurTwo">
 
+</div>
 <div className="profile">
 {messageTwo && (
     <div>
@@ -128,7 +132,7 @@ export default function LogoutHome(){
             <div>
             <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession}>LogOut</button>
             {message.message_name &&(
-                <p className='name text-white text-2xl'><i>{message.message_name}</i></p> 
+                <p className='name text-white text-xl'><i>{message.message_name}</i></p> 
             )}
 
             {message.message_profile && (

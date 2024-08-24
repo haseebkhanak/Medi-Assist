@@ -102,7 +102,8 @@ border-radius: 20px;
 }
 
 .btn-logout{
-  margin-left: 90px;
+  margin-left: 70px;
+  /* margin-bottom: -10px; */
 }
 
 .reg_btn{
@@ -185,14 +186,14 @@ fieldset {
   box-shadow: inset rgb(228, 163, 185) 10px 10px 40px;
   border-radius: 20px;
   padding-left: 40px;
-  z-index: 1;
+  z-index: 10;
 }
 
 .myimg{
   width: 50px;
   height: 50px;
   margin-left: 385px;
-  margin-top: -40px;
+  margin-top: -38px;
   border-radius: 50%;
 
 }
@@ -230,7 +231,7 @@ fieldset {
 }
 
 .name{
-  margin-left: 215px;
+  margin-left: 190px;
 }
 
 .doctorOrpatient{
@@ -254,8 +255,17 @@ fieldset {
   left: 0;
   position: fixed;
   background-color: rgba(230, 227, 227, 0.5);
-  backdrop-filter: blur();
   z-index: 1;
+  display: none;
+}
+
+.blurTwo{
+  width: 100%;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  background-color: rgba(230, 227, 227, 0.5);
+  z-index: 2;
   display: none;
 }
 
