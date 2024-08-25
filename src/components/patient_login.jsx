@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from './images/logo.png';
-import Image_slider_login from './doc_login_Slider';
+import Image_slider_login_patient from './pat_login_Slider';
 import { useNavigate } from 'react-router-dom';
 
 export default function Patient_login() {
@@ -10,9 +10,9 @@ export default function Patient_login() {
         navigateBack('/back_home')
     }
 
-    const navigateReg=useNavigate()
-    const regDoctor=()=>{
-        navigateReg("/doctor-reg")
+    const navigatePatientReg=useNavigate()
+    const regPatient=()=>{
+        navigatePatientReg("/patient-reg")
     }
 
     return (
@@ -25,8 +25,8 @@ export default function Patient_login() {
                         <a href="#" onClick={home_back} className="text-white text-lg home">Home</a>
                         {/* <a href="#" className="text-white text-lg home">Home</a> */}
 
-                        <button className="registration bg-transparent border border-black-400 text-white px-2 py-2 hover:bg-pink-500 hover:text-black hover:border-black-500 rounded mr-20" onClick={regDoctor}>
-                            Register as a Doctor
+                        <button className="registration bg-transparent border border-black-400 text-white px-2 py-2 hover:bg-pink-500 hover:text-black hover:border-black-500 rounded mr-20" onClick={regPatient}>
+                            Register as a Patient
                         </button>
 
                 </div>
@@ -35,7 +35,7 @@ export default function Patient_login() {
  <br /> <br /> <br /> <br />
 
                 <div>
-                    <Image_slider_login/>
+                    <Image_slider_login_patient/>
                 </div>
 
         </>

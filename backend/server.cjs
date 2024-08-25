@@ -141,6 +141,11 @@ app.post('/logedOut',(req,res)=>{
         res.status(500).json({message:"Internal server error"})
     }
 })
+
+app.post('/Patient_Login',(req,res)=>{
+    console.log(req.body)
+    res.send("data received")
+})
 const port = 2000;
 
 dbconnection().then(app.listen(port, () => {
