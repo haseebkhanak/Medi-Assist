@@ -281,6 +281,13 @@ fieldset {
   margin-left: 100px;
 }
 
+.signup{
+  width: 600px;
+  border: 2px solid;
+  margin-left: 100px;
+  background-color: #f8a3a3;
+}
+
 @keyframes mymove {
   from {left: 0px;}
   to {left: 420px;}

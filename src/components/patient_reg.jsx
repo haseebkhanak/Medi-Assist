@@ -2,6 +2,7 @@ import React from 'react';
 import Logo from './images/logo.png';
 import Image_slider_login_patient from './pat_login_Slider';
 import { useNavigate } from 'react-router-dom';
+import FlickeringGrid from './example/flickering-grid-rounded-demo';
 
 export default function Patient_Reg() {
 
@@ -25,8 +26,37 @@ export default function Patient_Reg() {
                     <a href="#" className="btn-home text-white text-lg home hover:text-pink-400" onClick={home_back}>Home</a>
                     <button type="button" className="btn-logIn bg-transparent border border-pink-400 text-pink-200 px-2 py-1 mr-20 rounded" onClick={patient_login}>Log In</button>
                 </div>
-            </nav> 
+           </nav> 
 
+           <div className="relative size-[600px] rounded-lg w-full bg-background overflow-hidden border">
+      <FlickeringGrid
+        className="z-0 absolute inset-0 [mask:radial-gradient(circle_at_center,#fff_300px,transparent_0)]"
+        squareSize={4}
+        gridGap={6}
+        color="#60A5FA"
+        maxOpacity={0.5}
+        flickerChance={0.1}
+        height={800}
+        width={800}
+      />
+    </div>
+           <div className='signup'>
+            <p className='text-pink-600 mt-20'>Sign Up</p>
+            <br />
+            <form>
+                <label className='patientname text-lg'>Name</label>
+                <input type="text" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400' placeholder='Name...' id='patientname'/>
+                <br />
+                <label className='patientemail text-lg'>Email</label>
+                <input type="email" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400' placeholder='Email...' id='patientemail'/>
+                <br />
+                <label className='patientpassword text-lg'>Password</label>
+                <input type="password" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400' placeholder='Password...' id='patientpassword'/>
+                <br />
+                <button type="submit" className='bg-pink-400 border border-pink-500 text-white text-xl py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded'>Register</button>
+                
+            </form>
+        </div>
         </>
     );
 }
