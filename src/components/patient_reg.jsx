@@ -27,19 +27,6 @@ export default function Patient_Reg() {
                     <button type="button" className="btn-logIn bg-transparent border border-pink-400 text-pink-200 px-2 py-1 mr-20 rounded" onClick={patient_login}>Log In</button>
                 </div>
            </nav> 
-
-           <div className="relative size-[600px] rounded-lg w-full bg-background overflow-hidden border">
-      <FlickeringGrid
-        className="z-0 absolute inset-0 [mask:radial-gradient(circle_at_center,#fff_300px,transparent_0)]"
-        squareSize={4}
-        gridGap={6}
-        color="#60A5FA"
-        maxOpacity={0.5}
-        flickerChance={0.1}
-        height={800}
-        width={800}
-      />
-    </div>
            <div className='signup'>
             <p className='text-pink-600 mt-20'>Sign Up</p>
             <br />
