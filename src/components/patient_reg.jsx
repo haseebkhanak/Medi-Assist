@@ -2,7 +2,7 @@ import React from 'react';
 import Logo from './images/logo.png';
 import Image_slider_login_patient from './pat_login_Slider';
 import { useNavigate } from 'react-router-dom';
-import FlickeringGrid from './example/flickering-grid-rounded-demo';
+
 
 export default function Patient_Reg() {
 
