@@ -28,7 +28,7 @@ export default function Patient_Reg() {
                 </div>
            </nav> 
            <div className='signup'>
-            <p>Sign Up</p>
+            <p className='text-pink-600 mt-20'>Sign Up</p>
             <br />
             <form>
                 <label className='patientname text-lg'>Name</label>
