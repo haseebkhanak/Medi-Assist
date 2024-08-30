@@ -1,5 +1,6 @@
 const DoctorReg=require('./DoctorReg_Sch.cjs')
 const DoctorLogin=require('./DoctorLogin_Sch.cjs')
+const PatientReg=require('./PatientReg_Sch.cjs')
 const dbconnection=require('./dbConn.cjs')
 const express = require('express');
 const cors = require('cors');
@@ -146,6 +147,34 @@ app.post('/Patient_Login',(req,res)=>{
     console.log(req.body)
     res.send("data received")
 })
+
+app.post('/patient_signup', async(req,res)=>{
+    const {patientname,patientemail,patientpassword}=req.body
+    try {
+        const isEmail= await PatientReg.findOne({patientemail:patientemail})
+        if(isEmail)
+        {
+            console.log("Email is already present")
+        }
+        
+        else{
+            const data={patientname,patientemail,patientpassword}
+            const patientdata= await PatientReg(data)
+            await patientdata.save()
+            if(patientdata)
+            {
+                console.log("data inserted")
+                console.log(req.body)
+            }
+            res.status(200).json({message:"Data received"})
+        }
+        
+    } catch (error) {
+        res.status(501).json({message:"Server Error ",error})
+        console.log(error)
+    }
+})
+
 const port = 2000;
 
 dbconnection().then(app.listen(port, () => {
