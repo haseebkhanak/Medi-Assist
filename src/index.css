@@ -282,10 +282,12 @@ fieldset {
 }
 
 .signup{
-  width: 600px;
-  border: 2px solid;
-  margin-left: 100px;
-  background-color: #f8a3a3;
+  width: 400px;
+  height: 450px;
+  background-color: white;
+  margin: auto;
+  box-shadow: 10px 10px 40px rgb(107, 102, 102);
+  border-radius: 20px;
 }
 
 @keyframes mymove {
