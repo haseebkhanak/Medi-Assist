@@ -1,12 +1,11 @@
 import React, { useEffect,useState } from 'react';
 import Logo from './images/logo.png';
-import Image_slider_login_patient from './pat_login_Slider';
-import { json, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function Patient_Reg() {
     
     useEffect(()=>{
-        document.body.style.backgroundColor="lightgray"
+        document.body.style.backgroundColor="white"
     },[])
     
     const navigateBack=useNavigate()
@@ -24,6 +23,7 @@ export default function Patient_Reg() {
     const[patientemail,setPatientEmail]=useState('')
     const[patientpassword,setPatientPassword]=useState('')
     const[patientpasswordError,setPatientPasswordError]=useState('')
+    const[message,setMessage]=useState('')
 
     let charname = /^[a-zA-Z\s]+$/
     let charpassword = /[@#!$%&]/
@@ -102,16 +102,38 @@ export default function Patient_Reg() {
                         }
                         
                     )
-                    console.log(patientData)
+                    const result=await data.json()
+                    setMessage(result)
+                    document.querySelector('.alertPatientReg').style.display="block"
+                    document.querySelector('.blurThree').style.display="block"
                 } catch (error) {
-                    
+                    console.log(error)
                 }
 
-
-    }
-
+            }
+            const cancelbtn = () => {
+                document.querySelector(".alertPatientReg").style.display = "none"
+                document.querySelector('.blurThree').style.display="none"
+            }
+            
     return (
         <>
+
+{message && (
+                <div className={`alertPatientReg ${message.type==="success" ? 'bg-green-100 border border-green-700' : 'bg-pink-100 border border-red-500'}`}>
+                    <p className={`${message.type==="success" ? 'text-3xl mt-10 text-center text-green-800' : 'text-2xl mt-10 text-center text-red-600'}`}>{message.message}</p>
+                    <div className="flex justify-end">
+                        {message.type==="success" ? <button type="button" className="OkBtn px-4 py-1 mr-5 mt-4 mb-2 bg-green-400 border border-green-600 text-white rounded-lg  hover:bg-transparent hover:text-black hover:border-red-green" onClick={patient_login}>Ok</button>
+                        :<button type="button" className="CancelBtn px-2 py-1 mr-5 mt-4 mb-2 text-white bg-red-400 border border-red-600 rounded-lg hover:bg-transparent hover:text-black hover:border-red-500" onClick={cancelbtn}>Cancel</button>}
+                    </div>
+                </div>
+
+            )}
+
+            <div className="blurThree">
+
+            </div>
+
            <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-xl">
                 <img src={Logo} alt="Logo" className='logo' />
                 <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>

@@ -168,6 +168,17 @@ fieldset {
   animation-timing-function: ease-in-out;
   animation: mymovetwo 500ms;
   animation-fill-mode: forwards;
+}
+
+.alertPatientReg{
+  width: 350px;
+  position: absolute;
+  margin-left: 520px;
+  border-radius: 10px;
+  animation-timing-function: ease-in-out;
+  animation: mymovethree 500ms;
+  animation-fill-mode: forwards;
+  z-index: 2;
 
 }
 
@@ -269,6 +280,17 @@ fieldset {
   display: none;
 }
 
+.blurThree{
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  background-color: rgba(230, 227, 227, 0.5);
+  z-index: 1;
+  display: none;
+}
+
 #doc-btn{
   padding-right: 83px;
   padding-left: 100px;
@@ -282,6 +304,7 @@ fieldset {
 }
 
 .signup{
+  /* position: relative; */
   width: 400px;
   height: 450px;
   background-color: white;
@@ -298,4 +321,9 @@ fieldset {
 @keyframes mymovetwo {
   from {top: 0px;}
   to {top: 380px;}
+}
+
+@keyframes mymovethree {
+  from {top: 0px;}
+  to {top: 300px;}
 }

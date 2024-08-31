@@ -4,9 +4,10 @@ import './index.css';
 import Home from './components/home.jsx';
 import Doctor_login from './components/doctor_login.jsx';
 import Doctor_registration from './components/doctor_reg.jsx'
-import LogoutHome from './components/home_logout.jsx';
+import LogoutHome from './components/doctor_dashboard.jsx';
 import Patient_login from './components/patient_login.jsx';
 import Patient_Reg from './components/patient_reg.jsx'
+import PatientDashboard from './components/patient_dashboard';
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path='/logoutHome' element={<LogoutHome />}></Route>
         <Route path='/patient-login' element={<Patient_login/>}></Route>
         <Route path='/patient-reg' element={<Patient_Reg/>}></Route>
+        <Route path='/patientlogoutHome' element={<PatientDashboard/>}></Route>
       </Routes>
     </Router>
   )

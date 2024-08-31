@@ -1,6 +1,7 @@
 const DoctorReg=require('./DoctorReg_Sch.cjs')
 const DoctorLogin=require('./DoctorLogin_Sch.cjs')
 const PatientReg=require('./PatientReg_Sch.cjs')
+const PatientLogin=require('./PatientLogin.cjs')
 const dbconnection=require('./dbConn.cjs')
 const express = require('express');
 const cors = require('cors');
@@ -143,18 +144,44 @@ app.post('/logedOut',(req,res)=>{
     }
 })
 
-app.post('/Patient_Login',(req,res)=>{
-    console.log(req.body)
-    res.send("data received")
+app.post('/Patient_Login', async(req,res)=>{
+
+    const{patientloginemail,patientloginpassword}=req.body
+    try {
+        const patientInfo= await PatientReg.findOne({patientemail:patientloginemail,patientpassword:patientloginpassword})
+        if(patientInfo)
+        {
+            const PatientLoginData={patientloginemail,patientloginpassword}
+            const patientData= await PatientLogin(PatientLoginData)
+            await patientData.save()
+            console.log("Login Successfully")
+            res.status(200).send({message:"Login Successfully",type:"success"})
+        }
+        
+        else{
+            console.log("User does not exist")
+            res.status(401).send({message:"User does not exist",type:"notsuccess"})
+        }
+        
+    } catch (error) {
+        console.log(error)
+    }
+
 })
 
 app.post('/patient_signup', async(req,res)=>{
     const {patientname,patientemail,patientpassword}=req.body
     try {
         const isEmail= await PatientReg.findOne({patientemail:patientemail})
+        const isPassword= await PatientReg.findOne({patientpassword:patientpassword})
         if(isEmail)
         {
-            console.log("Email is already present")
+            res.status(401).json({message:"Email is already present",type:"notsuccess"})
+        }
+
+        else if(isPassword)
+        {
+            res.status(401).json({message:"Password is already present",type:"notsuccess"})
         }
         
         else{
@@ -165,8 +192,8 @@ app.post('/patient_signup', async(req,res)=>{
             {
                 console.log("data inserted")
                 console.log(req.body)
+                res.status(200).json({message:"Sign Up Succesfull",type:"success"})
             }
-            res.status(200).json({message:"Data received"})
         }
         
     } catch (error) {

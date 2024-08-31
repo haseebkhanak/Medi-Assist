@@ -15,9 +15,9 @@ export default function Image_slider_login_patient()
         navigatePatientReg("/patient-reg")
     }
 
-    const navigateLogoutHome=useNavigate()
-    const home_Logout=()=>{
-        navigateLogoutHome('/logoutHome')
+    const navigatePatientLogoutHome=useNavigate()
+    const patient_home_dashboard=()=>{
+        navigatePatientLogoutHome('/patientlogoutHome')
     }
     
     const handleloginemail=(event)=>{
@@ -47,7 +47,7 @@ export default function Image_slider_login_patient()
         try {
             const res=await fetch("http://localhost:2000/Patient_Login",{
                 method:"POST",
-                credentials: 'include',
+                // credentials: 'include',
                 body:JSON.stringify(data),
                 headers:{
                     "Content-Type":"application/json"
@@ -55,10 +55,11 @@ export default function Image_slider_login_patient()
             })
 
            const result= await res.json();
+           console.log(result)
            setMessage(result);
 
         if(result.type==="success"){
-            home_Logout()
+            patient_home_dashboard()
         }
 
         } catch (error) {
