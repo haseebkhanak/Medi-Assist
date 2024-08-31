@@ -10,14 +10,14 @@ export default function PatientDashboard(){
     const[message,setMessage]=useState('')
     
     const navigate=useNavigate()
-    const doc_login=()=>{
-        navigate("/doctor-login")
+    const patient_login = () => {
+        navigate("/patient-login")
     }
 
     const fetchusername= async()=>{
     
             try {
-                const res= await fetch('http://localhost:2000/homepage',
+                const res= await fetch('http://localhost:2000/patienthome',
                     {
                         method:'POST',
                         credentials: 'include',
@@ -41,7 +41,7 @@ export default function PatientDashboard(){
 
     const destroysession= async()=>{
         try {
-            const res= await fetch('http://localhost:2000/logedOut',
+            const res= await fetch('http://localhost:2000/patientlogedOut',
                 {
                     method:'POST',
                     credentials: 'include',
@@ -55,7 +55,7 @@ export default function PatientDashboard(){
 
             if(res.ok)
             {
-                doc_login()
+                patient_login()
             }
         } catch (error) {
             console.log("Error ",error)
@@ -82,9 +82,9 @@ export default function PatientDashboard(){
 <div className="flex relative">
 
             <div>
-            <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession}>LogOut</button>
+            <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession} style={{marginLeft:"100px"}}>LogOut</button>
             {message.message_name &&(
-                <p className='name text-white text-xl'><i>{message.message_name}</i></p> 
+                <p className='name text-white text-3xl' style={{marginLeft:"220px"}}><i>Mr. {message.message_name}</i></p> 
             )}
 
             </div>

@@ -62,6 +62,12 @@ export default function Patient_Reg() {
             return
         }
 
+        if(patientname.length<=6)
+            {
+                setPatientNameError("*Enter Your Full Name")
+                return
+            }
+
         if (!charname.test(patientname)) {
             setPatientNameError("*Name format is Invalid")
             return
@@ -148,7 +154,7 @@ export default function Patient_Reg() {
             <p className='text-pink-600 text-center text-4xl' style={{marginTop:"120px",paddingTop:"10px"}}>SignUp</p> <br />
             <form>    
                 <label className='patientname text-lg ml-20'>Name</label>
-                <input type="text" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Name...' id='patientname' value={patientname} onChange={PatientNameHandler}/>  
+                <input type="text" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Full Name...' id='patientname' value={patientname} onChange={PatientNameHandler}/>  
                 <p className="text-red-600 ml-20">{patientnameError}</p>       
                 <br />
 

@@ -47,7 +47,7 @@ export default function Image_slider_login_patient()
         try {
             const res=await fetch("http://localhost:2000/Patient_Login",{
                 method:"POST",
-                // credentials: 'include',
+                credentials: 'include',
                 body:JSON.stringify(data),
                 headers:{
                     "Content-Type":"application/json"

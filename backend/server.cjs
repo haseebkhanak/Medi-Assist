@@ -149,8 +149,11 @@ app.post('/Patient_Login', async(req,res)=>{
     const{patientloginemail,patientloginpassword}=req.body
     try {
         const patientInfo= await PatientReg.findOne({patientemail:patientloginemail,patientpassword:patientloginpassword})
+        const patientname= patientInfo.patientname
+        req.session.patientname=patientname
         if(patientInfo)
         {
+            console.log(patientname)
             const PatientLoginData={patientloginemail,patientloginpassword}
             const patientData= await PatientLogin(PatientLoginData)
             await patientData.save()
@@ -167,6 +170,39 @@ app.post('/Patient_Login', async(req,res)=>{
         console.log(error)
     }
 
+})
+
+app.post('/patienthome',(req,res)=>{
+    try {
+        if (req.session.patientname) {
+        {
+            res.status(200).json({ message_name: req.session.patientname})
+        }
+
+        } else {
+            res.status(401).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+})
+
+app.post('/patientlogedOut',(req,res)=>{
+    try {
+        if(req.session.patientname)
+        {
+        req.session.patientname= null
+        req.session.save()
+        res.status(200).json({message:"You have logged out"})
+        }
+
+        else{
+            res.status(401).json({message:"Session can not be destroy"})
+        }
+        
+    } catch (error) {
+        res.status(500).json({message:"Internal server error"})
+    }
 })
 
 app.post('/patient_signup', async(req,res)=>{
