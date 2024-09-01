@@ -8,6 +8,7 @@ import LogoutHome from './components/doctor_dashboard.jsx';
 import Patient_login from './components/patient_login.jsx';
 import Patient_Reg from './components/patient_reg.jsx'
 import PatientDashboard from './components/patient_dashboard';
+import DermProfiles from './components/doctorprofiles/dermatologistProfile';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path='/patient-login' element={<Patient_login/>}></Route>
         <Route path='/patient-reg' element={<Patient_Reg/>}></Route>
         <Route path='/patientlogoutHome' element={<PatientDashboard/>}></Route>
+        <Route path='/derm_profiles' element={<DermProfiles/>}></Route>
       </Routes>
     </Router>
   )

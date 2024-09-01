@@ -187,17 +187,30 @@ fieldset {
 }
 
 .profile{
-  width: 800px;
-  height: 500px;
-  margin-top: 100px;
-  margin-left: 300px;
-  background-color: rgb(240, 236, 236);
+  display: flex;
+  justify-content: center;
+}
+
+#doctorprofile{
+ width: 550px;
+ height: 450px;
+ background-color: aliceblue;
+ position: absolute;
+ margin-top: 100px;
+ z-index: 2;
+ display: none;
+}
+
+.doctorprofiles{
+  width: 225px;
+  height: 550px;
+  background-color: white;
   position: absolute;
+  margin-left: 410px;
+  margin-top: 60px;
+  border-radius: 10px;
+  z-index: 1;
   display: none;
-  box-shadow: inset rgb(228, 163, 185) 10px 10px 40px;
-  border-radius: 20px;
-  padding-left: 40px;
-  z-index: 10;
 }
 
 .myimg{
