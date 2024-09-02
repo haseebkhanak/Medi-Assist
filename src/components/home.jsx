@@ -18,11 +18,6 @@ function Home() {
         navigatePatientLogin("/patient-login")
     }
 
-    const navigateDermProfile=useNavigate()
-    const DermProfile=()=>{
-        navigateDermProfile('/derm_profiles')
-    }
-
     const loginOptions=()=>{
         document.querySelector(".blur").style.display = "block"
         document.querySelector("#doctorOrpatient").style.display= "block"
@@ -32,15 +27,6 @@ function Home() {
         document.querySelector(".blur").style.display = "none"
         document.querySelector("#doctorOrpatient").style.display= "none"
     }
-
-    const cancelSvg=()=>{
-        document.querySelector(".doctorprofiles").style.display = "none"
-    }
-
-    const showProfiles=()=>{
-        document.querySelector(".doctorprofiles").style.display = "block"
-    }
-
 
     return (
         <>
@@ -69,7 +55,7 @@ function Home() {
 
                     <div>
                         <a href="#" className="text-white ml-20 text-lg">About Us</a>
-                        <a href="#" className="text-white ml-10 text-lg" onClick={showProfiles}>Doctors Profiles</a>
+                        <a href="#" className="text-white ml-10 text-lg" onClick={loginOptions}>Doctors Profiles</a>
                     </div>
 
                     <div className="search ml-20">
@@ -81,23 +67,7 @@ function Home() {
                         <div className="join"><button className="btn-join bg-transparent border border-pink-500 text-pink-200 mr-20 px-2 py-2 rounded" onClick={doc_login}>Register as Doctor</button></div>
                     </div>
                 </nav>
-{/* <div className='flex block'> */}
-<div className="doctorprofiles">
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="size-6" onClick={cancelSvg} style={{ marginLeft: 195,marginTop:5,cursor:'pointer'}}>
-  <path  d="M6 18 18 6M6 6l12 12" />
-</svg>
-    <p className='text-center'><i>Find Doctors by speciality</i></p> <br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600' onClick={DermProfile}>Dermatologist</a> <br /> <br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>Dentist</a> <br /> <br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>Gynecologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>Gastrointrologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>ENT Specialist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>Urologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>Psychiatrist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>Neurologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600'>General Physician</a> <br /><br />
-</div>
-{/* </div> */}
+
                 <br /> <br /> <br />
                 <div className="doctor_img shadow-2xl mt-10 flex bg-pink-100">
                     <img src={Doctor} alt="no" />

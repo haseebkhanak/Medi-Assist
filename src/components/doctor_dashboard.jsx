@@ -138,11 +138,11 @@ export default function LogoutHome() {
                         <div>
                             <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession}>LogOut</button>
                             {message.message_name && (
-                                <p className='name text-white text-xl'><i>{message.message_name}</i></p>
+                                <p className='name text-white text-xl' style={{cursor:"pointer"}} onClick={viewProfile}><i>{message.message_name}</i></p>
                             )}
 
                             {message.message_profile && (
-                                <img className='absolute myimg' src={`data:image/jpeg;base64,${message.message_profile}`} alt="No Profile" />
+                                <img className='absolute myimg' src={`data:image/jpeg;base64,${message.message_profile}`} alt="No Profile" style={{cursor:"pointer"}} onClick={viewProfile}/>
                             )}
                         </div>
                     </div>

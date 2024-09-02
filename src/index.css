@@ -233,10 +233,16 @@ fieldset {
 }
 
 .profileimg{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+}
+
+.profiledoctor{
   width: 130px;
   height: 130px;
   border-radius: 50%;
-
 }
 
 .profile>div>p:first-child{

@@ -31,7 +31,7 @@ export default function DermProfiles(){
 
 {message && message.map((doctorProfile) =>
     <div key={doctorProfile._id} className='doctorProfile flex space-x-6'>
-            <div><img className="profileimg" src={`data:image/jpeg;base64,${doctorProfile.profile}`} alt="No Profile" /></div>
+            <div><img className="profiledoctor animate-pulse" src={`data:image/jpeg;base64,${doctorProfile.profile}`} alt="No Profile" /></div>
            <div style={{width:"300px"}}>
             <p className='text-2xl italic'> Dr. {doctorProfile.fullName}</p>
             <p className='text mt-2'>{doctorProfile.specialization}</p>
