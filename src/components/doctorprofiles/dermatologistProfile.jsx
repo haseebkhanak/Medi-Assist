@@ -29,20 +29,22 @@ export default function DermProfiles(){
         <>
 <br /><br /><br /><br />
 
-{message && message.map((profile) =>
-                <div key={profile._id}>
-                    <img className="profileimg" src={`data:image/jpeg;base64,${profile.profile}`} alt="No Profile" />
-                    {/* <fieldset style={{ marginLeft: "50px" }}>
-                        <legend>
-                            <img className="profileimg" src={`data:image/jpeg;base64,${profile.profile}`} alt="No Profile" />
-                        </legend>
-                        <p className='text-3xl italic'> Dr. {profile.fullName}</p>
-                        <p className='text-xl'>{profile.specialization}</p>
-                        <p className='text-xl'>{profile.edu}</p>
-                        <p className='text-xl'>{profile.experience} years Experience</p>
-                    </fieldset> */}
-                </div>
-            )}
+{message && message.map((doctorProfile) =>
+    <div key={doctorProfile._id} className='doctorProfile flex space-x-6'>
+            <div><img className="profileimg" src={`data:image/jpeg;base64,${doctorProfile.profile}`} alt="No Profile" /></div>
+           <div style={{width:"300px"}}>
+            <p className='text-2xl italic'> Dr. {doctorProfile.fullName}</p>
+            <p className='text mt-2'>{doctorProfile.specialization}</p>
+            <p className='text'>{doctorProfile.edu}</p>
+            <p className='text'>{doctorProfile.experience} years Experience</p> 
+            <button type="button" style={{padding:"10px"}} className='mt-20 bg-black text-white rounded'>Chat With Doctor</button>
+            </div>
+            <div>
+            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded'>Online Consultation</button> <br /> <br />
+            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingRight:"13px",paddingLeft:"13px"}} className='text-white bg-pink-500 border border-pink-400 hover:bg-transparent hover:text-black hover:border-pink-500 rounded'>Book Appointment</button>
+            </div>
+    </div>
+)}
 
          <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
                     <img src={Logo} alt="" className='logo' />

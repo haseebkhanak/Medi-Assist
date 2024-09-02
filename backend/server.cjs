@@ -232,15 +232,19 @@ app.post('/patient_signup', async (req, res) => {
 
 app.post('/dermprofiles', async(req,res)=>{
     try {
-        const doctorDetail= await DoctorReg.findOne({specialization:"Dermatologist"})
-        const picture=doctorDetail.profile.toString('base64')
-        res.status(200).json({pictureMessage:picture})
-        // res.status(200).json({doctorProfileMessage:doctorDetail,pictureMessage:picture})
-        console.log(picture)
+        const doctorDetail= await DoctorReg.find({specialization:"Dermatologist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+            profile:doctorDetail.profile.toString('base64'),
+            ...doctorDetail.toObject(),
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
         
     } catch (error) {
-        // res.status(401).send({message:"no"})
-        // console.log(error)
+        // res.status(401).json({message:"no"})
+        console.log(error)
     }
 })
 const port = 2000;
