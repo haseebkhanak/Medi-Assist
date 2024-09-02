@@ -230,25 +230,19 @@ app.post('/patient_signup', async (req, res) => {
     }
 })
 
-app.post('/dermprofiles', async (req, res) => {
+app.post('/dermprofiles', async(req,res)=>{
     try {
-        const doctorDetails = await DoctorReg.find({ specialization: "Dermatologist" });
+        const doctorDetail= await DoctorReg.findOne({specialization:"Dermatologist"})
+        const picture=doctorDetail.profile.toString('base64')
+        res.status(200).json({pictureMessage:picture})
+        // res.status(200).json({doctorProfileMessage:doctorDetail,pictureMessage:picture})
+        console.log(picture)
         
-        // Map through doctor details and encode the profile pictures to base64
-        const doctorDetailsWithPictures = doctorDetails.map(doctor => {
-            return {
-                ...doctor._doc,  // Spread the rest of the doctor details
-                profile: doctor.profile.toString('base64')  // Convert profile picture to base64
-            };
-        });
-        
-        res.status(200).json({ doctorProfileMessage: doctorDetailsWithPictures });
     } catch (error) {
-        console.error(error);
-        res.status(500).send({ message: "Error fetching profiles" });
+        // res.status(401).send({message:"no"})
+        // console.log(error)
     }
-});
-
+})
 const port = 2000;
 
 dbconnection().then(app.listen(port, () => {

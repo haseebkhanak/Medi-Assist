@@ -31,7 +31,8 @@ export default function DermProfiles(){
 
 {message && message.map((profile) =>
                 <div key={profile._id}>
-                    <fieldset style={{ marginLeft: "50px" }}>
+                    <img className="profileimg" src={`data:image/jpeg;base64,${profile.profile}`} alt="No Profile" />
+                    {/* <fieldset style={{ marginLeft: "50px" }}>
                         <legend>
                             <img className="profileimg" src={`data:image/jpeg;base64,${profile.profile}`} alt="No Profile" />
                         </legend>
@@ -39,7 +40,7 @@ export default function DermProfiles(){
                         <p className='text-xl'>{profile.specialization}</p>
                         <p className='text-xl'>{profile.edu}</p>
                         <p className='text-xl'>{profile.experience} years Experience</p>
-                    </fieldset>
+                    </fieldset> */}
                 </div>
             )}
 
