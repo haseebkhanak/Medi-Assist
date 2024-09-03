@@ -342,6 +342,36 @@ fieldset {
   border-radius: 20px;
 }
 
+.chatinput{
+  width: 900px;
+  margin-top: 550px;
+  padding: 10px;
+  background-color: white;
+  position: relative;
+  margin-left: 220px;
+  box-shadow: 5px 5px 20px rgb(107, 102, 102);
+  border-radius: 20px;
+}
+
+.showchat{
+  margin-left: 1150px;
+  margin-top: 200px;
+  display: none;
+
+}
+
+.chat-message {
+  padding: 10px;
+  margin-bottom: 10px; 
+  background-color: #302c2c; 
+  border-radius: 5px;
+  color: white;
+  width: fit-content; 
+  /* max-width: 100%;  */
+}
+
+
+    
 @keyframes mymove {
   from {left: 0px;}
   to {left: 420px;}

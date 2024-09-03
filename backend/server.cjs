@@ -7,8 +7,43 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const session = require('express-session')
+const socket_io=require('socket.io')
+const http=require('http')
+
 
 const app = express();
+
+const server=http.createServer(app)
+
+const io = socket_io(server, {
+    cors: {
+      origin: 'http://localhost:5173',
+    },
+  });
+
+io.on('connection',(socket)=>{
+console.log("User connected")
+
+socket.on('message',(message)=>{
+console.log("Message received ",message)
+io.emit('message sends to client ',message)
+})
+
+socket.on('disconnected',()=>{
+    console.log("User disconnected")
+})
+})
+
+server.listen(3000,()=>{
+    console.log("Server is listening")
+})
+
+app.get('/chat',(req,res)=>{
+    res.send("Chat Room")
+})
+
+;
+
 const upload = multer();
 
 app.use(cors({
@@ -20,9 +55,6 @@ app.use(express.json())
 
 app.use(session({
     secret: '03135211029',
-    // resave: false,
-    // saveUninitialized: true,
-    // cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
 app.post('/reg', upload.single('profile'), async (req, res) => {
@@ -146,9 +178,9 @@ app.post('/Patient_Login', async (req, res) => {
     const { patientloginemail, patientloginpassword } = req.body
     try {
         const patientInfo = await PatientReg.findOne({ patientemail: patientloginemail, patientpassword: patientloginpassword })
-        const patientname = patientInfo.patientname
-        req.session.patientname = patientname
         if (patientInfo) {
+            const patientname = patientInfo.patientname
+            req.session.patientname = patientname
             console.log(patientname)
             const PatientLoginData = { patientloginemail, patientloginpassword }
             const patientData = await PatientLogin(PatientLoginData)
@@ -235,8 +267,8 @@ app.post('/dermprofiles', async(req,res)=>{
         const doctorDetail= await DoctorReg.find({specialization:"Dermatologist"})
         const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
             return{
-            profile:doctorDetail.profile.toString('base64'),
-            ...doctorDetail.toObject(),
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
             }
         })
         res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
