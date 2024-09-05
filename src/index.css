@@ -354,8 +354,9 @@ fieldset {
 }
 
 .showchat{
-  margin-left: 1150px;
-  width: 100px;
+  margin-left: 100px;
+  width: 1250px;
+  margin-top: 100px;
 }
 
 .chat-message {
@@ -365,7 +366,6 @@ fieldset {
   border-radius: 5px;
   color: white;
   width: fit-content; 
-  /* max-width: 100%;  */
 }
 
 

@@ -10,9 +10,7 @@ const session = require('express-session')
 const socket_io=require('socket.io')
 const http=require('http')
 
-
 const app = express();
-
 const server=http.createServer(app)
 
 const io = socket_io(server, {
@@ -20,31 +18,6 @@ const io = socket_io(server, {
       origin: 'http://localhost:5173',
     },
   });
-
-io.on('connection',(socket)=>{
-console.log("User connected")
-
-socket.on('message',(message)=>{
-console.log("Message received ",message)
-io.emit('message sends to client ',message)
-})
-
-socket.on('disconnected',()=>{
-    console.log("User disconnected")
-})
-})
-
-server.listen(3000,()=>{
-    console.log("Server is listening")
-})
-
-app.get('/chat',(req,res)=>{
-    res.send("Chat Room")
-})
-
-;
-
-const upload = multer();
 
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -56,6 +29,8 @@ app.use(express.json())
 app.use(session({
     secret: '03135211029',
 }));
+
+const upload = multer();
 
 app.post('/reg', upload.single('profile'), async (req, res) => {
     const { fullName, email, password, confirmPassword, edu, specialization, experience } = req.body;
@@ -279,6 +254,28 @@ app.post('/dermprofiles', async(req,res)=>{
         console.log(error)
     }
 })
+
+io.on('connection',(socket)=>{
+    console.log("User connected", socket.id)
+    
+    socket.on('register', () => {
+        users[req.session.patientname] = socket.id;
+    });
+    
+    socket.on('message',(message)=>{
+    console.log("Message received ",message)
+    io.emit('message sends to client ',message)
+    })
+    
+    socket.on('disconnected',()=>{
+        console.log("User disconnected")
+    })
+    })
+    
+    server.listen(3000,()=>{
+        console.log("Server is listening")
+    })
+
 const port = 2000;
 
 dbconnection().then(app.listen(port, () => {
