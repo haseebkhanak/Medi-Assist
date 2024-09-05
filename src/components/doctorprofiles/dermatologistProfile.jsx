@@ -7,8 +7,9 @@ export default function DermProfiles(){
     const [message_name,setMessage_name]=useState('')
 
     const navigate=useNavigate()
-    const chat_room=()=>{
-        navigate('/chat')
+    const chat_room=(doctorName,doctorPicture)=>{
+        navigate('/chat', { state: {doctorName, doctorPicture} });
+        
     }
 
     const navigatelogin=useNavigate()
@@ -73,7 +74,7 @@ const destroysession= async()=>{
                 }       
             })
             const result=await res.json()
-            console.log(result);
+            console.log(result.doctorProfileMessage.fullName);
             setMessage(result.doctorProfileMessage)
         } catch (error) {
             console.log('Error fetching profiles:',error)
@@ -96,7 +97,7 @@ const destroysession= async()=>{
             <p className='text mt-2'>{doctorProfile.specialization}</p>
             <p className='text'>{doctorProfile.edu}</p>
             <p className='text'>{doctorProfile.experience} years Experience</p> 
-            <button type="button" style={{padding:"10px"}} className='mt-20 bg-black text-white rounded' onClick={chat_room}>Chat With Doctor</button>
+            <button type="button" style={{padding:"10px"}} className='mt-20 bg-black text-white rounded' onClick={() => chat_room(doctorProfile.fullName,doctorProfile.profile)}>Chat With Doctor</button>
             </div>
             <div>
             <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded'>Online Consultation</button> <br /> <br />

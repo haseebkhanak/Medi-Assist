@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { io } from "socket.io-client"
+import { useLocation } from "react-router-dom";
 
 const socket = io('http://localhost:3000');
 
@@ -7,6 +8,12 @@ export default function ChatRoom() {
     const [message, setMessage] = useState('')
     const [storeMessages, setstoreMessages] = useState([])
     const lastMessageRef = useRef(null);
+
+    const location = useLocation();
+    const {doctorName,doctorPicture}  = location.state || {}
+    if (!doctorName) {
+        return <h2>No Doctor Selected</h2>;
+    }
 
     useEffect(() => {
         lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -43,7 +50,12 @@ export default function ChatRoom() {
 
             <div ref={lastMessageRef}></div>
             </div>
+            <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
 
+            <img className="myimg" style={{marginTop:"1px",marginLeft:"50px"}} src={`data:image/jpeg;base64,${doctorPicture}`} alt="No Profile" />
+            <h2 className="text-xl text-white" style={{position:"absolute",marginLeft:"120px"}}><i>Dr. {doctorName}</i></h2>
+            <div style={{marginLeft:"1050px"}}><p className="text-white text-xl font-black">MEDI ASSIST</p></div>
+        </nav>
 
             <form action="" onSubmit={submitMessage}>
                 <div className="flex">
