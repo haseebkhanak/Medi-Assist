@@ -156,12 +156,15 @@ app.post('/Patient_Login', async (req, res) => {
         if (patientInfo) {
             const patientname = patientInfo.patientname
             req.session.patientname = patientname
-            console.log(patientname)
+            req.session.patientId=patientInfo.patientemail
+            // console.log(patientId)
+            // console.log(patientname)
             const PatientLoginData = { patientloginemail, patientloginpassword }
             const patientData = await PatientLogin(PatientLoginData)
             await patientData.save()
             console.log("Login Successfully")
             res.status(200).send({ message: "Login Successfully", type: "success" })
+            // console.log(patientData)
         }
 
         else {
@@ -179,7 +182,9 @@ app.post('/patienthome', (req, res) => {
     try {
         if (req.session.patientname) {
             {
-                res.status(200).json({ message_name: req.session.patientname })
+                res.status(200).json({ message_name: req.session.patientname, message_email: req.session.patientId })
+                // console.log(req.session.patientId)
+                // console.log(patientInfo._id)
             }
 
         } else {
@@ -255,23 +260,75 @@ app.post('/dermprofiles', async(req,res)=>{
     }
 })
 
-io.on('connection',(socket)=>{
-    console.log("User connected", socket.id)
+// io.on('connection',(socket)=>{
+//     console.log("User connected", socket.id)
     
-    socket.on('register', () => {
-        users[req.session.patientname] = socket.id;
+    
+//     const users={}
+//     socket.on('register', (username,userId) => {
+//         users[userId] = socket.id; 
+//         console.log(`${username} with his Id ${userId} registered with socket ID: ${socket.id}`);
+
+//         socket.on('message',(message)=>{
+//         console.log(`Message received from ${username} with his Id ${userId}: `, message)
+//         io.emit('message sends to client ', message)
+//         })
+//     });
+    
+  
+//     socket.on('privateMessage', ({ toUserId, message }) => {
+//         const recipientSocketId = users[toUserId]; 
+
+//         if (recipientSocketId) {
+//             io.to(recipientSocketId).emit('privateMessageToClient', {
+//                 from: socket.id,
+//                 message
+                
+//             });  
+//             console.log(`Message sent to ${toUserId}`);
+//         } else {
+//             console.log(`${toUserId} not found or not connected`);
+//         }
+//     });
+
+//     socket.on('disconnect',()=>{
+//         console.log("User disconnected")
+//     })
+//     })
+    
+const users = {};  // To store all users by their unique ID
+
+io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
+
+    // Register user by unique ID
+    socket.on('register', ( username, userId ) => {
+        users[userId] = { socketId: socket.id, username };  // Store user by their unique ID
+        console.log(`${username} (ID: ${userId}) registered with socket ID: ${socket.id}`);
     });
-    
-    socket.on('message',(message)=>{
-    console.log("Message received ",message)
-    io.emit('message sends to client ',message)
-    })
-    
-    socket.on('disconnected',()=>{
-        console.log("User disconnected")
-    })
-    })
-    
+
+    // Handle private messages
+    socket.on('privateMessage', ( toUserId, message ) => {
+        const recipient = users[toUserId];  // Find recipient by unique ID
+
+        if (recipient && recipient.socketId) {
+            io.to(recipient.socketId).emit('privateMessageToClient', {
+                from: users[socket.id]?.username || 'Anonymous',
+                message
+            });
+            console.log(`Message sent to ${recipient.username} (ID: ${toUserId})`);
+        } else {
+            console.log(`${toUserId} not found or not connected`);
+        }
+    });
+
+    // Handle user disconnection
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+        // Optionally, you could remove the user from `users` here
+    });
+});
+
     server.listen(3000,()=>{
         console.log("Server is listening")
     })

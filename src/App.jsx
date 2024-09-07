@@ -9,7 +9,8 @@ import Patient_login from './components/patient_login.jsx';
 import Patient_Reg from './components/patient_reg.jsx'
 import PatientDashboard from './components/patient_dashboard';
 import DermProfiles from './components/doctorprofiles/dermatologistProfile';
-import ChatRoom from './components/doctorprofiles/chat';
+import ChatRoomPatient from './components/doctorprofiles/chatForPatient';
+import ChatRoomDoctor from './components/doctorprofiles/chatForDoctor';
 
 export default function App() {
   return (
@@ -24,7 +25,8 @@ export default function App() {
         <Route path='/patient-reg' element={<Patient_Reg/>}></Route>
         <Route path='/patientlogoutHome' element={<PatientDashboard/>}></Route>
         <Route path='/derm_profiles' element={<DermProfiles/>}></Route>
-        <Route path='/chat' element={<ChatRoom/>}></Route>
+        <Route path='/chatpatient' element={<ChatRoomPatient/>}></Route>
+        <Route path='/chatdoctor' element={<ChatRoomDoctor/>}></Route>
       </Routes>
     </Router>
   )

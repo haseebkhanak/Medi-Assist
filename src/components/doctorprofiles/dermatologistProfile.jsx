@@ -7,8 +7,8 @@ export default function DermProfiles(){
     const [message_name,setMessage_name]=useState('')
 
     const navigate=useNavigate()
-    const chat_room=(doctorName,doctorPicture)=>{
-        navigate('/chat', { state: {doctorName, doctorPicture} });
+    const chat_room=(doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId)=>{
+        navigate('/chatpatient', { state: {doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId} });
         
     }
 
@@ -31,7 +31,7 @@ export default function DermProfiles(){
             )
             const result= await res.json()
             setMessage_name(result)
-            // console.log(result)
+            console.log(result)
         } 
         catch (error) {
             console.log("Error ",error)
@@ -97,7 +97,7 @@ const destroysession= async()=>{
             <p className='text mt-2'>{doctorProfile.specialization}</p>
             <p className='text'>{doctorProfile.edu}</p>
             <p className='text'>{doctorProfile.experience} years Experience</p> 
-            <button type="button" style={{padding:"10px"}} className='mt-20 bg-black text-white rounded' onClick={() => chat_room(doctorProfile.fullName,doctorProfile.profile)}>Chat With Doctor</button>
+            <button type="button" style={{padding:"10px"}} className='mt-20 bg-black text-white rounded' onClick={() => chat_room(doctorProfile.fullName,doctorProfile.profile,doctorProfile._id,message_name.message_name,message_name.message_email)}>Chat With Doctor</button>
             </div>
             <div>
             <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded'>Online Consultation</button> <br /> <br />

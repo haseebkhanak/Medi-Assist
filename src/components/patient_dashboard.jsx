@@ -33,7 +33,7 @@ export default function PatientDashboard(){
                 )
                 const result= await res.json()
                 setMessage(result)
-                // console.log(result)
+                console.log(result)
             } 
             catch (error) {
                 console.log("Error ",error)

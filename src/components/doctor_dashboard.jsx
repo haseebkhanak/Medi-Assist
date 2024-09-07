@@ -16,6 +16,16 @@ export default function LogoutHome() {
         navigate("/doctor-login")
     }
 
+    const navigateChatRoom=useNavigate()
+    const chat_room=(doctorName,doctorUniqueId)=>{
+        navigateChatRoom('/chatdoctor',{ state: {doctorName,doctorUniqueId} });
+        
+    }
+    // const navigateChatRoom=useNavigate()
+    // const chat_room=()=>{
+    //     navigateChatRoom('/chatdoctor');
+        
+    // }
     const fetchusername = async () => {
 
         try {
@@ -100,8 +110,8 @@ export default function LogoutHome() {
                 <div id='doctorprofile' className='relative rounded-lg'>
                     <BorderBeam size={250} duration={5} />
 
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-8" onClick={crossSvg} style={{ marginLeft: 510, marginTop: 5, cursor: 'pointer' }}>
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="size-8" onClick={crossSvg} style={{ marginLeft: 510, marginTop: 5, cursor: 'pointer' }}>
+                        <path d="M6 18 18 6M6 6l12 12" />
                     </svg>
 
                 {messageTwo && (
@@ -114,6 +124,7 @@ export default function LogoutHome() {
                             <p className='text-xl'>{messageTwo.showProfile_message.edu}</p>
                             <p className='text-xl'>{messageTwo.showProfile_message.experience} years Experience </p>
                         </fieldset>
+                        <button type="button" style={{padding:"10px",marginLeft:"370px"}} className='mt-10 bg-black text-white rounded' onClick={() => chat_room(messageTwo.showProfile_message.fullName,messageTwo.showProfile_message._id)}>Chat With Patient</button>
                     </div>
                 )}
                 </div>

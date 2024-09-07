@@ -4,14 +4,16 @@ import { useLocation } from "react-router-dom";
 
 const socket = io('http://localhost:3000');
 
-export default function ChatRoom() {
+export default function ChatRoomPatient() {
     const [message, setMessage] = useState('')
     const [storeMessages, setstoreMessages] = useState([])
     const lastMessageRef = useRef(null);
 
     const location = useLocation();
-    const {doctorName,doctorPicture}  = location.state || {}
-    if (!doctorName) {
+    const {doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId}  = location.state || {}
+
+    console.log("Patient Name is ",patientName,patientUniqueId,doctorUniqueId)
+    if (!doctorName || !doctorPicture) {
         return <h2>No Doctor Selected</h2>;
     }
 
@@ -27,7 +29,12 @@ export default function ChatRoom() {
         event.preventDefault();
 
         if (message) {
+            socket.emit('register', patientName,patientUniqueId);
             socket.emit('message', message);
+            socket.emit('privateMessage', { toUserId:doctorUniqueId, message: message });
+            socket.on('privateMessageToClient', ({ from, message }) => {
+                console.log(`Message from ${from}: ${message}`);
+            });
             setstoreMessages([...storeMessages, message])
             setMessage('')
         }
@@ -54,7 +61,7 @@ export default function ChatRoom() {
 
             <img className="myimg" style={{marginTop:"1px",marginLeft:"50px"}} src={`data:image/jpeg;base64,${doctorPicture}`} alt="No Profile" />
             <h2 className="text-xl text-white" style={{position:"absolute",marginLeft:"120px"}}><i>Dr. {doctorName}</i></h2>
-            <div style={{marginLeft:"1050px"}}><p className="text-white text-xl font-black">MEDI ASSIST</p></div>
+            <div style={{marginLeft:"1080px"}}><p className="text-white text-xl font-black">MEDI ASSIST</p></div>
         </nav>
 
             <form action="" onSubmit={submitMessage}>
