@@ -260,72 +260,38 @@ app.post('/dermprofiles', async(req,res)=>{
     }
 })
 
-// io.on('connection',(socket)=>{
-//     console.log("User connected", socket.id)
-    
-    
-//     const users={}
-//     socket.on('register', (username,userId) => {
-//         users[userId] = socket.id; 
-//         console.log(`${username} with his Id ${userId} registered with socket ID: ${socket.id}`);
 
-//         socket.on('message',(message)=>{
-//         console.log(`Message received from ${username} with his Id ${userId}: `, message)
-//         io.emit('message sends to client ', message)
-//         })
-//     });
-    
-  
-//     socket.on('privateMessage', ({ toUserId, message }) => {
-//         const recipientSocketId = users[toUserId]; 
-
-//         if (recipientSocketId) {
-//             io.to(recipientSocketId).emit('privateMessageToClient', {
-//                 from: socket.id,
-//                 message
-                
-//             });  
-//             console.log(`Message sent to ${toUserId}`);
-//         } else {
-//             console.log(`${toUserId} not found or not connected`);
-//         }
-//     });
-
-//     socket.on('disconnect',()=>{
-//         console.log("User disconnected")
-//     })
-//     })
-    
-const users = {};  // To store all users by their unique ID
+const users = {}; 
 
 io.on('connection', (socket) => {
-    console.log(`User connected: ${socket.id}`);
+    console.log("User connected", socket.id);
 
-    // Register user by unique ID
-    socket.on('register', ( username, userId ) => {
-        users[userId] = { socketId: socket.id, username };  // Store user by their unique ID
-        console.log(`${username} (ID: ${userId}) registered with socket ID: ${socket.id}`);
+    socket.on('register', (username, userId) => {
+        socket.username = username; 
+        socket.userId = userId;   
+        users[userId] = socket.id; 
+        console.log(`User ${username} with ID ${userId} registered with socket ID ${socket.id}`);
+        // console.log("Current Users:", users);
     });
 
-    // Handle private messages
-    socket.on('privateMessage', ( toUserId, message ) => {
-        const recipient = users[toUserId];  // Find recipient by unique ID
 
-        if (recipient && recipient.socketId) {
-            io.to(recipient.socketId).emit('privateMessageToClient', {
-                from: users[socket.id]?.username || 'Anonymous',
-                message
-            });
-            console.log(`Message sent to ${recipient.username} (ID: ${toUserId})`);
+    socket.on('message', (message) => {
+        console.log(`Message received from ${socket.username} with ID ${socket.userId}: ${message}`);
+        io.emit('messageToClient', { from: socket.username, message });
+    });
+
+    socket.on('privateMessage', ({ toUserId, message }) => {
+        const recipientSocketId = users[toUserId];
+        if (recipientSocketId) {
+            io.to(recipientSocketId).emit('privateMessageToClient', {from: socket.username, message});
+            console.log(`Private message sent from ${socket.username} to userId: ${toUserId}`);
         } else {
-            console.log(`${toUserId} not found or not connected`);
+            console.log(`User with ID ${toUserId} not found or not connected`);
         }
     });
 
-    // Handle user disconnection
     socket.on('disconnect', () => {
-        console.log(`User disconnected: ${socket.id}`);
-        // Optionally, you could remove the user from `users` here
+        console.log("User disconnected", socket.id);
     });
 });
 

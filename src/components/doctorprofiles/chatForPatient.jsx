@@ -29,21 +29,22 @@ export default function ChatRoomPatient() {
         event.preventDefault();
 
         if (message) {
-            socket.emit('register', patientName,patientUniqueId);
+            socket.emit('register',patientName,patientUniqueId);
             socket.emit('message', message);
             socket.emit('privateMessage', { toUserId:doctorUniqueId, message: message });
-            socket.on('privateMessageToClient', ({ from, message }) => {
-                console.log(`Message from ${from}: ${message}`);
-            });
-            setstoreMessages([...storeMessages, message])
+
+                socket.on('privateMessageToClient', ({ from, message }) => {
+                    console.log("Patient ID:", patientUniqueId);                
+                    console.log(`Message from ${from}: ${message}`);
+                });
+                setstoreMessages([...storeMessages,message])
+            
             setMessage('')
         }
         if (!message) {
             alert("Type Message")
             return
         }
-
-
     }
 
     return (
