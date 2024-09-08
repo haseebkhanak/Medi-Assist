@@ -24,35 +24,38 @@ export default function ChatRoomDoctor() {
 
     useEffect(() => {
         socket.on('privateMessageToClient', ({ from, message }) => {
-            setstoreMessages(prevMessages => [...prevMessages, `${from}: ${message}`]);
+            setstoreMessages([...storeMessages, `${message}`]);
             console.log("Doctor ID:", doctorUniqueId); 
-
         });
-
         socket.emit('register', doctorName, doctorUniqueId);
     
         return () => {
             socket.off('privateMessageToClient');
         };
     }, []);
+
     
     // const submitMessage = (event) => {
     //     event.preventDefault();
 
     //     if (message) {
-    //         // Send reply to the patient
-    //         socket.emit('privateMessage', { toUserId: patientUniqueId, message: message });
-    
-    //     } 
-    //     setstoreMessages([...storeMessages, message]);  // Add message to chat UI
-    //     setMessage('');  // Clear input field
-    //     // setstoreMessages([...storeMessages, message])
+    //         socket.emit('register',doctorName,doctorUniqueId);
+    //         socket.emit('message', message);
+    //         socket.on('privateMessageToClient', ({ doctorUniqueId, message }) => {
+    //             console.log("Doctor ID:", doctorUniqueId);                
+    //             console.log(`Message from ${doctorUniqueId}: to ${from} ${message}`);
+    //             setstoreMessages([...storeMessages, `${message}`]);
+    //         });
+    //         // socket.emit('privateMessage', { toUserId:from, message: message });
+
+    //             // setstoreMessages([...storeMessages,message])
+            
+    //         setMessage('')
+    //     }
     //     if (!message) {
     //         alert("Type Message")
     //         return
     //     }
-
-
     // }
 
     return (

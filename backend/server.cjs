@@ -283,8 +283,8 @@ io.on('connection', (socket) => {
     socket.on('privateMessage', ({ toUserId, message }) => {
         const recipientSocketId = users[toUserId];
         if (recipientSocketId) {
-            io.to(recipientSocketId).emit('privateMessageToClient', {from: socket.username, message});
-            console.log(`Private message sent from ${socket.username} to userId: ${toUserId}`);
+            io.to(recipientSocketId).emit('privateMessageToClient', {from: socket.userId, message});
+            console.log(`Private message sent from ${socket.userId} to userId: ${toUserId}`);
         } else {
             console.log(`User with ID ${toUserId} not found or not connected`);
         }
