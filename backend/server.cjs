@@ -273,17 +273,35 @@ io.on('connection', (socket) => {
         console.log(`User ${username} with ID ${userId} registered with socket ID ${socket.id}`);
         // console.log("Current Users:", users);
     });
-
-
+        
     socket.on('message', (message) => {
         console.log(`Message received from ${socket.username} with ID ${socket.userId}: ${message}`);
         io.emit('messageToClient', { from: socket.username, message });
     });
 
-    socket.on('privateMessage', ({ toUserId, message }) => {
+    socket.on('privateMessage', async({ toUserId, message }) => {
         const recipientSocketId = users[toUserId];
         if (recipientSocketId) {
-            io.to(recipientSocketId).emit('privateMessageToClient', {from: socket.userId, message});
+
+            // try {
+            //     const patientRegData = await PatientReg.findOne({patientname:socket.username,patientemail:socket.userId})
+            //     if (patientRegData) {
+            //         io.to(recipientSocketId).emit('notification', { 
+            //             patientDetails: {
+            //                 username: socket.username,
+            //                 userId: socket.userId,
+            //             }
+            //         });
+            //         console.log("Patient details sent to doctor as notification", patientRegData);
+            //     } else {
+            //         console.log("No patient details found in the database");
+            //     }
+        
+            // } catch (error) {
+            //     console.log(error)
+            // }
+            io.to(recipientSocketId).emit('privateMessageToClient', 
+            {from: { userId: socket.userId, username: socket.username }, message});
             console.log(`Private message sent from ${socket.userId} to userId: ${toUserId}`);
         } else {
             console.log(`User with ID ${toUserId} not found or not connected`);
@@ -293,7 +311,10 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log("User disconnected", socket.id);
     });
+    
+
 });
+
 
     server.listen(3000,()=>{
         console.log("Server is listening")

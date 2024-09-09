@@ -16,6 +16,11 @@ export default function LogoutHome() {
         navigate("/doctor-login")
     }
 
+    const navigateNotifi = useNavigate()
+    const notifications = () => {
+        navigateNotifi("/notifi")
+    }
+
     const navigateChatRoom=useNavigate()
     const chat_room=(doctorName,doctorUniqueId)=>{
         navigateChatRoom('/chatdoctor',{ state: {doctorName,doctorUniqueId} });
@@ -136,7 +141,7 @@ export default function LogoutHome() {
                     <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                     <div>
-                        <a href="#" className="text-white ml-20 text-lg">About Us</a>
+                        <a href="#" className="text-white ml-20 text-lg" onClick={notifications}>Notifications</a>
                         <a href="#" className="text-white ml-10 text-lg" onClick={viewProfile}>View Your Profile</a>
                     </div>
 

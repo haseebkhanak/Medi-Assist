@@ -11,6 +11,7 @@ import PatientDashboard from './components/patient_dashboard';
 import DermProfiles from './components/doctorprofiles/dermatologistProfile';
 import ChatRoomPatient from './components/doctorprofiles/chatForPatient';
 import ChatRoomDoctor from './components/doctorprofiles/chatForDoctor';
+import MessageNotifications from './components/message_notifications';
 
 export default function App() {
   return (
@@ -27,6 +28,7 @@ export default function App() {
         <Route path='/derm_profiles' element={<DermProfiles/>}></Route>
         <Route path='/chatpatient' element={<ChatRoomPatient/>}></Route>
         <Route path='/chatdoctor' element={<ChatRoomDoctor/>}></Route>
+        <Route path='/notifi' element={<MessageNotifications/>}></Route>
       </Routes>
     </Router>
   )

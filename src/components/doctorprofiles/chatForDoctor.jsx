@@ -24,8 +24,9 @@ export default function ChatRoomDoctor() {
 
     useEffect(() => {
         socket.on('privateMessageToClient', ({ from, message }) => {
-            setstoreMessages([...storeMessages, `${message}`]);
+            console.log(`Message from Name: ${from.username} and ID: ${from.userId}): ${message}`);
             console.log("Doctor ID:", doctorUniqueId); 
+            setstoreMessages([...storeMessages, `${message}`]);
         });
         socket.emit('register', doctorName, doctorUniqueId);
     
