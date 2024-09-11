@@ -6,7 +6,7 @@ const socket = io('http://localhost:3000');
 
 export default function ChatRoomPatient() {
     const [message, setMessage] = useState('')
-    const [storeMessages, setstoreMessages] = useState([])
+    const [storeMessages,setstoreMessages] = useState([])
     const lastMessageRef = useRef(null);
 
     const location = useLocation();
@@ -37,7 +37,7 @@ export default function ChatRoomPatient() {
                     console.log("Patient ID:", patientUniqueId);                
                     console.log(`Message from ${from}: ${message}`);
                 });
-                setstoreMessages([...storeMessages,message])
+                setstoreMessages((prevMessages)=>[...prevMessages,message])
             
             setMessage('')
         }

@@ -22,13 +22,13 @@ export default function ChatRoomDoctor() {
         setMessage(event.target.value)
     }
 
+    socket.emit('register', doctorName, doctorUniqueId);
     useEffect(() => {
         socket.on('privateMessageToClient', ({ from, message }) => {
             console.log(`Message from Name: ${from.username} and ID: ${from.userId}): ${message}`);
             console.log("Doctor ID:", doctorUniqueId); 
-            setstoreMessages([...storeMessages, `${message}`]);
+            setstoreMessages((prevMessages)=>[...prevMessages,message]);
         });
-        socket.emit('register', doctorName, doctorUniqueId);
     
         return () => {
             socket.off('privateMessageToClient');
@@ -64,18 +64,13 @@ export default function ChatRoomDoctor() {
             <div className="showchat" style={{position:"absolute",overflowY: "auto", maxHeight: "400px" }}>
 
                 {storeMessages && storeMessages.map((msg,index) =>
-                    <div key={index} className="chat-message">
+                    <div key={index} className="chat-message" style={{backgroundColor:"pink",marginLeft:"900px",color:"black"}}>
                         {msg}
                     </div>)}
 
             <div ref={lastMessageRef}></div>
             </div>
-            {/* <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
 
-            <img className="myimg" style={{marginTop:"1px",marginLeft:"50px"}} src={`data:image/jpeg;base64,${doctorPicture}`} alt="No Profile" />
-            <h2 className="text-xl text-white" style={{position:"absolute",marginLeft:"120px"}}><i>Dr. {doctorName}</i></h2>
-            <div style={{marginLeft:"1080px"}}><p className="text-white text-xl font-black">MEDI ASSIST</p></div>
-        </nav> */}
 
             <form action="">
                 <div className="flex">

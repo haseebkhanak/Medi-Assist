@@ -300,7 +300,7 @@ io.on('connection', (socket) => {
             // } catch (error) {
             //     console.log(error)
             // }
-            io.to(recipientSocketId).emit('privateMessageToClient', 
+            io.emit('privateMessageToClient', 
             {from: { userId: socket.userId, username: socket.username }, message});
             console.log(`Private message sent from ${socket.userId} to userId: ${toUserId}`);
         } else {
