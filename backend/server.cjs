@@ -260,61 +260,63 @@ app.post('/dermprofiles', async(req,res)=>{
     }
 })
 
-
-const users = {}; 
+const users = {};
 
 io.on('connection', (socket) => {
-    console.log("User connected", socket.id);
+    console.log(`User connected with socket ID: ${socket.id}`);
 
     socket.on('register', (username, userId) => {
-        socket.username = username; 
-        socket.userId = userId;   
-        users[userId] = socket.id; 
+        socket.username = username;
+        socket.userId = userId;
+        users[userId] = socket.id;
+
         console.log(`User ${username} with ID ${userId} registered with socket ID ${socket.id}`);
-        // console.log("Current Users:", users);
     });
-        
-    socket.on('message', (message) => {
+
+    socket.on('message', async(message) => {
         console.log(`Message received from ${socket.username} with ID ${socket.userId}: ${message}`);
         io.emit('messageToClient', { from: socket.username, message });
+
+        if(message)
+        {
+                try {
+                    const patientRegData = await PatientReg.findOne({patientname: socket.username,patientemail: socket.userId});
+    
+                    if (patientRegData) {
+                        io.emit('notification', {
+                            patientdetails:patientRegData
+                        });
+                        console.log("Patient details sent to doctor as notification", patientRegData);
+                    } else {
+                        console.log("No patient details found in the database");
+                    }
+    
+                } catch (error) {
+                    console.log("Error fetching patient details:", error);
+                }
+
+
+        }
     });
 
-    socket.on('privateMessage', async({ toUserId, message }) => {
+    socket.on('privateMessage', async ({ toUserId, message }) => {
         const recipientSocketId = users[toUserId];
         if (recipientSocketId) {
+            io.to(recipientSocketId).emit('privateMessageToClient', { 
+                from: { userId: socket.userId, username: socket.username }, message 
+            });
 
-            // try {
-            //     const patientRegData = await PatientReg.findOne({patientname:socket.username,patientemail:socket.userId})
-            //     if (patientRegData) {
-            //         io.to(recipientSocketId).emit('notification', { 
-            //             patientDetails: {
-            //                 username: socket.username,
-            //                 userId: socket.userId,
-            //             }
-            //         });
-            //         console.log("Patient details sent to doctor as notification", patientRegData);
-            //     } else {
-            //         console.log("No patient details found in the database");
-            //     }
-        
-            // } catch (error) {
-            //     console.log(error)
-            // }
-            io.emit('privateMessageToClient', 
-            {from: { userId: socket.userId, username: socket.username }, message});
             console.log(`Private message sent from ${socket.userId} to userId: ${toUserId}`);
+
         } else {
             console.log(`User with ID ${toUserId} not found or not connected`);
         }
     });
 
     socket.on('disconnect', () => {
-        console.log("User disconnected", socket.id);
+        console.log(`User with socket ID ${socket.id} disconnected`);
     });
-    
-
 });
-
 
     server.listen(3000,()=>{
         console.log("Server is listening")

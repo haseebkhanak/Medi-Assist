@@ -26,11 +26,7 @@ export default function LogoutHome() {
         navigateChatRoom('/chatdoctor',{ state: {doctorName,doctorUniqueId} });
         
     }
-    // const navigateChatRoom=useNavigate()
-    // const chat_room=()=>{
-    //     navigateChatRoom('/chatdoctor');
-        
-    // }
+
     const fetchusername = async () => {
 
         try {

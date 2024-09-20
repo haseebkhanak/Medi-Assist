@@ -368,6 +368,10 @@ fieldset {
   width: fit-content; 
 }
 
+.notifi{
+  width: 200px;
+  /* background-color: black; */
+}
 
     
 @keyframes mymove {
