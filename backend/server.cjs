@@ -2,6 +2,7 @@ const DoctorReg = require('./DoctorReg_Sch.cjs')
 const DoctorLogin = require('./DoctorLogin_Sch.cjs')
 const PatientReg = require('./PatientReg_Sch.cjs')
 const PatientLogin = require('./PatientLogin.cjs')
+const Messages=require('./messagesStored.cjs')
 const dbconnection = require('./dbConn.cjs')
 const express = require('express');
 const cors = require('cors');
@@ -260,56 +261,159 @@ app.post('/dermprofiles', async(req,res)=>{
     }
 })
 
+// const users = {};
+
+// io.on('connection', (socket) => {
+//     console.log(`User connected with socket ID: ${socket.id}`);
+
+//     socket.on('register', async(username, userId) => {
+//         socket.username = username;
+//         socket.userId = userId;
+//         users[userId] = socket.id;
+
+//         console.log(`User ${username} with ID ${userId} registered with socket ID ${socket.id}`);
+//         // try {
+//         //     const undeliveredMessages = await Messages.find({ toUserId: userId });
+//         //     if (undeliveredMessages) {
+//         //                         io.emit('privateMessageToClient', {
+//         //                             from: { userId: socket.userId, username: socket.username }, undeliveredMessages
+//         //                         });
+//         //                         console.log("Messages send to person ", undeliveredMessages);
+//         //                     } else {
+//         //                         console.log("Message not sent");
+//         //                     }
+//         //     console.log(undeliveredMessages);
+//         // } catch (error) {
+//         //     console.log(error)
+//         // }
+       
+//     });
+
+//     socket.on('message', async(message) => {
+//         console.log(`Message received from ${socket.username} with ID ${socket.userId}: ${message}`);
+//         io.emit('messageToClient', { from: socket.username, message });
+
+//         // if(message)
+//         // {
+//         //         try {
+//         //             const patientRegData = await PatientReg.findOne({patientname: socket.username,patientemail: socket.userId});
+    
+//         //             if (patientRegData) {
+//         //                 io.emit('notification', {
+//         //                     patientdetails:patientRegData
+//         //                 });
+//         //                 console.log("Patient details sent to doctor as notification", patientRegData);
+//         //             } else {
+//         //                 console.log("No patient details found in the database");
+//         //             }
+    
+//         //         } catch (error) {
+//         //             console.log("Error fetching patient details:", error);
+//         //         }
+
+
+//         // }
+//         // const undeliveredMessages = await Messages.find({ toUserId: userId, delivered: false });
+//         // if (undeliveredMessages.length > 0) {
+//         //     undeliveredMessages.forEach((msg) => {
+//         //         socket.emit('privateMessageToClient', {
+//         //             from: { userId: msg.fromUserId },
+//         //             message: msg.message
+//         //         });
+
+//         //         // Mark message as delivered
+//         //         msg.delivered = true;
+//         //         msg.save();
+//         //     });
+//         //     console.log(`Delivered ${undeliveredMessages.length} undelivered messages to ${username}`);
+//         // }
+//     });
+
+//     socket.on('privateMessage', async ({ toUserId, message }) => {
+//         const recipientSocketId = users[toUserId];
+//         if (recipientSocketId) {
+//             io.to(recipientSocketId).emit('privateMessageToClient', { 
+//                 from: { userId: socket.userId, username: socket.username }, message 
+//             });
+//             console.log(`Private message sent from ${socket.userId} to userId: ${toUserId}`);
+            
+//             const newMessage = new Messages({
+//                 fromUserId: socket.userId,
+//                 toUserId: toUserId,
+//                 message: message
+//             });
+//             await newMessage.save();
+//             console.log(`User ${toUserId} is offline, message stored in the database`);
+//         } else {
+//         }
+//     });
+
+//     socket.on('disconnect', () => {
+//         console.log(`User with socket ID ${socket.id} disconnected`);
+//     });
+// });
+
 const users = {};
 
 io.on('connection', (socket) => {
     console.log(`User connected with socket ID: ${socket.id}`);
 
-    socket.on('register', (username, userId) => {
+    // Handle user registration
+    socket.on('register', async (username, userId, message) => {
         socket.username = username;
         socket.userId = userId;
         users[userId] = socket.id;
 
         console.log(`User ${username} with ID ${userId} registered with socket ID ${socket.id}`);
+
+        try {
+            const undeliveredMessages = await Messages.find({ toUserId: userId, delivered: false });
+
+            if (undeliveredMessages) {
+                // undeliveredMessages.map((msg) => {
+                    socket.emit('privateMessageToClient', {
+                        from: socket.userId,
+                        message
+                    // });
+
+                    // Mark the message as delivered
+                    // msg.delivered = true;
+                    // msg.save();
+                });
+
+                console.log(`Delivered messages to ${username}`);
+            } else {
+                console.log("No undelivered messages for user", userId);
+            }
+        } catch (error) {
+            console.log("Error fetching undelivered messages:", error);
+        }
     });
 
-    socket.on('message', async(message) => {
-        console.log(`Message received from ${socket.username} with ID ${socket.userId}: ${message}`);
+    socket.on('message', async (message) => {
+        console.log(`Message received from ${socket.username} (ID: ${socket.userId}): ${message}`);
         io.emit('messageToClient', { from: socket.username, message });
-
-        if(message)
-        {
-                try {
-                    const patientRegData = await PatientReg.findOne({patientname: socket.username,patientemail: socket.userId});
-    
-                    if (patientRegData) {
-                        io.emit('notification', {
-                            patientdetails:patientRegData
-                        });
-                        console.log("Patient details sent to doctor as notification", patientRegData);
-                    } else {
-                        console.log("No patient details found in the database");
-                    }
-    
-                } catch (error) {
-                    console.log("Error fetching patient details:", error);
-                }
-
-
-        }
     });
 
     socket.on('privateMessage', async ({ toUserId, message }) => {
         const recipientSocketId = users[toUserId];
+
+        const newMessage = new Messages({
+            fromUserId: socket.userId,
+            toUserId: toUserId,
+            message: message,
+            delivered: recipientSocketId ? true : false  
+        });
+        await newMessage.save();
+
         if (recipientSocketId) {
-            io.to(recipientSocketId).emit('privateMessageToClient', { 
-                from: { userId: socket.userId, username: socket.username }, message 
+            io.to(recipientSocketId).emit('privateMessageToClient', {
+                from: { userId: socket.userId, username: socket.username },
+                message: message
             });
-
             console.log(`Private message sent from ${socket.userId} to userId: ${toUserId}`);
-
         } else {
-            console.log(`User with ID ${toUserId} not found or not connected`);
+            console.log(`User ${toUserId} is offline, message stored in the database`);
         }
     });
 
@@ -317,6 +421,8 @@ io.on('connection', (socket) => {
         console.log(`User with socket ID ${socket.id} disconnected`);
     });
 });
+
+
 
     server.listen(3000,()=>{
         console.log("Server is listening")
