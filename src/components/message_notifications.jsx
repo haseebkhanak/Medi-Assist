@@ -73,6 +73,10 @@ useEffect(()=>{
   fetchPatientsData()
 },[])
 
+const handleChatWithPatient = () => {
+    navigate("/chat-room", { state: { doctorName: messageNotifi.patientname, doctorUniqueId: messageNotifi.patientemail } });
+};
+
 return(
         <>
         <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
@@ -103,11 +107,13 @@ return(
                     </div>
 
                 </nav>
-        {messageNotifi && (
-          <div className="notifi mt-40 ml-40 bg-pink-300 py-4 text-center">
-            <p className="text-xl">Patient <i>{messageNotifi.patientname}</i></p>
-            <button type="button" style={{padding:"10px"}} className='mt-5 bg-black text-white rounded hover:bg-green-300 hover:text-black'>Chat With Patient</button>
-          </div>
+                {messageNotifi && (
+            <div className="notifi mt-40 ml-40 bg-pink-300 py-4 text-center">
+                <p className="text-xl">Patient <i>{messageNotifi.patientname}</i></p>
+                <button type="button" style={{padding:"10px"}} onClick={handleChatWithPatient} className='mt-5 bg-black text-white rounded hover:bg-green-300 hover:text-black'>
+                    Chat With Patient
+                </button>
+            </div>
         )}
         </>
     )}
