@@ -17,8 +17,8 @@ export default function LogoutHome() {
     }
 
     const navigateNotifi = useNavigate()
-    const notifications = () => {
-        navigateNotifi("/notifi")
+    const notifications = (doctorName,doctorUniqueId) => {
+        navigateNotifi("/notifi",{ state: {doctorName,doctorUniqueId} })
     }
 
     const navigateChatRoom=useNavigate()
@@ -41,7 +41,8 @@ export default function LogoutHome() {
             )
             const result = await res.json()
             setMessage(result)
-            // console.log(result)
+            // console.log(result.message_name)
+            // console.log(result.message_id)
         }
         catch (error) {
             console.log("Error ", error)
@@ -137,7 +138,7 @@ export default function LogoutHome() {
                     <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                     <div>
-                        <a href="#" className="text-white ml-20 text-lg" onClick={notifications}>Notifications</a>
+                        <a href="#" className="text-white ml-20 text-lg" onClick={() => notifications(message.message_name,message.message_id)}>Notifications</a>
                         <a href="#" className="text-white ml-10 text-lg" onClick={viewProfile}>View Your Profile</a>
                     </div>
 

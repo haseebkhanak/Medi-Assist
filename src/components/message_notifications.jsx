@@ -3,6 +3,7 @@ import { useEffect,useState } from "react"
 import { io } from "socket.io-client"
 import Logo from './images/logo.png';
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const socket = io('http://localhost:3000');
 
@@ -62,7 +63,13 @@ const destroysession = async () => {
   }
 }
 
-  const fetchPatientsData=()=>{
+    const location = useLocation();
+    const {doctorName,doctorUniqueId}  = location.state || {}
+    console.log("Doctor Name is ",doctorName)
+    console.log("Doctor Id is ",doctorUniqueId)
+
+    const fetchPatientsData=()=>{
+    socket.emit('register', doctorName, doctorUniqueId);
     socket.on('notification',(PatientData)=>{
       console.log(PatientData.patientdetails)
       setMessageNotifi(PatientData.patientdetails)

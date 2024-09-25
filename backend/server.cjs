@@ -79,7 +79,10 @@ app.post('/login', async (req, res) => {
         if (RegAccount) {
             req.session.profileAccount = RegAccount
             req.session.Name = RegAccount.fullName
+            req.session._id = RegAccount._id
             req.session.profile = RegAccount.profile.toString('base64')
+            // console.log(RegAccount._id)
+            // console.log(RegAccount._id)
 
             const LoginData = { loginemail, loginpassword }
             const doctorlogin = DoctorLogin(LoginData)
@@ -121,7 +124,7 @@ app.post('/homepage', (req, res) => {
     try {
         if (req.session.Name) {
             {
-                res.status(200).json({ message_name: req.session.Name, message_profile: req.session.profile })
+                res.status(200).json({ message_name: req.session.Name, message_profile: req.session.profile, message_id: req.session._id})
             }
 
         } else {
