@@ -34,22 +34,6 @@ export default function ChatRoomDoctor() {
             socket.off('privateMessageToClient');
         };
     }, []);
-
-    const fetchMessages = async () => {
-        try {
-            const res = await fetch(`http://localhost:2000/api/messages/${doctorUniqueId}`);
-            const data = await res.json();
-            setstoreMessages(data);
-        } catch (error) {
-            console.error("Error fetching messages:", error);
-        }
-    };
-
-    useEffect(() => {
-        if (doctorUniqueId) {
-            fetchMessages();
-        }
-    }, [doctorUniqueId]);
     
     // const submitMessage = (event) => {
     //     event.preventDefault();

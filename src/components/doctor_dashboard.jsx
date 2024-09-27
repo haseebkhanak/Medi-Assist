@@ -21,11 +21,11 @@ export default function LogoutHome() {
         navigateNotifi("/notifi",{ state: {doctorName,doctorUniqueId} })
     }
 
-    const navigateChatRoom=useNavigate()
-    const chat_room=(doctorName,doctorUniqueId)=>{
-        navigateChatRoom('/chatdoctor',{ state: {doctorName,doctorUniqueId} });
+    // const navigateChatRoom=useNavigate()
+    // const chat_room=(doctorName,doctorUniqueId)=>{
+    //     navigateChatRoom('/chatdoctor',{ state: {doctorName,doctorUniqueId} });
         
-    }
+    // }
 
     const fetchusername = async () => {
 
@@ -126,7 +126,7 @@ export default function LogoutHome() {
                             <p className='text-xl'>{messageTwo.showProfile_message.edu}</p>
                             <p className='text-xl'>{messageTwo.showProfile_message.experience} years Experience </p>
                         </fieldset>
-                        <button type="button" style={{padding:"10px",marginLeft:"370px"}} className='mt-10 bg-black text-white rounded' onClick={() => chat_room(messageTwo.showProfile_message.fullName,messageTwo.showProfile_message._id)}>Chat With Patient</button>
+                        {/* <button type="button" style={{padding:"10px",marginLeft:"370px"}} className='mt-10 bg-black text-white rounded' onClick={() => chat_room(messageTwo.showProfile_message.fullName,messageTwo.showProfile_message._id)}>Chat With Patient</button> */}
                     </div>
                 )}
                 </div>

@@ -10,7 +10,6 @@ const socket = io('http://localhost:3000');
 export default function MessageNotifications(){
   const [messageNotifi,setMessageNotifi]=useState('')
   const [message,setMessage]=useState('')
-
   
   const navigate = useNavigate()
   const doc_login = () => {
@@ -80,9 +79,12 @@ useEffect(()=>{
   fetchPatientsData()
 },[])
 
-const handleChatWithPatient = () => {
-    navigate("/chat-room", { state: { doctorName: messageNotifi.patientname, doctorUniqueId: messageNotifi.patientemail } });
-};
+ const navigateChatRoom=useNavigate()
+    const chat_room=(doctorName,doctorUniqueId)=>{
+        navigateChatRoom('/chatdoctor',{ state: {doctorName,doctorUniqueId} });
+        
+    }
+
 
 return(
         <>
@@ -117,7 +119,7 @@ return(
                 {messageNotifi && (
             <div className="notifi mt-40 ml-40 bg-pink-300 py-4 text-center">
                 <p className="text-xl">Patient <i>{messageNotifi.patientname}</i></p>
-                <button type="button" style={{padding:"10px"}} onClick={handleChatWithPatient} className='mt-5 bg-black text-white rounded hover:bg-green-300 hover:text-black'>
+                <button type="button" style={{padding:"10px"}}  onClick={() => chat_room(message.message_name,message.message_id)} className='mt-5 bg-black text-white rounded hover:bg-green-300 hover:text-black'>
                     Chat With Patient
                 </button>
             </div>
