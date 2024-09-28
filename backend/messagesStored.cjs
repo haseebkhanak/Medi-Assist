@@ -15,10 +15,10 @@ const MessageSchema = new mongoose.Schema({
     },
     delivered: {
         type: Boolean,
-        default: false  // Default is false, meaning the message has not been delivered yet
+        default: false  
     }
 }, {
-    timestamps: true // Automatically adds createdAt and updatedAt fields
+    timestamps: true 
 });
 
 module.exports = mongoose.model("Chatting", MessageSchema);

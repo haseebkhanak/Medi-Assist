@@ -30,7 +30,6 @@ export default function ChatRoomPatient() {
 
         if (message) {
             socket.emit('register',patientName,patientUniqueId);
-            socket.emit('message', message);
             socket.emit('privateMessage', { toUserId:doctorUniqueId, message: message });
 
                 socket.on('privateMessageToClient', ({ from, message }) => {
@@ -47,12 +46,25 @@ export default function ChatRoomPatient() {
         }
     }
 
+    useEffect(() => {
+        // socket.emit('register', patientName, patientUniqueId);
+        socket.on('privateMessageToClient', ({ from, message }) => {
+            console.log(`Message from Name: ${from.username} and ID: ${from.userId}): ${message}`);
+            console.log("patient ID:", patientUniqueId); 
+            setstoreMessages((prevMessages)=>[...prevMessages, message]);
+        });
+    
+        return () => {
+            socket.off('privateMessageToClient');
+        };
+    }, [patientName,patientUniqueId]);
+
     return (
         <>
-            <div className="showchat" style={{position:"absolute",overflowY: "auto", maxHeight: "400px" }}>
+            <div className="sendchat" style={{position:"absolute",overflowY: "auto", maxHeight: "400px" }}>
 
                 {storeMessages && storeMessages.map((msg,index) =>
-                    <div key={index} className="chat-message">
+                    <div key={index} className="chat-message-send">
                         {msg}
                     </div>)}
 

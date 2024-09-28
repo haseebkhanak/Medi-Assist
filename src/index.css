@@ -353,13 +353,28 @@ fieldset {
   border-radius: 20px;
 }
 
-.showchat{
+.sendchat{
   margin-left: 100px;
   width: 1250px;
   margin-top: 100px;
 }
 
-.chat-message {
+.chat-message-send{
+  padding: 10px;
+  margin-bottom: 10px; 
+  background-color: #302c2c; 
+  border-radius: 5px;
+  color: white;
+  width: fit-content; 
+}
+
+.receivechat{
+  margin-left: 100px;
+  width: 1250px;
+  margin-top: 100px;
+}
+
+.chat-message-receive{
   padding: 10px;
   margin-bottom: 10px; 
   background-color: #302c2c; 
