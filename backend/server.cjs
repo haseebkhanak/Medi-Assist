@@ -373,27 +373,27 @@ const users = {};
 io.on('connection', (socket) => {
     console.log(`User connected with socket ID: ${socket.id}`);
 
-    socket.on('register', async (username, userId) => {
+    socket.on('register', async (username, userId, role) => {
         socket.username = username;
         socket.userId = userId;
+        socket.role = role; 
         users[userId] = socket.id;
     
-        console.log(`User ${username} with ID ${userId} registered with socket ID ${socket.id}`);
+        console.log(`User ${username} with ID ${userId} and role ${role} registered with socket ID ${socket.id}`);
         console.log(`Current users online: `, users);
     
-        // Fetch and emit undelivered notifications
         try {
             const undeliveredNotifications = await Notification.find({ toUserId: userId, delivered: false });
-            if (undeliveredNotifications.length > 0) {
+            if (undeliveredNotifications) {
                 undeliveredNotifications.forEach(async (notification) => {
                     socket.emit('notification', {
-                        patientdetails: notification.patientdetails,
+                        senderDetails: notification.senderDetails,
                         message: notification.message 
                     });
-                    console.log(`Notification emitted to doctor: ${userId}`, notification.patientdetails);
+                    console.log(`Notification emitted to doctor: ${userId}`, notification.senderDetails);
     
                     notification.delivered = true;
-                    await notification.save(); // Mark notification as delivered
+                    await notification.save(); 
                     console.log(`Notification marked as delivered for ${userId}`);
                 });
                 console.log(`Delivered undelivered notifications to ${username}`);
@@ -404,17 +404,16 @@ io.on('connection', (socket) => {
             console.log("Error fetching undelivered notifications:", error);
         }
     
-        // Fetch and emit undelivered messages
         try {
-            const undeliveredMessages = await Messages.find({ toUserId: userId, delivered: false });
-            if (undeliveredMessages.length > 0) {
+            const undeliveredMessages = await Messages.find({ fromUserId:socket.userId, toUserId: userId, delivered: false });
+            if (undeliveredMessages) {
                 undeliveredMessages.forEach(async (msg) => {
                     socket.emit('privateMessageToClient', {
-                        from: { userId: msg.fromUserId, username: msg.username || 'Unknown' },
+                        from: { userId: msg.fromUserId, username: msg.username },
                         message: msg.message
                     });
                     msg.delivered = true; 
-                    await msg.save(); // Mark message as delivered
+                    await msg.save(); 
                 });
                 console.log(`Delivered undelivered messages to ${username}`);
             } else {
@@ -425,53 +424,58 @@ io.on('connection', (socket) => {
         }
     });
     
-
     socket.on('privateMessage', async ({ toUserId, message }) => {
         const recipientSocketId = users[toUserId];
-    
+        
         try {
-            const newMessage = new Messages({
-                fromUserId: socket.userId,
-                toUserId: toUserId,
-                message: message,
-                delivered: false
-            });
-            await newMessage.save();
+            let senderData;
     
-            const patientRegData = await PatientReg.findOne({ patientname: socket.username, _id: socket.userId });
-            if (patientRegData) {
+            if (socket.role === 'doctor') {
+                senderData = await DoctorReg.findOne({ fullName: socket.username, _id: socket.userId });
+            } else if (socket.role === 'patient') {
+                senderData = await PatientReg.findOne({ patientname: socket.username, _id: socket.userId });
+            }
+    
+            if (senderData) {
+                // Emit message to recipient if they are online
                 if (recipientSocketId) {
-                    // Recipient is online, send the message in real-time
                     io.to(recipientSocketId).emit('privateMessageToClient', {
-                        from: { userId: socket.userId, username: socket.username },
+                        from: { userId: socket.userId, username: socket.username },  // Unique sender
                         message: message
                     });
                     console.log(`Message sent to ${toUserId} from ${socket.userId}: ${message}`);
-    
-                    // Mark the message as delivered
-                    newMessage.delivered = true;
-                    await newMessage.save();
                 } else {
+                    // Store message if recipient is offline
                     console.log(`Recipient ${toUserId} is offline. Message saved for later delivery.`);
+                    
+                    const newMessage = new Messages({
+                        fromUserId: socket.userId,
+                        toUserId: toUserId,
+                        message: message,
+                        delivered: false
+                    });
+                    await newMessage.save();
                 }
     
-                // Save a notification in the database as undelivered
+                // Store notification for recipient
                 const newNotification = new Notification({
-                    fromUserId: socket.userId,
+                    fromUserId: socket.userId,  // Ensure this is unique for each sender
                     toUserId: toUserId,
-                    patientdetails: patientRegData,
+                    senderDetails: senderData,  // Ensure this contains the proper sender details
                     message: message,
                     delivered: false
                 });
                 await newNotification.save();
-                console.log(`Notification saved in the database for doctor ${toUserId}`);
+                console.log(`Notification saved in the database for recipient ${toUserId}`);
             } else {
-                console.log("No patient details found in the database");
+                console.log("No sender details found in the database");
             }
         } catch (error) {
-            console.log("Error fetching patient details:", error);
+            console.log("Error fetching sender details:", error);
         }
     });
+    
+    
     
     
 

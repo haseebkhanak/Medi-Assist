@@ -359,29 +359,31 @@ fieldset {
   margin-top: 100px;
 }
 
-.chat-message-send{
+.sendchat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   padding: 10px;
-  margin-bottom: 10px; 
-  background-color: #302c2c; 
-  border-radius: 5px;
-  color: white;
-  width: fit-content; 
 }
 
-.receivechat{
-  margin-left: 100px;
-  width: 1250px;
-  margin-top: 100px;
+.message-sent {
+  align-self: flex-end; 
+  background-color: rgb(252, 133, 153); 
+  color: black;
+  padding: 10px 15px;
+  border-radius: 15px;
+  width: fit-content;
 }
 
-.chat-message-receive{
-  padding: 10px;
-  margin-bottom: 10px; 
-  background-color: #302c2c; 
-  border-radius: 5px;
-  color: white;
-  width: fit-content; 
+.message-received {
+  align-self: flex-start; 
+  background-color: rgb(245, 199, 206); 
+  color: black;
+  padding: 10px 15px;
+  border-radius: 15px;
+  width: fit-content;
 }
+
 
 .notifi{
   width: 200px;

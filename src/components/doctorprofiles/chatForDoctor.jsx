@@ -5,15 +5,21 @@ import { useLocation } from "react-router-dom";
 const socket = io('http://localhost:3000');
 
 export default function ChatRoomDoctor() {
+//     const [storeMessages, setstoreMessages] = useState(() => {
+//         const savedMessages = localStorage.getItem("storeMessages");
+//         return savedMessages ? JSON.parse(savedMessages) : [];
+
+//  });
+    const [storeMessages, setStoreMessages] = useState([]);
     const [message, setMessage] = useState('')
-    const [storeMessages, setstoreMessages] = useState([])
     const lastMessageRef = useRef(null);
 
     const location = useLocation();
-    const {doctorName,doctorUniqueId,patientName,patientUniqueId}  = location.state || {}
+    const {doctorName,doctorUniqueId,patientName,patientUniqueId,messages}  = location.state || {}
 
     console.log("Doctor Name is ",doctorName,doctorUniqueId)
     console.log("Patient Name is ",patientName,patientUniqueId)
+    console.log("messages",messages)
 
     useEffect(() => {
         lastMessageRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -23,11 +29,36 @@ export default function ChatRoomDoctor() {
         setMessage(event.target.value)
     }
 
+    // useEffect(() => {
+    //     socket.emit('register', doctorName, doctorUniqueId, 'patient');
+    //     socket.on('privateMessageToClient', ({ fromUserId, message }) => {
+    //         console.log(`Message from user ${fromUserId}: ${message}`);
+    //         // setstoreMessages((prevMessages) => {
+    //         //     const updatedMessages = [...prevMessages, message];
+    //         //     localStorage.setItem("storeMessages", JSON.stringify(updatedMessages)); 
+    //         //     return updatedMessages;
+    //         // });
+    //         setStoreMessages((prevMessages) => [
+    //             ...prevMessages, 
+    //             { fromUserId, username: patientName, message }
+    //         ]);
+    //     });
+
+    //     return () => {
+    //         socket.off('privateMessageToClient');
+    //     };
+    // }, [doctorName, doctorUniqueId]);
     useEffect(() => {
-        socket.emit('register', doctorName, doctorUniqueId);
+        socket.emit('register', doctorName, doctorUniqueId, 'doctor');
+        
         socket.on('privateMessageToClient', ({ from, message }) => {
-            console.log(`Message from Name: ${from.username} and ID: ${from.userId}): ${message}`);
-            setstoreMessages((prevMessages) => [...prevMessages, message]);
+            console.log(`Message from ${from.userId}: ${message}`);
+            
+            // Add the message to the state with the correct sender's username
+            setStoreMessages((prevMessages) => [
+                ...prevMessages, 
+                { fromUserId: from.userId, username: from.username, message }  // Use sender's username
+            ]);
         });
     
         return () => {
@@ -35,28 +66,35 @@ export default function ChatRoomDoctor() {
         };
     }, [doctorName, doctorUniqueId]);
     
-    
+
     const submitMessage = (event) => {
         event.preventDefault();
-
+    
         if (message) {
-            socket.emit('register',doctorName,doctorUniqueId);
-            // socket.emit('message', message);
-            socket.emit('privateMessage', { toUserId:patientUniqueId, message: message });
-
-                socket.on('privateMessageToClient', ({ from, message }) => {
-                    console.log("Doctor ID:", doctorUniqueId);                
-                    console.log(`Message from ${from}: ${message}`);
-                });
-                setstoreMessages((prevMessages)=>[...prevMessages,message])
+            socket.emit('register', doctorName, doctorUniqueId, 'doctor');
+            socket.emit('privateMessage', { toUserId: patientUniqueId, message: message });
+            socket.on('privateMessageToClient', ({ from, message }) => {
+                console.log("Doctor ID:", doctorUniqueId);                
+                console.log(`Message from ${from}: ${message}`);
+            });
+            // setstoreMessages((prevMessages) => {
+            //     const updatedMessages = [...prevMessages, message];
+            //     localStorage.setItem("storeMessages", JSON.stringify(updatedMessages)); 
+            //     return updatedMessages;
+            // });
+            setStoreMessages((prevMessages) => [
+                ...prevMessages, 
+                { fromUserId: doctorUniqueId, username: "You", message }
+            ]);
             
-            setMessage('')
+            setMessage('');
         }
         if (!message) {
-            alert("Type Message")
-            return
+            alert("Type a message");
         }
-    }
+    };
+    
+    
     return (
         <>
           <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
@@ -65,15 +103,23 @@ export default function ChatRoomDoctor() {
 <div style={{marginLeft:"1080px"}}><p className="text-white text-xl font-black">MEDI ASSIST</p></div>
 </nav>
 
-<div className="sendchat" style={{position:"absolute",overflowY: "auto", maxHeight: "400px" }}>
+<div className="sendchat" style={{ position: "absolute", overflowY: "auto", maxHeight: "400px" }}>
+        {messages && (
+            <div className="message-received">
+                {patientName} : {messages}
+            </div>
+        )}
 
-{storeMessages && storeMessages.map((msg,index) =>
-    <div key={index} className="chat-message-send">
-        {msg}
-    </div>)}
+        {storeMessages && storeMessages.map((msg, index) => (
+            <div 
+                key={index} 
+                className={msg.fromUserId === doctorUniqueId ? "message-sent" : "message-received"}>
+                {msg.username} : {msg.message}
+            </div>
+        ))}
+    <div ref={lastMessageRef}></div>
+    </div>
 
-<div ref={lastMessageRef}></div>
-</div>
 
 
             <form action="" onSubmit={submitMessage}>

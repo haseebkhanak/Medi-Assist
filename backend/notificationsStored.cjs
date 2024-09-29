@@ -9,7 +9,7 @@ const NotificationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    patientdetails: {
+    senderDetails: {
         type: Object,
         required: true
     },
