@@ -114,7 +114,7 @@ export default function ChatRoomDoctor() {
             <div 
                 key={index} 
                 className={msg.fromUserId === doctorUniqueId ? "message-sent" : "message-received"}>
-                {msg.username} : {msg.message}
+            =-{msg.username} : {msg.message}
             </div>
         ))}
     <div ref={lastMessageRef}></div>
