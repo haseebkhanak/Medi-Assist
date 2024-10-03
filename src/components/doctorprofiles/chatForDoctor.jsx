@@ -53,11 +53,10 @@ export default function ChatRoomDoctor() {
         
         socket.on('privateMessageToClient', ({ from, message }) => {
             console.log(`Message from ${from.userId}: ${message}`);
-            
-            // Add the message to the state with the correct sender's username
+
             setStoreMessages((prevMessages) => [
                 ...prevMessages, 
-                { fromUserId: from.userId, username: from.username, message }  // Use sender's username
+                { fromUserId: from.userId, username: from.username, message } 
             ]);
         });
     
@@ -121,9 +120,6 @@ export default function ChatRoomDoctor() {
 
     <div ref={lastMessageRef}></div>
     </div>
-
-
-
             <form action="" onSubmit={submitMessage}>
                 <div className="flex">
                     <div>
