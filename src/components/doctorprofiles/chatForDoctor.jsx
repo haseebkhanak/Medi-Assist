@@ -110,13 +110,15 @@ export default function ChatRoomDoctor() {
             </div>
         )}
 
-        {storeMessages && storeMessages.map((msg, index) => (
-            <div 
-                key={index} 
-                className={msg.fromUserId === doctorUniqueId ? "message-sent" : "message-received"}>
-            =-{msg.username} : {msg.message}
-            </div>
-        ))}
+{storeMessages && storeMessages.filter((msg) => msg.fromUserId === patientUniqueId)  
+    .map((msg, index) => (
+        <div 
+            key={index} 
+            className={msg.fromUserId === doctorUniqueId ? "message-sent" : "message-received"}>
+            {msg.username} : {msg.message}
+        </div>
+    ))}
+
     <div ref={lastMessageRef}></div>
     </div>
 
