@@ -26,8 +26,8 @@ export default function Doctor_registration() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
-    const [confirmPassword, setconfirmPass] = useState("")
-    const [confirmpassError, setconfirmPassError] = useState("")
+    const [cityName, setcityName] = useState("")
+    const [cityNameError, setcityNameError] = useState("")
     const [edu, setEdu] = useState("")
     const [eduError, setEduError] = useState("")
     const [specialization, setSpecialization] = useState("")
@@ -84,11 +84,11 @@ export default function Doctor_registration() {
         }
     }
 
-    const handleconfirmPass = (event) => {
-        setconfirmPass(event.target.value)
+    const handleCity = (event) => {
+        setcityName(event.target.value)
 
-        if (password !== "") {
-            setconfirmPassError("")
+        if (cityName !== "") {
+            setcityNameError("")
         }
 
     }
@@ -165,13 +165,8 @@ export default function Doctor_registration() {
             return
         }
 
-        if (confirmPassword === "") {
-            setconfirmPassError("*Retype to confirm password")
-            return
-        }
-
-        if (password !== confirmPassword) {
-            setconfirmPassError("*Password are not same")
+        if (cityName === "") {
+            setconfirmPassError("*City Name is required")
             return
         }
 
@@ -206,7 +201,7 @@ export default function Doctor_registration() {
         formData.append('fullName', fullName);
         formData.append('email', email)
         formData.append('password', password);
-        formData.append('confirmPassword', confirmPassword);
+        formData.append('cityName', cityName);
         formData.append('edu', edu);
         formData.append('specialization', specialization);
         formData.append('experience', experience);
@@ -228,11 +223,11 @@ export default function Doctor_registration() {
     }
 
     const reset = () => {
-        if (fullName !== "" || email!=="" || password !== "" || confirmPassword !== "" || edu !== "" || specialization !== "" || experience !== "") {
+        if (fullName !== "" || email!=="" || password !== "" || cityName !== "" || edu !== "" || specialization !== "" || experience !== "") {
             setName('')
             setEmail('')
             setPassword('')
-            setconfirmPass('')
+            setcityName('')
             setEdu('')
             setSpecialization('')
             setExp('')
@@ -254,16 +249,6 @@ export default function Doctor_registration() {
         }
     }
 
-    const checkConfirmpass = () => {
-        let y = document.querySelector('#confirm_password')
-        if (y.type === "password") {
-            document.querySelector('#confirm_password').type = "text"
-        }
-
-        else {
-            document.querySelector('#confirm_password').type = "password"
-        }
-    }
     return (
         <>
 
@@ -342,12 +327,12 @@ export default function Doctor_registration() {
                                     </div> </div> <br />
 
                                 <div className="w-1/2 ml-10">
-                                    <label>Confirm Password <span className="text-red-500">*</span> <span className="ml-5"><input type="checkbox" onClick={checkConfirmpass} className="accent-pink-500" /> Show Password</span>
-                                        <input type="password" name="password" id="confirm_password" className="block py-1" placeholder="Retype Password..." value={confirmPassword} onChange={handleconfirmPass} />
+                                    <label>City <span className="text-red-500">*</span>
+                                        <input type="text" name="city" id="city" className="block py-1" placeholder="Lahore" value={cityName} onChange={handleCity} />
                                     </label>
 
-                                    <div className="confirmpassworderror">
-                                        <p className="text-red-600">{confirmpassError}</p>
+                                    <div className="cityNameerror">
+                                        <p className="text-red-600">{cityNameError}</p>
                                     </div>
                                 </div>
                             </div>

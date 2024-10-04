@@ -14,7 +14,7 @@ const doctorSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  confirmPassword: {
+  cityName: {
     type: String,
     required: true
   },

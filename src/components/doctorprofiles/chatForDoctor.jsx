@@ -108,8 +108,8 @@ export default function ChatRoomDoctor() {
                 {patientName} : {messages}
             </div>
         )}
-
-{storeMessages && storeMessages.filter((msg) => msg.fromUserId === patientUniqueId)  
+        
+{storeMessages && storeMessages.filter((msg) => msg.fromUserId === patientUniqueId || msg.fromUserId === doctorUniqueId)  
     .map((msg, index) => (
         <div 
             key={index} 

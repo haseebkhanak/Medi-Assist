@@ -120,7 +120,7 @@ border-radius: 20px;
 
 }
 
-#fullname,#email,#password,#confirm_password,#specialize,#exp{
+#fullname,#email,#password,#city,#specialize,#exp{
   box-shadow: inset 0 0 10px black;
   border-radius: 5px;
   padding-left: 10px;

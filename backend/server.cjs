@@ -35,7 +35,7 @@ app.use(session({
 const upload = multer();
 
 app.post('/reg', upload.single('profile'), async (req, res) => {
-    const { fullName, email, password, confirmPassword, edu, specialization, experience } = req.body;
+    const { fullName, email, password, cityName, edu, specialization, experience } = req.body;
     const profile = req.file.buffer;
 
     try {
@@ -54,7 +54,7 @@ app.post('/reg', upload.single('profile'), async (req, res) => {
         }
 
         if (!RegEmail || !RegPassword) {
-            const doctordata = { fullName, email, password, confirmPassword, edu, specialization, experience, profile }
+            const doctordata = { fullName, email, password, cityName, edu, specialization, experience, profile }
             const DoctorRegistration = DoctorReg(doctordata)
             await DoctorRegistration.save()
             console.log("Data inserted")
