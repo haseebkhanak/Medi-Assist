@@ -12,6 +12,12 @@ export default function DermProfiles(){
         
     }
 
+    const navigatevideoroom=useNavigate()
+    const video_room=(patientName,patientUniqueId)=>{
+        navigatevideoroom('/videoroom', { state: {patientName,patientUniqueId} });
+        
+    }
+
     const navigatelogin=useNavigate()
     const patient_login = () => {
         navigatelogin("/patient-login")
@@ -100,7 +106,7 @@ const destroysession= async()=>{
             <button type="button" style={{padding:"10px"}} className='mt-20 bg-black text-white rounded' onClick={() => chat_room(doctorProfile.fullName,doctorProfile.profile,doctorProfile._id,message_name.message_name,message_name.message_id)}>Chat With Doctor</button>
             </div>
             <div>
-            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded'>Online Consultation</button> <br /> <br />
+            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded' onClick={()=>video_room(message_name.message_name,message_name.message_id)}>Online Consultation</button> <br /> <br />
             <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingRight:"13px",paddingLeft:"13px"}} className='text-white bg-pink-500 border border-pink-400 hover:bg-transparent hover:text-black hover:border-pink-500 rounded'>Book Appointment</button>
             </div>
     </div>

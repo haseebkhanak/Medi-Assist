@@ -185,7 +185,11 @@ const socket = io('http://localhost:3000');
 export default function MessageNotifications() {
     const [message, setMessage] = useState('');
     const [messageNotifi, setMessageNotifi] = useState([]);
-    const [senderDetails, setSenderDetails] = useState([]);
+    // const [senderDetails, setSenderDetails] = useState([]);
+    const [senderDetails, setSenderDetails] = useState(() => {
+        const savedDetails = localStorage.getItem("senderDetails");
+        return savedDetails ? JSON.parse(savedDetails) : [];
+    });
 
     const navigate = useNavigate();
 
@@ -245,12 +249,17 @@ export default function MessageNotifications() {
             socket.on('notification', (PatientData) => {
                 console.log("Received patient details:", PatientData.senderDetails);
                 console.log("Received message:", PatientData.message);
-
                 setSenderDetails((prevDetails) => {
+                    const updatedDetails = [...prevDetails, PatientData.senderDetails];
 
-                        return [...prevDetails, PatientData.senderDetails];
-
+                    // Return the updated state and persist to local storage
+                    localStorage.setItem("senderDetails", JSON.stringify(updatedDetails));
+                    return updatedDetails;
                 });
+                //  setSenderDetails(() => {
+                //     const updatedMessages = [PatientData.senderDetails];
+                //     localStorage.setItem("senderDetails", JSON.stringify(updatedMessages));
+                // });
 
                 setMessageNotifi((prevMessages) => {
                     const senderExists = prevMessages.find(
@@ -286,19 +295,11 @@ export default function MessageNotifications() {
     const chat_room = (patientName, patientUniqueId, doctorName, doctorUniqueId, messages) => {
         navigate('/chatdoctor', { state: { patientName, patientUniqueId, doctorName, doctorUniqueId, messages } });
     };
-    // const chat_room = (patientName, patientUniqueId, doctorName, doctorUniqueId, messages) => {
-    //     navigate('/chatdoctor', {
-    //         state: {
-    //             patientName,
-    //             patientUniqueId,
-    //             doctorName,
-    //             doctorUniqueId,
-    //             messages: messages.map(msg => msg.message) // Extract just the message strings if needed
-    //         }
-    //     });
-    // };
-    
 
+    useEffect(() => {
+        localStorage.setItem("senderDetails", JSON.stringify(senderDetails));
+    }, [senderDetails]);
+ 
     return (
         <>
             <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
