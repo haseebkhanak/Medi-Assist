@@ -12,7 +12,7 @@ export default function VideoCallRomm(){
     const meeting=async(element)=>{
         let appID = 1789141898;
         let server = "d486d224edf9e1860e805252c0488302";
-        const roomId="553417"
+        const roomId=patientUniqueId
         const kittoken=ZegoUIKitPrebuilt.generateKitTokenForTest(appID,server,roomId,patientUniqueId,patientName)
         const zc=ZegoUIKitPrebuilt.create(kittoken)
         zc.joinRoom({
