@@ -12,7 +12,7 @@ import DermProfiles from './components/doctorprofiles/dermatologistProfile';
 import ChatRoomPatient from './components/doctorprofiles/chatForPatient';
 import ChatRoomDoctor from './components/doctorprofiles/chatForDoctor';
 import MessageNotifications from './components/message_notifications';
-import VideoCallRomm from './components/videocall';
+import VideoCallRomm from './components/patientvideocall';
 
 export default function App() {
   return (

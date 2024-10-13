@@ -376,10 +376,6 @@ io.on('connection', (socket) => {
         }
     });
     
-    
-    
-    
-
     socket.on('disconnect', () => {
         console.log(`User with socket ID ${socket.id} disconnected`);
         delete users[socket.userId]; 
@@ -387,6 +383,22 @@ io.on('connection', (socket) => {
     });
 });
 
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    // Listen for incoming call requests
+    socket.on('callUser', (data) => {
+        io.to(data.to).emit('callIncoming', {
+            from: data.from,
+            name: data.name,
+        });
+    });
+
+    // Listen for call answer
+    socket.on('answerCall', (data) => {
+        io.to(data.to).emit('callAccepted', data);
+    });
+});
 
     server.listen(3000,()=>{
         console.log("Server is listening")

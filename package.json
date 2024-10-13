@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@zegocloud/zego-uikit-prebuilt": "^2.10.0",
+    "@zegocloud/zego-uikit-prebuilt": "^2.10.2",
     "classnames": "^2.5.1",
     "cors": "^2.8.5",
     "express": "^4.19.2",
@@ -23,7 +23,8 @@
     "react-router-dom": "^6.25.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "zego-zim-web": "^2.9.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
