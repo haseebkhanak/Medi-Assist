@@ -11,12 +11,13 @@ import ZIM from 'zego-zim-web';
 export default function LogoutHome() {
     const [message, setMessage] = useState('');
     const [messageTwo, setMessageTwo] = useState('');
-    const [incomingCall, setIncomingCall] = useState(true); // To track if there's an incoming call
     const [callerName, setCallerName] = useState("");
 
     const navigate = useNavigate();
+    const confirmDialogRef = useRef(null);
     const acceptButtonRef = useRef(null);
     const refuseButtonRef = useRef(null);
+    const blurBody = useRef(null);
 
     const doc_login = () => {
         navigate("/doctor-login");
@@ -93,9 +94,8 @@ export default function LogoutHome() {
     };
 
     useEffect(() => {
-        // Call DoctorIncomingCall only if doctor details are available
         if (message.message_id && message.message_name) {
-            DoctorIncomingCall();  // Initialize the call invitation config
+            DoctorIncomingCall(); 
         } else {
             console.log("Waiting for doctor details...");
         }
@@ -109,16 +109,16 @@ export default function LogoutHome() {
             const doctorUniqueId = message.message_id;
             const doctorName = message.message_name;
 
-            console.log("Doctor Name: ", doctorName);
-            console.log("Doctor Unique ID: ", doctorUniqueId);
+            // console.log("Doctor Name: ", doctorName);
+            // console.log("Doctor Unique ID: ", doctorUniqueId);
 
-            if (!doctorUniqueId || !doctorName) {
-                console.error("Doctor details are missing!");
-                return; // Avoid proceeding if doctor details are not available
-            }
+            // if (!doctorUniqueId || !doctorName) {
+            //     console.error("Doctor details are missing!");
+            //     return; // Avoid proceeding if doctor details are not available
+            // }
 
             const kittoken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, server, null, doctorUniqueId, doctorName);
-            console.log("Kit Token generated:", kittoken);
+            // console.log("Kit Token generated:", kittoken);
 
             zc = ZegoUIKitPrebuilt.create(kittoken);
             zc.addPlugins({ ZIM });
@@ -126,38 +126,49 @@ export default function LogoutHome() {
             zc.setCallInvitationConfig({
                 enableCustomCallInvitationDialog: true,
                 onConfirmDialogWhenReceiving: (callType, caller, refuse, accept, data) => {
-                    console.log("Incoming call from:", caller.userName);  // Debugging log
-                    setIncomingCall(true);  // Show the custom dialog
-                    setCallerName(caller.userName);  // Set the caller's name
+                    // console.log("Incoming call from:", caller.userName);  // Debugging log
+                    confirmDialogRef.current.style.display="block"
+                    blurBody.current.style.display="block"
+                    setCallerName(caller.userName); 
 
                     // Accept or Refuse the call
                     if (acceptButtonRef.current && refuseButtonRef.current) {
                         acceptButtonRef.current.onclick = () => {
-                            console.log("Accepting call...");  // Debugging log
-                            accept(); // Accept the call
-                            setIncomingCall(false); // Hide the custom dialog
+                            console.log("Accepting call...");
+                            accept(); 
+                            confirmDialogRef.current.style.display="none"
+                            blurBody.current.style.display="none"
                         };
 
                         refuseButtonRef.current.onclick = () => {
-                            console.log("Refusing call...");  // Debugging log
-                            refuse(); // Reject the call
-                            setIncomingCall(false); // Hide the custom dialog
+                            console.log("Refusing call..."); 
+                            refuse(); 
+                            confirmDialogRef.current.style.display="none"
+                            blurBody.current.style.display="none"
                         };
                     }
                 },
                 onCallInvitationEnded: (reason) => {
-                    console.log("Call invitation ended:", reason);  // Debugging log
-                    setIncomingCall(false);  // Hide the custom dialog when the call invitation ends
+                    console.log("Call invitation ended:", reason);  
+                    confirmDialogRef.current.style.display="none"
+                    blurBody.current.style.display="none"
                 }
             });
         } catch (err) {
-            console.error("Error in DoctorIncomingCall:", err);  // Add error handling
+            console.error("Error in DoctorIncomingCall:", err); 
         }
     };
 
     return (
         <>
-            <div className="blurTwo"></div>
+            <div className="blurTwo" ref={blurBody}></div>
+
+            <div id="confirmDialog" ref={confirmDialogRef}>
+                        <div className='text-center text-3xl mt-10'>{callerName}</div>
+                        <div id="caller" className='text-xl text-center mt-5'>Incoming call...</div>
+                        <button id="acceptButton" ref={acceptButtonRef} className='bg-green-400 px-4 py-2 border mt-7 text-white' style={{marginLeft:"45px", borderRadius:"10px"}}>Accept</button>
+                        <button id="refuseButton" ref={refuseButtonRef} className='bg-red-500 px-4 py-2 border text-white' style={{marginLeft:"100px", borderRadius:"10px"}}>Refuse</button>
+                    </div>
 
             <div className="profile">
                 <div id='doctorprofile' className='relative rounded-lg'>
@@ -215,17 +226,10 @@ export default function LogoutHome() {
                     <img src={Doctor} alt="no" />
                     <h2 className='font-black text-blue-100 ml-12 mt-10'>Welcome To <span className='text-red-600'>Medi Assist</span> <br />
                         <span className='text_two'>A Platform where Patients can Connect with Doctors for <span className='text-black'><i>Real Time Consultation</i></span></span></h2>
-                </div>
-
-                {incomingCall && (
-                    <div id="confirmDialog" style={{ display: 'block', border: '1px solid black', padding: '20px', backgroundColor: 'white' }}>
-                        <div id="caller">Incoming call from {callerName}</div>
-                        <button id="acceptButton" ref={acceptButtonRef}>Accept</button>
-                        <button id="refuseButton" ref={refuseButtonRef}>Refuse</button>
-                    </div>
-                )}
+                </div> <br /> <br />
 
                 <Image_slider />
+
             </div>
         </>
     );

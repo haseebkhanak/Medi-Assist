@@ -390,6 +390,17 @@ fieldset {
   /* background-color: black; */
 }
 
+#confirmDialog{
+  width: 350px;
+  height: 200px;
+  background-color: white;
+  border-radius: 20px;
+  position: absolute;
+  margin-top: 200px;
+  margin-left: 530px;
+  z-index: 2;
+  display: none;
+ }
     
 @keyframes mymove {
   from {left: 0px;}

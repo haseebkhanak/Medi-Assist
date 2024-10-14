@@ -6,24 +6,20 @@ import ZIM from "zego-zim-web";
 export default function VideoCallRoom() {
     const location = useLocation();
     const { doctorName, doctorUniqueId, patientName, patientUniqueId } = location.state || {};
-    const meetingContainerRef = useRef(null); // Reference to the meeting container
-    let zc; // Declare the zc variable here to be accessible in invite function
+    const meetingContainerRef = useRef(null);
+    const callButtonRef = useRef(null);
 
-    console.log("Patient Name is ", patientName);
-    console.log("Patient Id is ", patientUniqueId);
-    console.log("Doctor Name is ", doctorName);
-    console.log("Doctor Id is ", doctorUniqueId);
+    let zc;
 
     const meeting = async () => {
         let appID = 1789141898;
         let server = "d486d224edf9e1860e805252c0488302";
-        const roomId = patientUniqueId; // Room ID can be unique to this session
+        const roomId = patientUniqueId;
         const kittoken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, server, roomId, patientUniqueId, patientName);
-        
+
         zc = ZegoUIKitPrebuilt.create(kittoken);
         zc.addPlugins({ ZIM });
-        
-        // Ensure we have a valid element reference
+
         if (meetingContainerRef.current) {
             zc.joinRoom({
                 container: meetingContainerRef.current,
@@ -33,27 +29,34 @@ export default function VideoCallRoom() {
                         audio: true,
                         video: true
                     }
+                },
+                onJoinRoom: () => {
+                    if (callButtonRef.current) {
+                        callButtonRef.current.style.display = "none"; 
+                    }
                 }
             });
+
+            // zc.on("roomLeave", () => {
+            //     if (callButtonRef.current) {
+            //         callButtonRef.current.style.display = "block"; // Show the button when the room ends
+            //     }
+            // });
+
         } else {
             console.error("Meeting container not found.");
         }
     };
 
     const invite = async () => {
-        if (!doctorName || !doctorUniqueId) {
-            console.warn("Doctor details are missing!");
-            return; // Prevents inviting if details are missing
-        }
-
         const targetUser = {
-            userID: doctorUniqueId, // Correctly assigns the doctor's unique ID
-            userName: doctorName // Correctly assigns the doctor's name
+            userID: doctorUniqueId,
+            userName: doctorName
         };
 
         try {
             const res = await zc.sendCallInvitation({
-                callees: [targetUser], // Inviting the doctor
+                callees: [targetUser],
                 callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
                 timeout: 60
             });
@@ -64,13 +67,13 @@ export default function VideoCallRoom() {
     };
 
     useEffect(() => {
-        meeting(); // Start the meeting when the component mounts
+        meeting(); 
     }, []);
 
     return (
         <>
-            <div ref={meetingContainerRef} style={{ width: '100%', height: '100vh' }} /> {/* Video call UI container */}
-            <button onClick={invite}>Invite Doctor</button> {/* Button to invite the doctor */}
+            <div ref={meetingContainerRef} style={{ width: '100%', height: '100vh', position: "absolute" }} />
+            <button ref={callButtonRef} onClick={invite} style={{ marginTop: "420px", marginLeft: "755px", position: "relative", width: "350px", borderRadius: "10px" }} className="bg-black text-white px-2 py-3">Call Doctor</button>
         </>
     );
 }
