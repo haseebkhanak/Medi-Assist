@@ -27,6 +27,10 @@ export default function LogoutHome() {
         navigate("/notifi", { state: { doctorName, doctorUniqueId } });
     };
 
+    const prediction=()=>{
+        navigate("/medicine-recommendation")
+    }
+
     const fetchusername = async () => {
         try {
             const res = await fetch('http://localhost:2000/homepage', {
@@ -203,8 +207,8 @@ export default function LogoutHome() {
                         <a href="#" className="text-white ml-10 text-lg" onClick={viewProfile}>View Your Profile</a>
                     </div>
 
-                    <div className="search ml-20">
-                        <input type="text" placeholder='Search...' className='shadow py-1 px-4 rounded focus:outline-none' id='search' />
+                    <div className="predict ml-20">
+                    <button className="bg-pink-500 border border-black-400 text-white px-2 py-1 rounded" onClick={prediction}>Medicine Recommendation</button>
                     </div>
 
                     <div className="flex relative">
