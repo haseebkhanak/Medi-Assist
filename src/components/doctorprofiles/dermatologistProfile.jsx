@@ -12,15 +12,19 @@ export default function DermProfiles(){
         
     }
 
-    const navigatevideoroom=useNavigate()
+    const appointment_room=(doctorName,doctorPicture)=>{
+        navigate("/appointment",{ state: {doctorName,doctorPicture} })
+    }
+
+    // const navigatevideoroom=useNavigate()
     const video_room=(doctorName,doctorUniqueId,patientName,patientUniqueId)=>{
-        navigatevideoroom('/videoroom', { state: {doctorName,doctorUniqueId,patientName,patientUniqueId} });
+        navigate('/videoroom', { state: {doctorName,doctorUniqueId,patientName,patientUniqueId} });
         
     }
 
-    const navigatelogin=useNavigate()
+    // const navigatelogin=useNavigate()
     const patient_login = () => {
-        navigatelogin("/patient-login")
+        navigate("/patient-login")
     }
 
     const fetchusername= async()=>{
@@ -107,7 +111,7 @@ const destroysession= async()=>{
             </div>
             <div>
             <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded' onClick={()=>video_room(doctorProfile.fullName,doctorProfile._id,message_name.message_name,message_name.message_id)}>Online Consultation</button> <br /> <br />
-            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingRight:"13px",paddingLeft:"13px"}} className='text-white bg-pink-500 border border-pink-400 hover:bg-transparent hover:text-black hover:border-pink-500 rounded'>Book Appointment</button>
+            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingRight:"13px",paddingLeft:"13px"}} className='text-white bg-pink-500 border border-pink-400 hover:bg-transparent hover:text-black hover:border-pink-500 rounded' onClick={()=>appointment_room(doctorProfile.fullName,doctorProfile.profile)}>Book Appointment</button>
             </div>
     </div>
 )}

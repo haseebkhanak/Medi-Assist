@@ -14,6 +14,7 @@ import ChatRoomDoctor from './components/doctorprofiles/chatForDoctor';
 import MessageNotifications from './components/message_notifications';
 import VideoCallRomm from './components/patientvideocall';
 import MLIntegration from './components/prediction';
+import  Appointmentroom from './components/appointment';
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route path='/notifi' element={<MessageNotifications/>}></Route>
         <Route path='/videoroom' element={<VideoCallRomm/>}></Route>
         <Route path='/medicine-recommendation' element={<MLIntegration/>}></Route>
+        <Route path='/appointment' element={<Appointmentroom/>}></Route>
       </Routes>
     </Router>
   )
