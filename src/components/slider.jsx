@@ -21,7 +21,7 @@ function Image_slider()
 
         return(
           <>   
-          <div className='slider_images flex animate-pulse'>
+          <div className='slider_images flex'>
             <img src={images[count]} alt="" />
             <p className='texts ml-10 text-center italic text-red-400'>{text[count]} </p>
           </div>

@@ -12,8 +12,8 @@ export default function DermProfiles(){
         
     }
 
-    const appointment_room=(doctorName,doctorPicture)=>{
-        navigate("/appointment",{ state: {doctorName,doctorPicture} })
+    const appointment_room=(doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId)=>{
+        navigate("/appointment",{ state: {doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId }})
     }
 
     // const navigatevideoroom=useNavigate()
@@ -111,7 +111,7 @@ const destroysession= async()=>{
             </div>
             <div>
             <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingLeft:"10px",paddingRight:"10px"}} className='bg-transparent border border-pink-400 hover:bg-green-400 hover:text-white hover:border-green-500 rounded' onClick={()=>video_room(doctorProfile.fullName,doctorProfile._id,message_name.message_name,message_name.message_id)}>Online Consultation</button> <br /> <br />
-            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingRight:"13px",paddingLeft:"13px"}} className='text-white bg-pink-500 border border-pink-400 hover:bg-transparent hover:text-black hover:border-pink-500 rounded' onClick={()=>appointment_room(doctorProfile.fullName,doctorProfile.profile)}>Book Appointment</button>
+            <button type="button" style={{marginLeft:"250px",paddingTop:"10px",paddingBottom:"10px",paddingRight:"13px",paddingLeft:"13px"}} className='text-white bg-pink-500 border border-pink-400 hover:bg-transparent hover:text-black hover:border-pink-500 rounded' onClick={()=>appointment_room(doctorProfile.fullName,doctorProfile.profile,doctorProfile._id,message_name.message_name,message_name.message_id)}>Book Appointment</button>
             </div>
     </div>
 )}

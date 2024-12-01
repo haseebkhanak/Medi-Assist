@@ -4,6 +4,7 @@ const PatientReg = require('./PatientReg_Sch.cjs')
 const PatientLogin = require('./PatientLogin.cjs')
 const Messages=require('./messagesStored.cjs')
 const Notification=require('./notificationsStored.cjs')
+const Appointment=require('./appointment.cjs')
 const dbconnection = require('./dbConn.cjs')
 const express = require('express');
 const cors = require('cors');
@@ -402,6 +403,33 @@ io.on('connection', (socket) => {
 
     server.listen(3000,()=>{
         console.log("Server is listening")
+})
+
+app.post('/appointement',async (req,res)=>{
+    try {
+        const data=req.body
+        const appointmentData=Appointment(data)
+        await appointmentData.save()
+        res.status(200).json({message:"Ok"})
+        console.log("Data Inserted")
+        // console.log(req.body)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/see_appointement',async (req,res)=>{
+    const {doctorUniqueId}=req.body
+    try {
+        const appointmentDetail = await Appointment.find({doctorUniqueId:doctorUniqueId})
+        res.status(200).json({message:appointmentDetail})
+        console.log(appointmentDetail)
+        
+        
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 const port = 2000;

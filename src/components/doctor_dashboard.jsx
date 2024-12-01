@@ -31,6 +31,10 @@ export default function LogoutHome() {
         navigate("/medicine-recommendation")
     }
 
+    const appointment=(doctorUniqueId)=>{
+        navigate("/see-appointment",{ state: { doctorUniqueId } })
+    }
+
     const fetchusername = async () => {
         try {
             const res = await fetch('http://localhost:2000/homepage', {
@@ -204,7 +208,7 @@ export default function LogoutHome() {
 
                     <div>
                         <a href="#" className="text-white ml-20 text-lg" onClick={() => notifications(message.message_name, message.message_id)}>Notifications</a>
-                        <a href="#" className="text-white ml-10 text-lg" onClick={viewProfile}>View Your Profile</a>
+                        <a href="#" className="text-white ml-10 text-lg" onClick={() => appointment(message.message_id)}>Appointments</a>
                     </div>
 
                     <div className="predict ml-20">
