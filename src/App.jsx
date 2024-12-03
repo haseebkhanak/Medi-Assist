@@ -42,3 +42,32 @@ export default function App() {
   )
 }
 
+// App.js
+// import React from "react";
+// import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// import { NavbarProvider } from "./NavbarContext";
+// import Navbar from "./Navbar";
+// import Home from "./Home";
+// import Login from "./login";
+
+// const App = () => {
+//   return (
+//     <Router>
+//       <NavbarProvider>
+//         <Navbar />
+//         {/* <nav>
+//           Links to navigate between pages
+//           <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
+//         </nav> */}
+//         <Routes>
+//           <Route path="/home" element={<Home />} />
+//           <Route path="/login" element={<Login />} />
+//         </Routes>
+//       </NavbarProvider>
+//     </Router>
+//   );
+// };
+
+// export default App;
+
+
