@@ -423,7 +423,7 @@ app.post('/see_appointement',async (req,res)=>{
     const {doctorUniqueId}=req.body
     try {
         const appointmentDetail = await Appointment.find({doctorUniqueId:doctorUniqueId})
-        res.status(200).json({message:appointmentDetail})
+        res.status(200).json({appointmentFound:appointmentDetail})
         console.log(appointmentDetail)
         
         
