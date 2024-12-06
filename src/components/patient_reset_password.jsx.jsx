@@ -18,14 +18,22 @@ export default function PatientResetPassword() {
         navigatePatientLogin("/patient-login")
     }
    
+    const[patientemail,setPatientEmail]=useState('')
     const[patientpassword,setPatientPassword]=useState('')
     const[patientpasswordError,setPatientPasswordError]=useState('')
     const[confirmpatientpassword,setPatientconfirmPassword]=useState('')
     const[confirmpatientpasswordError,setPatientconfirmPasswordError]=useState('')
+    const[messageSuccess,setMessageSuccess]=useState('')
+    const[messageFail,setMessageFail]=useState('')
+    const[passwordfoundmessage,setpasswordfoundmessage]=useState('')
     const passwordRef= useRef(null)
     const confirmpasswordRef= useRef(null)
 
     let charpassword = /[@#!$%&]/
+
+    const PatientEmailHandler=(event)=>{
+        setPatientEmail(event.target.value)
+    }
 
     const PatientPasswordHandler=(event)=>{
         setPatientPassword(event.target.value)
@@ -83,9 +91,9 @@ export default function PatientResetPassword() {
                     setPatientconfirmPasswordError("")
                 }
 
-                const patientData={patientpassword,confirmpatientpassword}
+                const patientData={patientemail,patientpassword}
                 try {
-                    const data= await fetch('http://localhost:2000/resetPatientPassword',
+                    const res= await fetch('http://localhost:2000/resetPatientPassword',
                         {
                             method:"POST",
                             body: JSON.stringify(patientData),
@@ -95,17 +103,51 @@ export default function PatientResetPassword() {
                         }
                         
                     )
-                    const result=await data.json()
-                    setMessage(result)
+                    const result=await res.json()
+                    if(res.ok)
+                        {
+                            setMessageSuccess(result.messageSuccess)
+                            console.log(result.messageSuccess)
+                        }
+    
+                        else{
+                            setMessageFail(result.messageFail)
+                            setpasswordfoundmessage(result.passwordfoundmessage)
+                            console.log(result.messageFail)
+                            console.log(result.passwordfoundmessage)
+                        }
                 } catch (error) {
                     console.log(error)
                 }
 
             }
             
+            setTimeout(() => {
+                setMessageSuccess('')
+                setMessageFail('')
+                setpasswordfoundmessage('')
+            }, 5000);
+
     return (
         <>
 
+{messageSuccess && (
+<div className="alert bg-green-100 border border-green-700 text-green-800 px-4 py-3 rounded relative" role="alert" style={{position:"absolute",marginTop:"-70px"}}>
+    <p>{messageSuccess}</p>
+</div>
+)}
+
+{messageFail && (
+<div className="alert bg-red-100 border border-red-700 text-red-800 px-4 py-3 rounded relative" role="alert" style={{position:"absolute",marginTop:"-70px"}}>
+    <p>{messageFail}</p>
+</div>
+)}
+
+{passwordfoundmessage && (
+<div className="alert bg-red-100 border border-red-700 text-red-800 px-4 py-3 rounded relative" role="alert" style={{position:"absolute",marginTop:"-70px"}}>
+    <p>{passwordfoundmessage}</p>
+</div>
+)}
            <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-xl">
                 <img src={Logo} alt="Logo" className='logo' />
                 <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
@@ -117,8 +159,10 @@ export default function PatientResetPassword() {
            </nav> 
 
            <div className='signup' onSubmit={SignUpForm}>
-            <p className='text-pink-600 text-center text-4xl' style={{marginTop:"120px",paddingTop:"10px"}}>Reset Password</p> <br />
-            <form>    
+            <p className='text-black text-center text-xl' style={{marginTop:"170px",paddingTop:"15px"}}>Reset Password</p> <br />
+            <form>
+            <input  type="email" className='shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Email Address' value={patientemail} onChange={PatientEmailHandler}/> <br /> <br />
+            {/* <p className="text-red-600 ml-20">{patientpasswordError}</p>   */}
                 <input ref={confirmpasswordRef} type="password" className='shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Password...' value={patientpassword} onChange={PatientPasswordHandler}/>
                 <p className="text-red-600 ml-20">{patientpasswordError}</p> 
                 <br />

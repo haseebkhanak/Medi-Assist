@@ -18,7 +18,6 @@ export default function ForgotPasswordPatient() {
         navigatePatientLogin("/patient-login")
     }
     const[patientemail,setPatientEmail]=useState('')
-    // const[patientemailError,setPatientEmailError]=useState('')
     const[messageSuccess,setMessageSuccess]=useState('')
     const[messageFail,setMessageFail]=useState('')
 

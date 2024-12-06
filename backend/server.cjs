@@ -483,12 +483,25 @@ app.post('/forgotPasswordPatient', async (req, res) => {
 });
 
 app.post('/resetPatientPassword',async (req,res)=>{
-    const {patientpassword,confirmpatientpasswordError}=req.body
-    const patientemail=req.session.patientemail
+    const {patientemail,patientpassword}=req.body
     try {
-        // const appointmentDetail = await Appointment.find({doctorUniqueId:doctorUniqueId})
-        // res.status(200).json({appointmentFound:appointmentDetail}
-        console.log(patientemail)
+        const mailfound = await PatientReg.findOne({patientemail:patientemail})
+        const passwordfound=await PatientReg.findOne({ patientpassword:patientpassword })
+        if(passwordfound)
+            {
+                    res.status(401).json({ passwordfoundmessage: 'Password already present !' });
+                    return
+            }
+        if(mailfound)
+        {
+
+                await PatientReg.updateOne({patientemail:patientemail},{ $set: { patientpassword:patientpassword } } )
+                res.status(200).json({ messageSuccess: 'Password Updated !' });
+                // console.log(passwordfound)
+            }
+            else{
+                res.status(401).json({ messageFail: 'Incorrect Email !' });
+        }
         
         
     } catch (error) {
