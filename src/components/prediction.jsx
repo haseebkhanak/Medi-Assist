@@ -79,160 +79,72 @@ const MLIntegration = () => {
   };
 
   return (
-    <div>
-      <h1>ML Model Prediction</h1>
-      <form onSubmit={handleSubmit}>
-<input id="default-checkbox" type="checkbox" value="fever"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Fever</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="headache"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Headache</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="pain in body"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pain In Body</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="nausea"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Nausea</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="vomiting"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }}
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Vomiting</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="skin rash"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Skin Rash</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="runny nose"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Runny Nose</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="cough"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cough</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="sore throat"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sore Throat</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="sweating"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sweating</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="diarrhea"  
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Diarrhea</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="taste loss"   
-onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }} 
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Taste Loss</label> <br />
-
-<input id="default-checkbox" type="checkbox" value="fatigue" 
-  onChange={(e) => {
-    const { checked, value } = e.target;
-    setFeatures((prevFeatures) =>
-      checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
-    );
-  }}
-className="w-4 h-4 text-green-600 border-blue-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-<label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Fatigue</label> <br />
-
-
-        <button type="submit">Predict</button> <br />
+    <div className="flex flex-col items-center bg-gray-100 min-h-screen p-6">
+      <h1 className="text-3xl font-bold text-pink-600 mb-4">AI-Powered Health Diagnosis</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md"
+      >
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">Select Symptoms</h2>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            "fever",
+            "headache",
+            "pain in body",
+            "nausea",
+            "vomiting",
+            "skin rash",
+            "runny nose",
+            "cough",
+            "sore throat",
+            "sweating",
+            "diarrhea",
+            "taste loss",
+            "fatigue",
+          ].map((symptom) => (
+            <label key={symptom} className="flex items-center">
+              <input
+                type="checkbox"
+                value={symptom}
+                onChange={(e) => {
+                  const { checked, value } = e.target;
+                  setFeatures((prevFeatures) =>
+                    checked ? [...prevFeatures, value] : prevFeatures.filter((feature) => feature !== value)
+                  );
+                }}
+                className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
+              />
+              <span className="ml-2 text-gray-700 capitalize">{symptom}</span>
+            </label>
+          ))}
+        </div>
+        <button
+          type="submit"
+          className="w-full mt-4 bg-pink-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Predict
+        </button>
       </form>
+
       {diseasePrediction && (
-        <div>
-          <h2>Disease:</h2>
-          <p>{diseasePrediction}</p> <br />
+        <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md mt-6">
+          <h2 className="text-xl font-semibold text-gray-800">Disease Prediction:</h2>
+          <p className="text-gray-600 mt-2">{diseasePrediction}</p>
         </div>
       )}
 
-      {recommendedMedicines &&(
-        <div>
-        <h2>Medicines:</h2>
-        <p>{recommendedMedicines}</p> <br />
-      </div>
+      {recommendedMedicines && (
+        <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md mt-6">
+          <h2 className="text-xl font-semibold text-gray-800">Recommended Medicines:</h2>
+          <p className="text-gray-600 mt-2">{recommendedMedicines}</p>
+        </div>
       )}
 
-{prescription &&(
-        <div>
-        <h2>PRESCRIPTION:</h2>
-        <p>{prescription}</p>
-      </div>
+      {prescription && (
+        <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md mt-6">
+          <h2 className="text-xl font-semibold text-gray-800">Prescription:</h2>
+          <p className="text-gray-600 mt-2">{prescription}</p>
+        </div>
       )}
     </div>
   );

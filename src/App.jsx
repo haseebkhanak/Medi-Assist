@@ -16,6 +16,8 @@ import VideoCallRomm from './components/patientvideocall';
 import MLIntegration from './components/prediction';
 import Appointmentroom from './components/book_appointment';
 import SeeAppointment from './components/see_appointment';
+import AboutUs from './components/AboutUs';
+
 
 export default function App() {
   return (
@@ -23,6 +25,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/back_home" element={<Home />} />
+        <Route path='/about-us' element={<AboutUs/>}></Route>
         <Route path="/doctor-login" element={<Doctor_login />} />
         <Route path='/doctor-reg' element={<Doctor_registration />}></Route>
         <Route path='/logoutHome' element={<LogoutHome />}></Route>

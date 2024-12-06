@@ -21,12 +21,14 @@ export default function Patient_Reg() {
     const[patientname,setPatientName]=useState('')
     const[patientnameError,setPatientNameError]=useState('')
     const[patientemail,setPatientEmail]=useState('')
+    const[patientemailError,setPatientEmailError]=useState('')
     const[patientpassword,setPatientPassword]=useState('')
     const[patientpasswordError,setPatientPasswordError]=useState('')
     const[message,setMessage]=useState('')
 
     let charname = /^[a-zA-Z\s]+$/
     let charpassword = /[@#!$%&]/
+    let validateEmail=/^[a-zA-Z0-9._%+-]+@gmail\.com$/
     const PatientNameHandler=(event)=>{
         setPatientName(event.target.value)
         if (charname.test(patientname)) {
@@ -41,6 +43,7 @@ export default function Patient_Reg() {
     const PatientPasswordHandler=(event)=>{
         setPatientPassword(event.target.value)
     }
+    
 
     const checkpass = () => {
         let x = document.querySelector('#patientpassword')
@@ -78,6 +81,15 @@ export default function Patient_Reg() {
             {
                 alert("Enter Your Email")
                 return
+            }
+
+            if(!validateEmail.test(patientemail)){
+                setPatientEmailError("*Invalid Format")
+                return
+            }
+
+            if(validateEmail.test(patientemail)){
+                setPatientEmailError("")
             }
 
             if(patientpassword==="")
@@ -160,6 +172,7 @@ export default function Patient_Reg() {
 
                 <label className='patientemail text-lg ml-20'>Email</label>
                 <input type="email" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Email...' id='patientemail' value={patientemail} onChange={PatientEmailHandler}/>
+                <p className="text-red-600 ml-20">{patientemailError}</p> 
                 <br />
                 <label className='patientpassword text-lg ml-20'>Password</label><span className="ml-10"><input type="checkbox" onClick={checkpass} className="accent-pink-500" /> Show Password</span>
                 <input type="password" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Password...' id='patientpassword' value={patientpassword} onChange={PatientPasswordHandler}/>

@@ -6,6 +6,10 @@ export default function DermProfiles(){
     const [message,setMessage]=useState('')
     const [message_name,setMessage_name]=useState('')
 
+    const home_back=()=>{
+        navigate('/back_home')
+    }
+    
     const navigate=useNavigate()
     const chat_room=(doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId)=>{
         navigate('/chatpatient', { state: {doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId} });
@@ -123,7 +127,7 @@ const destroysession= async()=>{
 
                     <div>
                         <a href="#" className="text-white ml-20 text-lg">About Us</a>
-                        <a href="#" className="text-white ml-10 text-lg">Doctors Profiles</a>
+                        <a href="#" className="text-white ml-20 text-lg" onClick={home_back}>Home</a>
                     </div>
 
                     <div className="search ml-20">

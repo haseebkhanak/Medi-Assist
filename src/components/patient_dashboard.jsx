@@ -14,6 +14,10 @@ export default function PatientDashboard(){
         navigate("/patient-login")
     }
 
+    const about_us = () => {
+        navigate("/about-us")
+    }
+
     const navigateDermProfile=useNavigate()
     const DermProfile=()=>{
         navigateDermProfile('/derm_profiles')
@@ -84,7 +88,7 @@ export default function PatientDashboard(){
             <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
             <div>
-            <a href="#" className="text-white ml-20 text-lg">About Us</a>
+            <a href="#" className="text-white ml-20 text-lg" onClick={about_us}>About Us</a>
             <a href="#" className="text-white ml-10 text-lg"  onClick={showProfiles}>Doctors Profiles</a>
             </div>
 

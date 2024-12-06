@@ -24,6 +24,7 @@ export default function Doctor_registration() {
     const [fullName, setName] = useState("")
     const [nameError, setNameError] = useState("")
     const [email, setEmail] = useState("")
+    const [emailError, setEmailError] = useState("")
     const [password, setPassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [cityName, setcityName] = useState("")
@@ -74,6 +75,7 @@ export default function Doctor_registration() {
 
     const handleEmail = (event) => {
         setEmail(event.target.value)
+        
     }
 
     const handlePassword = (event) => {
@@ -120,6 +122,7 @@ export default function Doctor_registration() {
 
     let charname = /^[a-zA-Z\s]+$/
     let charpassword = /[@#!$%&]/
+    let validateEmail=/^[a-zA-Z0-9._%+-]+@gmail\.com$/
 
     const formSubmit = async (event) => {
         
@@ -146,6 +149,11 @@ export default function Doctor_registration() {
 
         if (fullName.length < 6) {
             setNameError("*Write your Full Name")
+            return
+        }
+
+        if(!validateEmail.test(email)){
+            alert("Invalid Email")
             return
         }
 
@@ -312,6 +320,10 @@ export default function Doctor_registration() {
                                     <label>Email <span className="text-red-500">*</span>
                                         <input type="email" name="email" id="email" className="block py-1" placeholder="xyz@xyz.com" required value={email} onChange={handleEmail} />
                                     </label>
+
+                                    {/* <div className="emailerror">
+                                <p className="text-red-600">{emailError}</p>
+                            </div> <br /> */}
                                 </div>
                             </div>
 
