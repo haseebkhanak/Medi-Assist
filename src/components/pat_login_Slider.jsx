@@ -19,6 +19,11 @@ export default function Image_slider_login_patient()
     const patient_home_dashboard=()=>{
         navigatePatientLogoutHome('/patientlogoutHome')
     }
+
+    const navigateFogotPassword = useNavigate()
+    const forgotPassPatient = () => {
+        navigateFogotPassword("/forgot-password-patient")
+    }
     
     const handleloginemail=(event)=>{
         getPatientloginemail(event.target.value)
@@ -112,6 +117,9 @@ export default function Image_slider_login_patient()
                 <button type="submit" className='login_btn bg-pink-400 border border-pink-500 text-white text-xl py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded'>Login</button>
                 <button type="button" className='mt-3 block reg_btn bg-black border border-black text-white text-xl py-2 hover:bg-transparent hover:text-black hover:border-black rounded' style={{paddingLeft:57}} onClick={regPatient}>Register Account</button>
             </form>
+            <div className='flex justify-center mt-3 ml-10'>
+            <button type='submit' className='text-blue-900' onClick={forgotPassPatient}>Forgot Password ?</button>
+            </div>
         </div>
 
         </div>

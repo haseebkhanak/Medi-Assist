@@ -12,6 +12,8 @@ const multer = require('multer');
 const session = require('express-session')
 const socket_io=require('socket.io')
 const http=require('http')
+const crypto = require('crypto');
+const nodemailer=require('nodemailer')
 
 const app = express();
 const server=http.createServer(app)
@@ -425,6 +427,68 @@ app.post('/see_appointement',async (req,res)=>{
         const appointmentDetail = await Appointment.find({doctorUniqueId:doctorUniqueId})
         res.status(200).json({appointmentFound:appointmentDetail})
         console.log(appointmentDetail)
+        
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/forgotPasswordPatient', async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'hsk274118@gmail.com', 
+            pass: 'xiky jhpp hxac azyj', 
+        },
+    });
+    const { patientemail } = req.body;
+    req.session.patientemail = patientemail
+    console.log(`Received password reset request for email: ${patientemail}`);
+
+    try {
+        const chkPatientEmail = await PatientReg.findOne({ patientemail:patientemail });
+        if (!chkPatientEmail) {
+            return res.status(404).json({ emailFound: false, messageFail: 'Invalid Email!' });
+        }
+
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+        chkPatientEmail.resetToken = hashedToken; 
+        chkPatientEmail.tokenExpiry = Date.now() + 3600000; 
+        await chkPatientEmail.save();
+
+        const resetLink = `http://localhost:5173/patient-reset-password?token=${resetToken}`;
+
+        const mailOptions = {
+            from: 'hsk274118@gmail.com',
+            to: patientemail,
+            subject: 'Password Reset Request',
+            html: `
+                <p>You requested to reset your password. Click the link below to reset it:</p>
+                <a href="${resetLink}">${resetLink}</a>
+                <p>If you did not request this, please ignore this email.</p>
+            `,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ emailFound: true, messageSuccess: 'Password reset email sent successfully.' });
+        console.log('Password reset email sent successfully.');
+        console.log(req.session.patientemail)
+    } catch (error) {
+        console.log('Error handling password reset request:', error);
+        res.status(500).json({ errorMessage: 'An error occurred while processing your request.' });
+    }
+});
+
+app.post('/resetPatientPassword',async (req,res)=>{
+    const {patientpassword,confirmpatientpasswordError}=req.body
+    const patientemail=req.session.patientemail
+    try {
+        // const appointmentDetail = await Appointment.find({doctorUniqueId:doctorUniqueId})
+        // res.status(200).json({appointmentFound:appointmentDetail}
+        console.log(patientemail)
         
         
     } catch (error) {

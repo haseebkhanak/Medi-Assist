@@ -17,6 +17,8 @@ import MLIntegration from './components/prediction';
 import Appointmentroom from './components/book_appointment';
 import SeeAppointment from './components/see_appointment';
 import AboutUs from './components/AboutUs';
+import ForgotPasswordPatient from './components/forgotPassPatient';
+import PatientResetPassword from './components/patient_reset_password.jsx';
 
 
 export default function App() {
@@ -40,6 +42,8 @@ export default function App() {
         <Route path='/medicine-recommendation' element={<MLIntegration/>}></Route>
         <Route path='/appointment' element={<Appointmentroom/>}></Route>
         <Route path='/see-appointment' element={<SeeAppointment/>}></Route>
+        <Route path='/forgot-password-patient' element={<ForgotPasswordPatient/>}></Route>
+        <Route path='/patient-reset-password' element={<PatientResetPassword/>}></Route>
       </Routes>
     </Router>
   )

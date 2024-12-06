@@ -17,7 +17,7 @@ export default function Patient_Reg() {
     const patient_login = () => {
         navigatePatientLogin("/patient-login")
     }
-    
+   
     const[patientname,setPatientName]=useState('')
     const[patientnameError,setPatientNameError]=useState('')
     const[patientemail,setPatientEmail]=useState('')
@@ -178,7 +178,7 @@ export default function Patient_Reg() {
                 <input type="password" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Password...' id='patientpassword' value={patientpassword} onChange={PatientPasswordHandler}/>
                 <p className="text-red-600 ml-20">{patientpasswordError}</p> 
                 <br />
-                <button type="submit" className='bg-pink-400 border border-pink-500 text-white text-xl px-2 py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded ml-40'>Register</button>
+                <button type="submit" className='mb-10 bg-pink-400 border border-pink-500 text-white text-xl px-2 py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded ml-40'>Register</button>
                 
             </form>
         </div>

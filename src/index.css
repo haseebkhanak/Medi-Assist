@@ -335,7 +335,7 @@ fieldset {
 .signup{
   /* position: relative; */
   width: 400px;
-  height: 450px;
+  /* height: 450px; */
   background-color: white;
   margin: auto;
   box-shadow: 10px 10px 40px rgb(107, 102, 102);
