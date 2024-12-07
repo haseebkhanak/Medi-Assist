@@ -121,12 +121,27 @@ export default function PatientResetPassword() {
                 }
 
             }
-            
-            setTimeout(() => {
-                setMessageSuccess('')
-                setMessageFail('')
-                setpasswordfoundmessage('')
-            }, 5000);
+         
+            useEffect(()=>{
+                setTimeout(() => {
+                    setMessageSuccess('')
+                }, 5000);
+
+            },[messageSuccess])
+
+            useEffect(()=>{
+                setTimeout(() => {
+                    setMessageFail('')
+                }, 5000);
+
+            },[messageFail])
+
+            useEffect(()=>{
+                setTimeout(() => {
+                    setpasswordfoundmessage('')
+                }, 5000);
+
+            },[passwordfoundmessage])
 
     return (
         <>
