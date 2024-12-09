@@ -1,3 +1,4 @@
+// require('dotenv').config()
 const DoctorReg = require('./DoctorReg_Sch.cjs')
 const DoctorLogin = require('./DoctorLogin_Sch.cjs')
 const PatientReg = require('./PatientReg_Sch.cjs')
@@ -14,7 +15,7 @@ const socket_io=require('socket.io')
 const http=require('http')
 const crypto = require('crypto');
 const nodemailer=require('nodemailer')
-
+const jwt = require('jsonwebtoken');
 const app = express();
 const server=http.createServer(app)
 
@@ -72,14 +73,38 @@ app.post('/reg', upload.single('profile'), async (req, res) => {
 
 });
 
+// console.log('Loaded JWT_SECRET_KEY:', process.env.JWT_SECRET_KEY);
+const JWT_SECRET_KEY ='0cfc12fe98d79b2e1852d7efeb39398ff06d8d2735b92a8dfe1d01fc1782dc2c711bdcbfd5813c629a3537baafbb96c6b65569c9fb8cd946229697d423cb7471bc486751171f768f35695cee8356bc7602b1ca2612d1c0f42f6d0ae67a84e9503a5cd9f906d2ca80b110b4b03870b7d74ec42d930d0045d448880bf17ff879f7e1dfb118b53d95656c69d2aaabe9f333a3b5032fac80abf024c599f7042bfb8e65d792b6cb11b85b835d966742b0e5e922fd0ab0f7eede6ab5287dfbbb6f0992'
+console.log(JWT_SECRET_KEY)
 app.post('/login', async (req, res) => {
-
     const { loginemail, loginpassword } = req.body
-
+    
+    // const { JWT_SECRET_KEY }=process.env
     try {
-
+        // const secretKey = crypto.randomBytes(64).toString('hex');
+        console.log(JWT_SECRET_KEY)
         const RegAccount = await DoctorReg.findOne({ email: loginemail, password: loginpassword })
         if (RegAccount) {
+            
+            const header = {
+                alg : "HS256",
+                typ : "JWT"
+            };
+
+            const payload = {
+                doctorId: RegAccount._id,
+                name: RegAccount.fullName,
+                email: RegAccount.email
+            };
+
+              const options = {
+                expiresIn: '1h', 
+                header
+              };
+
+            const token = jwt.sign(payload, JWT_SECRET_KEY, options);
+            console.log('Generated JWT:', token);
+
             req.session.profileAccount = RegAccount
             req.session.Name = RegAccount.fullName
             req.session._id = RegAccount._id
@@ -90,7 +115,7 @@ app.post('/login', async (req, res) => {
             const LoginData = { loginemail, loginpassword }
             const doctorlogin = DoctorLogin(LoginData)
             await doctorlogin.save()
-            res.status(200).json({ message: 'Login successfully', type: "success" })
+            res.status(200).json({ message: 'Login successfully', type: "success", token:token})
 
         }
 
@@ -443,9 +468,7 @@ app.post('/forgotPasswordPatient', async (req, res) => {
         },
     });
     const { patientemail } = req.body;
-    req.session.patientemail = patientemail
     console.log(`Received password reset request for email: ${patientemail}`);
-
     try {
         const chkPatientEmail = await PatientReg.findOne({ patientemail:patientemail });
         if (!chkPatientEmail) {
@@ -502,8 +525,78 @@ app.post('/resetPatientPassword',async (req,res)=>{
             else{
                 res.status(401).json({ messageFail: 'Incorrect Email !' });
         }
-        
-        
+              
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/forgotPasswordDoctor', async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'hsk274118@gmail.com', 
+            pass: 'xiky jhpp hxac azyj', 
+        },
+    });
+    const { doctoremail } = req.body;
+    console.log(`Received password reset request for email: ${doctoremail}`);
+    try {
+        const chkDoctorEmail = await DoctorReg.findOne({ email:doctoremail });
+        if (!chkDoctorEmail) {
+            return res.status(404).json({ emailFound: false, messageFail: 'Invalid Email!' });
+        }
+
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+        chkDoctorEmail.resetToken = hashedToken; 
+        chkDoctorEmail.tokenExpiry = Date.now() + 3600000; 
+        await chkDoctorEmail.save();
+
+        const resetLink = `http://localhost:5173/doctor-reset-password?token=${resetToken}`;
+
+        const mailOptions = {
+            from: 'hsk274118@gmail.com',
+            to: doctoremail,
+            subject: 'Password Reset Request',
+            html: `
+                <p>You requested to reset your password. Click the link below to reset it:</p>
+                <a href="${resetLink}">${resetLink}</a>
+                <p>If you did not request this, please ignore this email.</p>
+            `,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ emailFound: true, messageSuccess: 'Password reset email sent successfully.' });
+        console.log('Password reset email sent successfully.');
+    } catch (error) {
+        console.log('Error handling password reset request:', error);
+        res.status(500).json({ errorMessage: 'An error occurred while processing your request.' });
+    }
+});
+
+app.post('/resetDoctorPassword',async (req,res)=>{
+    const {doctoremail,doctorpassword}=req.body
+    try {
+        const mailfound = await DoctorReg.findOne({email:doctoremail})
+        const passwordfound=await DoctorReg.findOne({ password:doctorpassword })
+        if(passwordfound)
+            {
+                    res.status(401).json({ passwordfoundmessage: 'Password already present !' });
+                    return
+            }
+        if(mailfound)
+        {
+
+                await DoctorReg.updateOne({email:doctoremail},{ $set: { password:doctorpassword } } )
+                res.status(200).json({ messageSuccess: 'Password Updated !' });
+                // console.log(passwordfound)
+            }
+            else{
+                res.status(401).json({ messageFail: 'Incorrect Email !' });
+        }
+              
     } catch (error) {
         console.log(error)
     }

@@ -2,7 +2,7 @@ import React, { useEffect,useRef,useState } from 'react';
 import Logo from './images/logo.png';
 import { useNavigate } from 'react-router-dom';
 
-export default function PatientResetPassword() {
+export default function DoctorResetPassword() {
     
     useEffect(()=>{
         document.body.style.backgroundColor="white"
@@ -13,17 +13,17 @@ export default function PatientResetPassword() {
         navigateBack('/back_home')
     }
     
-    const navigatePatientLogin = useNavigate()
-    const patient_login = () => {
-        navigatePatientLogin("/patient-login")
+    const navigateDoctorLogin = useNavigate()
+    const doctor_login = () => {
+        navigateDoctorLogin("/doctor-login")
     }
    
-    const[patientemail,setPatientEmail]=useState('')
-    const[patientemailerror,setPatientEmailError]=useState('')
-    const[patientpassword,setPatientPassword]=useState('')
-    const[patientpasswordError,setPatientPasswordError]=useState('')
-    const[confirmpatientpassword,setPatientconfirmPassword]=useState('')
-    const[confirmpatientpasswordError,setPatientconfirmPasswordError]=useState('')
+    const[doctoremail,setDoctorEmail]=useState('')
+    const[doctoremailerror,setDoctorEmailError]=useState('')
+    const[doctorpassword,setDoctorPassword]=useState('')
+    const[doctorpasswordError,setDoctorPasswordError]=useState('')
+    const[confirmdoctorpassword,setDoctorconfirmPassword]=useState('')
+    const[confirmdoctorpasswordError,setDoctorconfirmPasswordError]=useState('')
     const[messageSuccess,setMessageSuccess]=useState('')
     const[messageFail,setMessageFail]=useState('')
     const[passwordfoundmessage,setpasswordfoundmessage]=useState('')
@@ -32,25 +32,25 @@ export default function PatientResetPassword() {
 
     let charpassword = /[@#!$%&]/
 
-    const PatientEmailHandler=(event)=>{
-        setPatientEmail(event.target.value)
-        if(patientemail!=="")
+    const DoctorEmailHandler=(event)=>{
+        setDoctorEmail(event.target.value)
+        if(doctoremail!=="")
             {
-                setPatientEmailError("")
+                setDoctorEmailError("")
                 return
             }
     }
 
-    const PatientPasswordHandler=(event)=>{
-        setPatientPassword(event.target.value)
-        if(patientpassword!=="")
+    const DoctorPasswordHandler=(event)=>{
+        setDoctorPassword(event.target.value)
+        if(doctorpassword!=="")
             {
-                setPatientPasswordError("")
+                setDoctorPasswordError("")
             }
     }
 
-    const PatientConfirmPasswordHandler=(event)=>{
-        setPatientconfirmPassword(event.target.value)
+    const DoctorConfirmPasswordHandler=(event)=>{
+        setDoctorconfirmPassword(event.target.value)
     }
     
 
@@ -69,47 +69,47 @@ export default function PatientResetPassword() {
     const SignUpForm= async(event)=>{
         event.preventDefault()
 
-        if(patientemail==="")
+        if(doctoremail==="")
             {
-                setPatientEmailError("*Enter Email")
+                setDoctorEmailError("*Enter Email")
                 return
             }
 
-            if(patientpassword==="")
+            if(doctorpassword==="")
                 {
-                    setPatientPasswordError("*Enter Password")
+                    setDoctorPasswordError("*Enter Password")
                     return
                 }
 
-                if (patientpassword.length < 8) {
-                    setPatientPasswordError("*Password length atleast 8 characters")
+                if (doctorpassword.length < 8) {
+                    setDoctorPasswordError("*Password length atleast 8 characters")
                     return
                 }
 
-                if (!charpassword.test(patientpassword)) {
-                    setPatientPasswordError("*Password should contain (#,!) etc.")
+                if (!charpassword.test(doctorpassword)) {
+                    setDoctorPasswordError("*Password should contain (#,!) etc.")
                     return
                 }
 
-                if (charpassword.test(patientpassword)) {
-                    setPatientPasswordError("")            
+                if (charpassword.test(doctorpassword)) {
+                    setDoctorPasswordError("")            
                 }
 
-                if(confirmpatientpassword!==patientpassword){
-                    setPatientconfirmPasswordError("*Passwords are not same")
+                if(confirmdoctorpassword!==doctorpassword){
+                    setDoctorconfirmPasswordError("*Passwords are not same")
                     return
                 }
 
-                if(confirmpatientpassword===patientpassword){
-                    setPatientconfirmPasswordError("")
+                if(confirmdoctorpassword===doctorpassword){
+                    setDoctorconfirmPasswordError("")
                 }
 
-                const patientData={patientemail,patientpassword}
+                const doctorData={doctoremail,doctorpassword}
                 try {
-                    const res= await fetch('http://localhost:2000/resetPatientPassword',
+                    const res= await fetch('http://localhost:2000/resetDoctorPassword',
                         {
                             method:"POST",
-                            body: JSON.stringify(patientData),
+                            body: JSON.stringify(doctorData),
                             headers:{
                                 "Content-Type":"application/json"
                             }
@@ -138,21 +138,21 @@ export default function PatientResetPassword() {
             useEffect(()=>{
                 setTimeout(() => {
                     setMessageSuccess('')
-                }, 4000);
+                }, 5000);
 
             },[messageSuccess])
 
             useEffect(()=>{
                 setTimeout(() => {
                     setMessageFail('')
-                }, 4000);
+                }, 5000);
 
             },[messageFail])
 
             useEffect(()=>{
                 setTimeout(() => {
                     setpasswordfoundmessage('')
-                }, 4000);
+                }, 5000);
 
             },[passwordfoundmessage])
 
@@ -182,21 +182,21 @@ export default function PatientResetPassword() {
 
                 <div className="flex ml-auto">
                     <a href="#" className="btn-home text-white text-lg home hover:text-pink-400" onClick={home_back}>Home</a>
-                    <button type="button" className="btn-logIn bg-transparent border border-pink-400 text-pink-200 px-2 py-1 mr-20 rounded" onClick={patient_login}>Log In</button>
+                    <button type="button" className="btn-logIn bg-transparent border border-pink-400 text-pink-200 px-2 py-1 mr-20 rounded" onClick={doctor_login}>Log In</button>
                 </div>
            </nav> 
 
            <div className='signup' onSubmit={SignUpForm}>
             <p className='text-black text-center text-xl' style={{marginTop:"170px",paddingTop:"15px"}}>Reset Password</p> <br />
             <form>
-            <input  type='email' className='shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Email Address' value={patientemail} onChange={PatientEmailHandler}/>
-            <p className="text-red-600 ml-20">{patientemailerror}</p>
-            <br /> 
-                <input ref={confirmpasswordRef} type="password" className='shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Password...' value={patientpassword} onChange={PatientPasswordHandler}/>
-                <p className="text-red-600 ml-20">{patientpasswordError}</p> 
+            <input  type="email" className='shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Email Address' value={doctoremail} onChange={DoctorEmailHandler}/>
+            <p className="text-red-600 ml-20">{doctoremailerror}</p>
+            <br />
+                <input ref={confirmpasswordRef} type="password" className='shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Password...' value={doctorpassword} onChange={DoctorPasswordHandler}/>
+                <p className="text-red-600 ml-20">{doctorpasswordError}</p> 
                 <br />
-                <input ref={passwordRef} type="password" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Confirm Password...' value={confirmpatientpassword} onChange={PatientConfirmPasswordHandler}/>
-                <p className="text-red-600 ml-20">{confirmpatientpasswordError}</p> 
+                <input ref={passwordRef} type="password" className='block shadow-xl border rounded py-2 px-6 border-4 border-grey-400 ml-20' placeholder='Confirm Password...' value={confirmdoctorpassword} onChange={DoctorConfirmPasswordHandler}/>
+                <p className="text-red-600 ml-20">{confirmdoctorpasswordError}</p> 
                 <input type="checkbox" onClick={checkpass} className="accent-pink-500 mt-5" style={{marginLeft:"85px"}}/> Show Password
                 <br />
                 <button type="submit" className='mt-5 mb-10 bg-pink-400 border border-pink-500 text-white text-xl px-10 py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded ml-20'>Update Password</button>

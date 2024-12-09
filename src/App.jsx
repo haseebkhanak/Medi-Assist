@@ -19,7 +19,8 @@ import SeeAppointment from './components/see_appointment';
 import AboutUs from './components/AboutUs';
 import ForgotPasswordPatient from './components/forgotPassPatient';
 import PatientResetPassword from './components/patient_reset_password.jsx';
-
+import ForgotPasswordDoctor from './components/forgotPassDoctor';
+import DoctorResetPassword from './components/doctor_reset_password';
 
 export default function App() {
   return (
@@ -44,6 +45,8 @@ export default function App() {
         <Route path='/see-appointment' element={<SeeAppointment/>}></Route>
         <Route path='/forgot-password-patient' element={<ForgotPasswordPatient/>}></Route>
         <Route path='/patient-reset-password' element={<PatientResetPassword/>}></Route>
+        <Route path='/forgot-password-doctor' element={<ForgotPasswordDoctor/>}></Route>
+        <Route path='/doctor-reset-password' element={<DoctorResetPassword/>}></Route>
       </Routes>
     </Router>
   )

@@ -19,6 +19,11 @@ function Image_slider_login()
     const home_Logout=()=>{
         navigateLogoutHome('/logoutHome')
     }
+
+    const navigateFogotPassword = useNavigate()
+    const forgotPassDoctor = () => {
+        navigateFogotPassword("/forgot-password-doctor")
+    }
     
     const handleloginemail=(event)=>{
         getloginemail(event.target.value)
@@ -50,12 +55,15 @@ function Image_slider_login()
                 credentials: 'include',
                 body:JSON.stringify(data),
                 headers:{
+                    'Authorization': ` ${localStorage.getItem('token')}`,
                     "Content-Type":"application/json"
                 }
             })
 
            const result= await res.json();
            setMessage(result);
+           const token=result.token
+           console.log(localStorage.getItem(token))
 
         if(result.type==="success"){
             home_Logout()
@@ -113,6 +121,9 @@ function Image_slider_login()
                 <button type="submit" className='login_btn bg-pink-400 border border-pink-500 text-white text-xl py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded'>Login</button>
                 <button type="button" className='mt-3 block reg_btn bg-black border border-black text-white text-xl py-2 hover:bg-transparent hover:text-black hover:border-black rounded' onClick={regDoctor}>Create Your Profile</button>
             </form>
+            <div className='flex justify-center mt-3 ml-10'>
+            <button type='submit' className='text-blue-900' onClick={forgotPassDoctor}>Forgot Password ?</button>
+            </div>
         </div>
 
         </div>
