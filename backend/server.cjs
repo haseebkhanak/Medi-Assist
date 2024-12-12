@@ -39,6 +39,14 @@ app.use(session({
 const upload = multer();
 
 app.post('/reg', upload.single('profile'), async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'mediassist57@gmail.com', 
+            pass: 'fxqo kqyb myrj iuhs', 
+        },
+    });
+
     const { fullName, email, password, cityName, edu, specialization, experience } = req.body;
     const profile = req.file.buffer;
 
@@ -58,6 +66,20 @@ app.post('/reg', upload.single('profile'), async (req, res) => {
         }
 
         if (!RegEmail || !RegPassword) {
+            const mailOptions = {
+                from: 'mediassist57@gmail.com',
+                to: email,
+                subject: 'Welcome to Medi Assist',
+                html: `
+                    <b><i>Thanks for registering as a Doctor<i/><b/>
+                    <p>You are welcome to MediAssist, a revolutionary platform aims to connect doctors and patients through a user friendly platform.
+                    MediAssist leverages cutting-edge technology to empower patients and enhance their healthcare experience.
+                    With MediAssist, you can connect with your chosen doctor from the comfort of your own home, anytime, anywhere.</p>
+                `,
+            };
+    
+            await transporter.sendMail(mailOptions);
+            console.log('Email sent successfully.');
             const doctordata = { fullName, email, password, cityName, edu, specialization, experience, profile }
             const DoctorRegistration = DoctorReg(doctordata)
             await DoctorRegistration.save()
@@ -247,6 +269,13 @@ app.post('/patientlogedOut', (req, res) => {
 })
 
 app.post('/patient_signup', async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'mediassist57@gmail.com', 
+            pass: 'fxqo kqyb myrj iuhs', 
+        },
+    });
     const { patientname, patientemail, patientpassword } = req.body
     try {
         const isEmail = await PatientReg.findOne({ patientemail: patientemail })
@@ -260,6 +289,21 @@ app.post('/patient_signup', async (req, res) => {
         }
 
         else {
+            const mailOptions = {
+                from: 'mediassist57@gmail.com',
+                to: patientemail,
+                subject: 'Welcome to Medi Assist',
+                html: `
+                    <b><i>Thanks for registering as a Patient<i/><b/>
+                    <p>You are welcome to MediAssist, a revolutionary platform aims to connect doctors and patients through a user friendly platform.
+                    MediAssist leverages cutting-edge technology to empower patients and enhance their healthcare experience.
+                    With MediAssist, you can connect with your chosen doctor from the comfort of your own home, anytime, anywhere.</p>
+                `,
+            };
+    
+            await transporter.sendMail(mailOptions);
+            console.log('Email sent successfully.');
+
             const data = { patientname, patientemail, patientpassword }
             const patientdata = await PatientReg(data)
             await patientdata.save()
@@ -463,8 +507,8 @@ app.post('/forgotPasswordPatient', async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'hsk274118@gmail.com', 
-            pass: 'xiky jhpp hxac azyj', 
+            user: 'mediassist57@gmail.com', 
+            pass: 'fxqo kqyb myrj iuhs', 
         },
     });
     const { patientemail } = req.body;
@@ -484,7 +528,7 @@ app.post('/forgotPasswordPatient', async (req, res) => {
         const resetLink = `http://localhost:5173/patient-reset-password?token=${resetToken}`;
 
         const mailOptions = {
-            from: 'hsk274118@gmail.com',
+            from: 'mediassist57@gmail.com',
             to: patientemail,
             subject: 'Password Reset Request',
             html: `
@@ -535,8 +579,8 @@ app.post('/forgotPasswordDoctor', async (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'hsk274118@gmail.com', 
-            pass: 'xiky jhpp hxac azyj', 
+            user: 'mediassist57@gmail.com', 
+            pass: 'fxqo kqyb myrj iuhs', 
         },
     });
     const { doctoremail } = req.body;
@@ -556,7 +600,7 @@ app.post('/forgotPasswordDoctor', async (req, res) => {
         const resetLink = `http://localhost:5173/doctor-reset-password?token=${resetToken}`;
 
         const mailOptions = {
-            from: 'hsk274118@gmail.com',
+            from: 'mediassist57@gmail.com',
             to: doctoremail,
             subject: 'Password Reset Request',
             html: `
@@ -601,6 +645,8 @@ app.post('/resetDoctorPassword',async (req,res)=>{
         console.log(error)
     }
 })
+
+
 
 const port = 2000;
 

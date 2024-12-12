@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { io } from "socket.io-client"
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const socket = io('http://localhost:3000');
 
@@ -92,14 +93,20 @@ export default function ChatRoomDoctor() {
             alert("Type a message");
         }
     };
-    
-    
+
+    const navigate=useNavigate()
+
+    const doctor_home_dashboard = () => {
+        navigate('/doctorlogoutHome')
+      }
+      
     return (
         <>
           <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
 
 <h2 className="text-xl text-white" style={{position:"absolute",marginLeft:"120px"}}><i>Patient  {patientName}</i></h2>
-<div style={{marginLeft:"1080px"}}><p className="text-white text-xl font-black">MEDI ASSIST</p></div>
+<button className="text-white text-lg" onClick={doctor_home_dashboard} style={{marginLeft:"1000px"}}>Home</button>
+<div s><p className="text-white text-xl font-black ml-20">MEDI ASSIST</p></div>
 </nav>
 
 <div className="sendchat" style={{ position: "absolute", overflowY: "auto", maxHeight: "400px" }}>

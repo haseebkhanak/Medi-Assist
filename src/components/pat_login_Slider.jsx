@@ -1,7 +1,7 @@
 import Logo from './images/online_consult.png';
 import Doctor from './images/Ai.png';
 import Blog from './images/ReadBlog.jpg';
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 export default function Image_slider_login_patient()
@@ -9,6 +9,7 @@ export default function Image_slider_login_patient()
     const[patientloginemail,getPatientloginemail]=useState("")
     const[patientloginpassword,getPatientloginpassword]=useState("")
     const[message, setMessage] = useState("")
+    const passwordRef=useRef('')
 
     const navigatePatientReg=useNavigate()
     const regPatient=()=>{
@@ -90,6 +91,16 @@ export default function Image_slider_login_patient()
           count=0
         }
 
+        const checkpass = () => {
+            if (passwordRef.current.type === "password") {
+                passwordRef.current.type = "text"
+            }
+    
+            else {
+                passwordRef.current.type = "password"
+            }
+        }
+
         return(
           <>
                     
@@ -111,9 +122,9 @@ export default function Image_slider_login_patient()
                 <label className='email ml-10 text-lg'>Email</label>
                 <input type="email" className='block ml-10 shadow-xl border rounded py-2 px-6 border-4 border-grey-400' placeholder='Email...' id='loginemail' value={patientloginemail} onChange={handleloginemail}/>
                 <br />
-                <label className='password ml-10 text-lg'>Password</label>
-                <input type="password" className='block ml-10 shadow-xl border rounded py-2 px-6 border-4 border-grey-400' placeholder='Password...' id='loginpassword' value={patientloginpassword} onChange={handleloginpassword}/>
-                <br />
+                <label className='password ml-10 text-lg'>Password</label> <span><input type="checkbox" onClick={checkpass} className="accent-pink-500 mt-5 ml-8"/> Show Password</span>
+                <input type="password" ref={passwordRef} className='block ml-10 shadow-xl border rounded py-2 px-6 border-4 border-grey-400' placeholder='Password...' id='loginpassword' value={patientloginpassword} onChange={handleloginpassword}/>
+<br />
                 <button type="submit" className='login_btn bg-pink-400 border border-pink-500 text-white text-xl py-2 hover:bg-red-300 hover:text-black hover:border-pink-500 rounded'>Login</button>
                 <button type="button" className='mt-3 block reg_btn bg-black border border-black text-white text-xl py-2 hover:bg-transparent hover:text-black hover:border-black rounded' style={{paddingLeft:57}} onClick={regPatient}>Register Account</button>
             </form>

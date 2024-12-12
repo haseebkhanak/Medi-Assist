@@ -201,6 +201,13 @@ export default function MessageNotifications() {
         navigate("/doctor-login");
     };
 
+    const doctor_home_dashboard = () => {
+        navigate('/doctorlogoutHome')
+      }
+
+      const appointment=(doctorUniqueId)=>{
+        navigate("/see-appointment",{ state: { doctorUniqueId } })
+    }
     const fetchusername = async () => {
         try {
             const res = await fetch('http://localhost:2000/homepage', {
@@ -311,8 +318,8 @@ export default function MessageNotifications() {
                 <img src={Logo} alt="" className='logo' />
                 <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
                 <div>
-                    <a href="#" className="text-white ml-20 text-lg">About Us</a>
-                    <a href="#" className="text-white ml-10 text-lg">View Your Profile</a>
+                    <button className="text-white ml-20 text-lg" onClick={doctor_home_dashboard}>Home</button>
+                    <button className="text-white ml-20 text-lg" onClick={() => appointment(message.message_id)}>Appointments</button>
                 </div>
                 <div className="search ml-20">
                     <input type="text" placeholder='Search...' className='shadow py-1 px-4 rounded focus:outline-none' id='search' />

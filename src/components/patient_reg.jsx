@@ -61,7 +61,7 @@ export default function Patient_Reg() {
 
         if(patientname==="")
         {
-            alert("Enter Your Name")
+            setPatientNameError("*Enter Your Name")
             return
         }
 
@@ -79,7 +79,7 @@ export default function Patient_Reg() {
 
         if(patientemail==="")
             {
-                alert("Enter Your Email")
+                setPatientEmailError("*Enter Your Email")
                 return
             }
 
@@ -94,9 +94,15 @@ export default function Patient_Reg() {
 
             if(patientpassword==="")
                 {
-                    alert("Enter Password")
+                    setPatientPasswordError("*Enter Password")
                     return
                 }
+
+                if(patientpassword.length<=7)
+                    {
+                        setPatientPasswordError("*Password should contain atleast 8 letters")
+                        return
+                    }
 
                 if (!charpassword.test(patientpassword)) {
                     setPatientPasswordError("*Password should contain (#,!) etc.")

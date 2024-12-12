@@ -4,7 +4,7 @@ import './index.css';
 import Home from './components/home.jsx';
 import Doctor_login from './components/doctor_login.jsx';
 import Doctor_registration from './components/doctor_reg.jsx'
-import LogoutHome from './components/doctor_dashboard.jsx';
+import DoctorLogoutHome from './components/doctor_dashboard';
 import Patient_login from './components/patient_login.jsx';
 import Patient_Reg from './components/patient_reg.jsx'
 import PatientDashboard from './components/patient_dashboard';
@@ -31,10 +31,11 @@ export default function App() {
         <Route path='/about-us' element={<AboutUs/>}></Route>
         <Route path="/doctor-login" element={<Doctor_login />} />
         <Route path='/doctor-reg' element={<Doctor_registration />}></Route>
-        <Route path='/logoutHome' element={<LogoutHome />}></Route>
+        <Route path='/doctorlogoutHome' element={<DoctorLogoutHome />}></Route>
         <Route path='/patient-login' element={<Patient_login/>}></Route>
         <Route path='/patient-reg' element={<Patient_Reg/>}></Route>
         <Route path='/patientlogoutHome' element={<PatientDashboard/>}></Route>
+        <Route path='/doctorlogoutHome' element={<PatientDashboard/>}></Route>
         <Route path='/derm_profiles' element={<DermProfiles/>}></Route>
         <Route path='/chatpatient' element={<ChatRoomPatient/>}></Route>
         <Route path='/chatdoctor' element={<ChatRoomDoctor/>}></Route>
@@ -52,32 +53,5 @@ export default function App() {
   )
 }
 
-// App.js
-// import React from "react";
-// import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-// import { NavbarProvider } from "./NavbarContext";
-// import Navbar from "./Navbar";
-// import Home from "./Home";
-// import Login from "./login";
-
-// const App = () => {
-//   return (
-//     <Router>
-//       <NavbarProvider>
-//         <Navbar />
-//         {/* <nav>
-//           Links to navigate between pages
-//           <Link to="/">Home</Link> | <Link to="/login">Login</Link> |{" "}
-//         </nav> */}
-//         <Routes>
-//           <Route path="/home" element={<Home />} />
-//           <Route path="/login" element={<Login />} />
-//         </Routes>
-//       </NavbarProvider>
-//     </Router>
-//   );
-// };
-
-// export default App;
 
 

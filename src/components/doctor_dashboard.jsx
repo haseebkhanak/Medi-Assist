@@ -8,7 +8,7 @@ import { BorderBeam } from './magicui/border-beam';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
 import ZIM from '@zegocloud/zego-uikit-prebuilt';
 
-export default function LogoutHome() {
+export default function DoctorLogoutHome() {
     const [message, setMessage] = useState('');
     const [messageTwo, setMessageTwo] = useState('');
     const [callerName, setCallerName] = useState("");
@@ -207,8 +207,8 @@ export default function LogoutHome() {
                     <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                     <div>
-                        <a href="#" className="text-white ml-20 text-lg" onClick={() => notifications(message.message_name, message.message_id)}>Notifications</a>
-                        <a href="#" className="text-white ml-10 text-lg" onClick={() => appointment(message.message_id)}>Appointments</a>
+                        <button className="text-white ml-10 text-lg" onClick={() => notifications(message.message_name, message.message_id)}>Notifications</button>
+                        <button className="text-white ml-10 text-lg" onClick={() => appointment(message.message_id)}>Appointments</button>
                     </div>
 
                     <div className="predict ml-20">
@@ -219,7 +219,7 @@ export default function LogoutHome() {
                         <div>
                             <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession}>LogOut</button>
                             {message.message_name && (
-                                <p className='name text-white text-xl' style={{ cursor: "pointer" }} onClick={viewProfile}><i>{message.message_name}</i></p>
+                                <p className='name text-white text-xl' style={{ cursor: "pointer" }} onClick={viewProfile}><i>DR. {message.message_name}</i></p>
                             )}
 
                             {message.message_profile && (
