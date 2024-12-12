@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { BorderBeam } from './magicui/border-beam';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
-import ZIM from 'zego-zim-web';
+import ZIM from '@zegocloud/zego-uikit-prebuilt';
 
 export default function LogoutHome() {
     const [message, setMessage] = useState('');
@@ -112,18 +112,18 @@ export default function LogoutHome() {
     let zc;
     const DoctorIncomingCall = async () => {
         try {
-            const appID = 1789141898;
-            const server = "d486d224edf9e1860e805252c0488302";
+            const appID = 111289668;
+            const server = "7af5ad50c11242df8f97d1ed03e2772f";
             const doctorUniqueId = message.message_id;
             const doctorName = message.message_name;
 
-            // console.log("Doctor Name: ", doctorName);
-            // console.log("Doctor Unique ID: ", doctorUniqueId);
+            console.log("Doctor Name: ", doctorName);
+            console.log("Doctor Unique ID: ", doctorUniqueId);
 
-            // if (!doctorUniqueId || !doctorName) {
-            //     console.error("Doctor details are missing!");
-            //     return; // Avoid proceeding if doctor details are not available
-            // }
+            if (!doctorUniqueId || !doctorName) {
+                console.error("Doctor details are missing!");
+                return; // Avoid proceeding if doctor details are not available
+            }
 
             const kittoken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, server, null, doctorUniqueId, doctorName);
             // console.log("Kit Token generated:", kittoken);
@@ -134,7 +134,7 @@ export default function LogoutHome() {
             zc.setCallInvitationConfig({
                 enableCustomCallInvitationDialog: true,
                 onConfirmDialogWhenReceiving: (callType, caller, refuse, accept, data) => {
-                    // console.log("Incoming call from:", caller.userName);  // Debugging log
+                    console.log("Incoming call from:", caller.userName);  // Debugging log
                     confirmDialogRef.current.style.display="block"
                     blurBody.current.style.display="block"
                     setCallerName(caller.userName); 

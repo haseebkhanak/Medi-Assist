@@ -22,7 +22,7 @@ export default function Patient_login() {
                 <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                 <div className="flex ml-auto">
-                        <a href="#" onClick={home_back} className="text-white text-lg home">Home</a>
+                        <button  onClick={home_back} className="text-white text-lg home">Home</button>
                         {/* <a href="#" className="text-white text-lg home">Home</a> */}
 
                         <button className="registration bg-transparent border border-black-400 text-white px-2 py-2 hover:bg-pink-500 hover:text-black hover:border-black-500 rounded mr-20" onClick={regPatient}>

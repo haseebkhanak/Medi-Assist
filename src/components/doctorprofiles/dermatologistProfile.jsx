@@ -99,6 +99,18 @@ const destroysession= async()=>{
         fetchDermProfiles()
     },[])
 
+    const about_us = () => {
+        navigate("/about-us")
+    }
+
+    const prediction=()=>{
+        navigate("/medicine-recommendation")
+    }
+
+    const patient_home_dashboard = () => {
+        navigate('/patientlogoutHome')
+      }
+
     return(
         <>
 <br /><br /><br /><br />
@@ -126,13 +138,13 @@ const destroysession= async()=>{
                     <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                     <div>
-                        <a href="#" className="text-white ml-20 text-lg">About Us</a>
-                        <a href="#" className="text-white ml-20 text-lg" onClick={home_back}>Home</a>
+                        <button className="text-white ml-20 text-lg" onClick={about_us}>About Us</button>
+                        <button className="text-white ml-20 text-lg" onClick={patient_home_dashboard}>Home</button>
                     </div>
 
-                    <div className="search ml-20">
-                        <input type="text" placeholder='Search...' className='shadow py-1 px-4 rounded focus:outline-none' id='search' />
-                    </div>
+                    <div className="ml-20">
+            <button className="text-xl bg-transparent border border-black-800 text-white px-2 py-1 rounded" onClick={prediction}> Health Diagnosis</button>
+            </div>
 
                     <div className="flex relative">
 

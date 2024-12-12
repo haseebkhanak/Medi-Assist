@@ -2,12 +2,11 @@ import Logo from './images/logo.png';
 import { motion } from "framer-motion";
 import { useNavigate } from 'react-router-dom';
 import { BorderBeam } from './magicui/border-beam';
+import { useState,useEffect } from 'react';
 
 const AboutUs = () => {
+    const [message, setMessage] = useState('')
     const navigate=useNavigate()
-    const home_back=()=>{
-        navigate('/back_home')
-    }
 
     const doc_login = () => {
         navigate("/doctor-login")
@@ -17,14 +16,30 @@ const AboutUs = () => {
         navigate("/patient-login")
     }
 
-    const loginOptions=()=>{
-        document.querySelector(".blur").style.display = "block"
-        document.querySelector("#doctorOrpatient").style.display= "block"
+    const navigateDermProfile = useNavigate()
+    const DermProfile = () => {
+      navigateDermProfile('/derm_profiles')
     }
+
+    const prediction=()=>{
+      navigate("/medicine-recommendation")
+  }
 
     const crossSvg=()=>{
         document.querySelector(".blur").style.display = "none"
         document.querySelector("#doctorOrpatient").style.display= "none"
+    }
+
+    const cancelSvg = () => {
+      document.querySelector(".doctorprofiles").style.display = "none"
+    }
+  
+    const showProfiles = () => {
+      document.querySelector(".doctorprofiles").style.display = "block"
+    }
+
+    const patient_home_dashboard = () => {
+      navigate('/patientlogoutHome')
     }
 
   const containerVariants = {
@@ -44,46 +59,96 @@ const AboutUs = () => {
     visible: { opacity: 1, scale: 1 },
   };
 
+  const fetchusername = async () => {
+
+    try {
+      const res = await fetch('http://localhost:2000/patienthome',
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const result = await res.json()
+      setMessage(result)
+      console.log(result)
+    }
+    catch (error) {
+      console.log("Error ", error)
+    }
+  }
+
+  useEffect(() => {
+    fetchusername()
+  }, [])
+
+  const destroysession = async () => {
+    try {
+      const res = await fetch('http://localhost:2000/patientlogedOut',
+        {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      )
+      const result = await res.json()
+      console.log(result.message)
+
+      if (res.ok) {
+        patient_login()
+      }
+    } catch (error) {
+      console.log("Error ", error)
+    }
+  }
+
   return (
     <>
-
-
-    <div style={styles.container}>
-    <div className="doctorOrpatient">
-
-<div id='doctorOrpatient' className='relative rounded-lg'>
-    <BorderBeam size={250} duration={5} />
-
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="size-6" onClick={crossSvg} style={{ marginLeft: 420,marginTop:5,cursor:'pointer'}}>
-<path d="M6 18 18 6M6 6l12 12" />
-</svg>
-    <p className='text-center text-4xl font-semibold mt-2'>Sign In</p>
-    <button type="button" id='doc-btn' className='text-white text-2xl bg-pink-600 py-3 mt-5' onClick={doc_login}>Doctor</button>
-    <button type="button" id='pat-btn' className='text-pink-600 border border-pink-700 text-2xl bg-white py-3 mt-2' onClick={patient_login}>Patient</button>
-</div>
-</div>
-
-<div className="blur">
-
-</div>
+<div style={styles.container}>
     <nav className="bg-pink-700 flex w-full fixed top-0 left-0 items-center shadow-2xl">
                     <img src={Logo} alt="" className='logo' />
                     <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                     <div>
-                        <a href="#" className="text-white ml-20 text-lg" onClick={home_back}>Home</a>
-                        <a href="#" className="text-white ml-10 text-lg" onClick={loginOptions}>Doctors Profiles</a>
+                        <button  className="text-white ml-20 text-lg" onClick={patient_home_dashboard}>Home</button>
+                        <button  className="text-white ml-10 text-lg" onClick={showProfiles}>Doctors Profiles</button>
                     </div>
 
-                    <div className="search ml-20">
-                        <input type="text" placeholder='Search...' className='shadow py-1 px-4 rounded focus:outline-none' id='search' />
-                    </div>
+                    <div className="ml-20">
+            <button className="text-xl bg-transparent border border-black-800 text-white px-2 py-1 rounded" onClick={prediction}> Health Diagnosis</button>
+            </div>
 
-                    <div className="flex ml-auto space-x-10">
-                        <div className="login"><button className="btn-reg bg-transparent border border-black-400 text-white px-2 py-2 rounded" onClick={patient_login}>LogIn</button></div>
-                        <div className="join"><button className="btn-join bg-transparent border border-pink-500 text-pink-200 mr-20 px-2 py-2 rounded" onClick={doc_login}>Register as Doctor</button></div>
-                    </div>
+                    <div className="flex relative">
+
+<div>
+  <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession} style={{ marginLeft: "100px" }}>LogOut</button>
+  {message.message_name && (
+    <p className='name text-white text-3xl' style={{ marginLeft: "220px" }}><i>Mr. {message.message_name}</i></p>
+  )}
+
+</div>
+</div>
                 </nav>
+                <div className="doctorprofiles">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="size-6" onClick={cancelSvg} style={{ marginLeft: 195, marginTop: 5, cursor: 'pointer' }}>
+          <path d="M6 18 18 6M6 6l12 12" />
+        </svg>
+        <p className='text-center'><i>Find Doctors by speciality</i></p> <br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2' onClick={DermProfile}>Dermatologist</button> <br /> <br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Dentist</button> <br /> <br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Gynecologist</button> <br /><br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Gastrointrologist</button> <br /><br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>ENT Specialist</button> <br /><br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Urologist</button> <br /><br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Psychiatrist</button> <br /><br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Neurologist</button> <br /><br />
+        <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>General Physician</button> <br /><br />
+      </div>
+
       <motion.div
         style={styles.animatedBackground}
         animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
@@ -100,7 +165,7 @@ const AboutUs = () => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1 style={styles.heading} className='text-blue-500'>About Us</h1>
+        <h1 style={styles.heading} className='text-pink-500'>About Us</h1>
         <p style={styles.subHeading} className='text-black ml-12'>
         At Medi Assist, we believe in a future where healthcare is not confined
     to physical boundaries. <br /> Our mission is to empower patients and doctors
@@ -110,16 +175,15 @@ const AboutUs = () => {
         </p>
       </motion.div>
 
-      {/* Content Section */}
       <motion.div
         style={styles.content}
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Mission */}
+
         <motion.section style={styles.section} variants={itemVariants}>
-          <h2 style={styles.sectionHeading}>Our Mission</h2>
+          <h2 style={styles.sectionHeading} className='text-pink-500'>Our Mission</h2>
           <p style={styles.text}>
             To connect patients and doctors seamlessly using cutting-edge
             technology. We aim to make healthcare accessible, reliable, and
@@ -127,9 +191,8 @@ const AboutUs = () => {
           </p>
         </motion.section>
 
-        {/* What We Offer */}
         <motion.section style={styles.section} variants={itemVariants}>
-          <h2 style={styles.sectionHeading}>What We Offer</h2>
+          <h2 style={styles.sectionHeading} className='text-pink-500'>What We Offer</h2>
           <ul style={styles.list}>
             <motion.li style={styles.listItem} variants={itemVariants}>
               🌐 <strong>Video Consultations:</strong> Talk to doctors from
@@ -155,9 +218,8 @@ const AboutUs = () => {
           </ul>
         </motion.section>
 
-        {/* Why Choose Us */}
         <motion.section style={styles.section} variants={itemVariants}>
-          <h2 style={styles.sectionHeading}>Why Choose Us?</h2>
+          <h2 style={styles.sectionHeading} className='text-pink-500'>Why Choose Us?</h2>
           <p style={styles.text}>
             Combining AI-driven insights with personalized care, we ensure
             you’re always a step ahead in managing your health.
@@ -171,7 +233,6 @@ const AboutUs = () => {
 
 const styles = {
   container: {
-    fontFamily: "Arial, sans-serif",
     position: "relative",
     overflow: "hidden",
     minHeight: "100vh",
@@ -215,7 +276,7 @@ const styles = {
   },
   sectionHeading: {
     fontSize: "28px",
-    color: "#2563eb",
+    // color: "pink",
     marginBottom: "10px",
   },
   text: {

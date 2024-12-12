@@ -1,7 +1,10 @@
-import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+// import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
+import { ZIM } from "zego-zim-web";
+import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+
 import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import ZIM from "zego-zim-web";
+// import ZIM from "zego-zim-web";
 
 export default function VideoCallRoom() {
     const location = useLocation();
@@ -10,12 +13,13 @@ export default function VideoCallRoom() {
     const callButtonRef = useRef(null);
 
     let zc;
-
     const meeting = async () => {
-        let appID = 1789141898;
-        let server = "d486d224edf9e1860e805252c0488302";
+        let userID = patientUniqueId;
+        let userName = patientName; 
+        let appID = 111289668;
+        let server = "7af5ad50c11242df8f97d1ed03e2772f";
         const roomId = patientUniqueId;
-        const kittoken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, server, roomId, patientUniqueId, patientName);
+        const kittoken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, server,roomId, userID, userName);
 
         zc = ZegoUIKitPrebuilt.create(kittoken);
         zc.addPlugins({ ZIM });
@@ -48,23 +52,52 @@ export default function VideoCallRoom() {
         }
     };
 
+    // const invite = async () => {
+    //     const targetUser = {
+    //         userID: doctorUniqueId,
+    //         userName: doctorName
+    //     };
+
+    //     try {
+    //         const res = await zc.sendCallInvitation({
+    //             callees: [targetUser],
+    //             callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
+    //             timeout: 100
+    //         });
+    //         console.log("Invitation sent: ", res);
+    //     } catch (err) {
+    //         console.error("Error sending invitation: ", err);
+    //     }
+    // };
     const invite = async () => {
+        if (!zc) {
+            console.error("ZegoUIKitPrebuilt is not initialized.");
+            return;
+        }
+    
+        // Check for an existing invitation
+      
+    
         const targetUser = {
             userID: doctorUniqueId,
-            userName: doctorName
+            userName: doctorName,
         };
-
+    
         try {
+            console.log("Attempting to send invitation...");
             const res = await zc.sendCallInvitation({
                 callees: [targetUser],
                 callType: ZegoUIKitPrebuilt.InvitationTypeVideoCall,
-                timeout: 60
+                timeout: 100,
             });
             console.log("Invitation sent: ", res);
         } catch (err) {
             console.error("Error sending invitation: ", err);
         }
     };
+    
+     
+    
 
     useEffect(() => {
         meeting(); 

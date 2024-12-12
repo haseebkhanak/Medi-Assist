@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const socket = io('http://localhost:3000');
 
@@ -8,6 +9,11 @@ export default function ChatRoomPatient() {
     const [message, setMessage] = useState('');
     const [storeMessages, setStoreMessages] = useState([]);
     const lastMessageRef = useRef(null);
+
+    const navigate=useNavigate()
+    const patient_home_dashboard = () => {
+        navigate('/patientlogoutHome')
+      }
 
     const location = useLocation();
     const { doctorName, doctorPicture, doctorUniqueId, patientName, patientUniqueId } = location.state || {};
@@ -72,8 +78,10 @@ export default function ChatRoomPatient() {
                 <h2 className="text-xl text-white" style={{ position: "absolute", marginLeft: "120px" }}>
                     <i>Dr. {doctorName}</i>
                 </h2>
-                <div style={{ marginLeft: "1080px" }}>
-                    <p className="text-white text-xl font-black">MEDI ASSIST</p>
+
+                    <button className="text-white text-xl" style={{marginLeft:'950px'}} onClick={patient_home_dashboard}>Home</button>
+                <div className="ml-20">
+                    <p className="text-white text-xl font-black" style={{ position:"relative" }}>MEDI ASSIST</p>
                 </div>
             </nav>
 

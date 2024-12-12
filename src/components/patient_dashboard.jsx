@@ -18,6 +18,10 @@ export default function PatientDashboard(){
         navigate("/about-us")
     }
 
+    const prediction=()=>{
+        navigate("/medicine-recommendation")
+    }
+
     const navigateDermProfile=useNavigate()
     const DermProfile=()=>{
         navigateDermProfile('/derm_profiles')
@@ -88,12 +92,12 @@ export default function PatientDashboard(){
             <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
             <div>
-            <a href="#" className="text-white ml-20 text-lg" onClick={about_us}>About Us</a>
-            <a href="#" className="text-white ml-10 text-lg"  onClick={showProfiles}>Doctors Profiles</a>
+            <button  className="text-white ml-20 text-lg" onClick={about_us}>About Us</button>
+            <button  className="text-white ml-10 text-lg"  onClick={showProfiles}>Doctors Profiles</button>
             </div>
 
-            <div className="search ml-20">
-                <input type="text" placeholder='Search...' className='shadow py-1 px-4 rounded focus:outline-none' id='search'/>
+            <div className="ml-20">
+            <button className="text-xl bg-transparent border border-black-800 text-white px-2 py-1 rounded" onClick={prediction}> Health Diagnosis</button>
             </div>
 
 <div className="flex relative">
@@ -114,15 +118,15 @@ export default function PatientDashboard(){
   <path  d="M6 18 18 6M6 6l12 12" />
 </svg>
     <p className='text-center'><i>Find Doctors by speciality</i></p> <br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2' onClick={DermProfile}>Dermatologist</a> <br /> <br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Dentist</a> <br /> <br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Gynecologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Gastrointrologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>ENT Specialist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Urologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Psychiatrist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Neurologist</a> <br /><br />
-    <a href="#" className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>General Physician</a> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2' onClick={DermProfile}>Dermatologist</button> <br /> <br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Dentist</button> <br /> <br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Gynecologist</button> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Gastrointrologist</button> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>ENT Specialist</button> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Urologist</button> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Psychiatrist</button> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>Neurologist</button> <br /><br />
+    <button className='text-xl ml-10 hover:bg-transparent hover:text-pink-500 hover:border border-pink-600 hover:px-2 hover:py-2'>General Physician</button> <br /><br />
 </div>
 
 <br /> <br /> <br />

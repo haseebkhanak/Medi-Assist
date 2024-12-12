@@ -58,8 +58,8 @@ function Home() {
                     <h3 className="text-white text-xl ml-2 font-black">MEDI ASSIST</h3>
 
                     <div>
-                        <a href="#" className="text-white ml-20 text-lg"onClick={about_us}>About Us</a>
-                        <a href="#" className="text-white ml-10 text-lg" onClick={loginOptions}>Doctors Profiles</a>
+                        <button className="text-white ml-20 text-lg" onClick={loginOptions}>About Us</button>
+                        <button className="text-white ml-10 text-lg" onClick={loginOptions}>Doctors Profiles</button>
                     </div>
 
                     <div className="search ml-20">
