@@ -337,6 +337,142 @@ app.post('/dermprofiles', async(req,res)=>{
     }
 })
 
+app.post('/dentistprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"Dentist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/gynecologistprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"Gynecologist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/gastroprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"Gastrointrologist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/entprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"ENT Specialist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/uroloprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"Urologist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/psychprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"Psychiatrist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/neuroprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"Neurologist"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
+app.post('/generalprofiles', async(req,res)=>{
+    try {
+        const doctorDetail= await DoctorReg.find({specialization:"General Physician"})
+        const doctorDetailswithPictures=doctorDetail.map((doctorDetail)=>{
+            return{
+                ...doctorDetail.toObject(),
+                profile:doctorDetail.profile.toString('base64')
+            }
+        })
+        res.status(200).json({doctorProfileMessage:doctorDetailswithPictures})
+        console.log(doctorDetailswithPictures)
+        
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 const users = {};
 io.on('connection', (socket) => {
     console.log(`User connected with socket ID: ${socket.id}`);

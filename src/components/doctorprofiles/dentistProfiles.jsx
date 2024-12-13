@@ -2,13 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.png';
 import { useEffect,useState } from 'react';
 
-export default function DermProfiles(){
+export default function DentistProfiles(){
     const [message,setMessage]=useState('')
     const [message_name,setMessage_name]=useState('')
-
-    const home_back=()=>{
-        navigate('/back_home')
-    }
     
     const navigate=useNavigate()
     const chat_room=(doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId)=>{
@@ -79,9 +75,9 @@ const destroysession= async()=>{
     }
 }
 
-    const fetchDermProfiles= async()=>{
+    const fetchDentProfiles= async()=>{
         try {
-            const res= await fetch('http://localhost:2000/dermprofiles',{
+            const res= await fetch('http://localhost:2000/dentistprofiles',{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -96,7 +92,7 @@ const destroysession= async()=>{
     }
 
     useEffect(()=>{
-        fetchDermProfiles()
+        fetchDentProfiles()
     },[])
 
     const about_us = () => {

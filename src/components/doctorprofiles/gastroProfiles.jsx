@@ -2,13 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../images/logo.png';
 import { useEffect,useState } from 'react';
 
-export default function DermProfiles(){
+export default function GastroProfiles(){
     const [message,setMessage]=useState('')
     const [message_name,setMessage_name]=useState('')
-
-    const home_back=()=>{
-        navigate('/back_home')
-    }
     
     const navigate=useNavigate()
     const chat_room=(doctorName,doctorPicture,doctorUniqueId,patientName,patientUniqueId)=>{
@@ -79,9 +75,9 @@ const destroysession= async()=>{
     }
 }
 
-    const fetchDermProfiles= async()=>{
+    const fetchGastroProfiles= async()=>{
         try {
-            const res= await fetch('http://localhost:2000/dermprofiles',{
+            const res= await fetch('http://localhost:2000/gastroprofiles',{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -96,7 +92,7 @@ const destroysession= async()=>{
     }
 
     useEffect(()=>{
-        fetchDermProfiles()
+        fetchGastroProfiles()
     },[])
 
     const about_us = () => {
@@ -115,7 +111,7 @@ const destroysession= async()=>{
         <>
 <br /><br /><br /><br />
 
-{message && message.map((doctorProfile) =>
+{message.length>0 && message.map((doctorProfile) =>
     <div key={doctorProfile._id} className='doctorProfile flex space-x-6'>
             <div><img className="profiledoctor animate-pulse" src={`data:image/jpeg;base64,${doctorProfile.profile}`} alt="No Profile" /></div>
            <div style={{width:"300px"}}>
