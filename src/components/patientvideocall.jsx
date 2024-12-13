@@ -34,6 +34,12 @@ export default function VideoCallRoom() {
                         video: true
                     }
                 },
+                sharedLinks:[
+                    {
+                        name:"Copy Link",
+                        usrl:`http://localhost:5173/videoroom/${roomId}`
+                    }
+                ],
                 onJoinRoom: () => {
                     if (callButtonRef.current) {
                         callButtonRef.current.style.display = "none"; 
