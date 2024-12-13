@@ -7,7 +7,11 @@ const socket = io('http://localhost:3000');
 
 export default function ChatRoomPatient() {
     const [message, setMessage] = useState('');
-    const [storeMessages, setStoreMessages] = useState([]);
+    // const [storeMessages, setStoreMessages] = useState([]);
+    const [storeMessages, setStoreMessages] = useState(() => {
+        const savedDetails = localStorage.getItem("storeMessages");
+        return savedDetails ? JSON.parse(savedDetails) : [];
+    });
     const lastMessageRef = useRef(null);
 
     const navigate=useNavigate()
@@ -34,12 +38,24 @@ export default function ChatRoomPatient() {
                 ...prevMessages, 
                 { fromUserId, username: doctorName, message }
             ]);
+
+            setSenderDetails((prevDetails) => {
+                const updatedDetails = [...prevDetails, PatientData.senderDetails];
+
+                // Return the updated state and persist to local storage
+                localStorage.setItem("senderDetails", JSON.stringify(updatedDetails));
+                return updatedDetails;
+            });
         });
 
         return () => {
             socket.off('privateMessageToClient');
         };
     }, [patientName, patientUniqueId]);
+
+    useEffect(() => {
+        localStorage.setItem("storeMessages", JSON.stringify(storeMessages));
+    }, [storeMessages]);
 
     const messageHandler = (event) => {
         setMessage(event.target.value);

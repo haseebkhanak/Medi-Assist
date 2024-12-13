@@ -211,11 +211,11 @@ export default function DoctorLogoutHome() {
                         <button className="text-white ml-10 text-lg" onClick={() => appointment(message.message_id)}>Appointments</button>
                     </div>
 
-                    <div className="predict ml-20">
+                    {/* <div className="predict ml-20">
                     <button className="bg-pink-500 border border-black-400 text-white px-2 py-1 rounded" onClick={prediction}>Medicine Recommendation</button>
-                    </div>
+                    </div> */}
 
-                    <div className="flex relative">
+                    <div className="flex relative" style={{marginLeft:"300px"}}>
                         <div>
                             <button className="absolute btn-logout bg-transparent border border-black-400 text-white px-2 py-1 rounded" onClick={destroysession}>LogOut</button>
                             {message.message_name && (

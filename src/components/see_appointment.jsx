@@ -29,6 +29,10 @@ useEffect(() => {
     fetchusername();
 }, []);
 
+const doc_login = () => {
+  navigate("/doctor-login")
+}
+
 const destroysession = async () => {
     try {
         const res = await fetch('http://localhost:2000/logedOut', {
